@@ -8,7 +8,7 @@
 
 - [Ссылка для деплоя на Версель](https://mage-fight.vercel.app/)
 
-- [Документация](https://github.com/DieReiterin/middle.game.praktikum.yandex/blob/dev/docs/README.md) (Порядок работы с проектом, сценарий игры)
+- [Документация](docs/README.md) (Порядок работы с проектом, сценарий игры)
 
 ---
 
