@@ -8,16 +8,16 @@
 
 - [Ссылка для деплоя на Версель](https://mage-fight.vercel.app/)
 
-- [Документация](https://github.com/DieReiterin/middle.game.praktikum.yandex/blob/dev/docs/README.md)
+- [Документация](https://github.com/DieReiterin/middle.game.praktikum.yandex/blob/dev/docs/README.md) (Порядок работы с проектом, сценарий игры)
 
 ---
 
-## README исходного конфига:
+## Инструкция по работе с исходными файлами репозитория
 
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
-2. Выполните команду `yarn bootstrap` - это обязательный шаг, без него ничего работать не будет :)
+2. Выполните команду `yarn bootstrap` - обязательный шаг (без него ничего работать не будет)
 3. Выполните команду `yarn dev`
 4. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
 5. Выполните команду `yarn dev --scope=server` чтобы запустить только server
@@ -56,7 +56,7 @@
 
 `yarn build`
 
-И чтобы посмотреть что получилось
+Команды запуска превью:
 
 `yarn preview --scope client`
 `yarn preview --scope server`
@@ -64,11 +64,7 @@
 ## Хуки
 
 В проекте используется [lefthook](https://github.com/evilmartians/lefthook)
-Если очень-очень нужно пропустить проверки, используйте `--no-verify` (но не злоупотребляйте :)
-
-## Ой, ничего не работает :(
-
-Откройте issue, я приду :)
+Пропустить проверку принудительно можно через флаг `--no-verify`
 
 ## Автодеплой статики на vercel
 
