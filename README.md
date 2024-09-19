@@ -2,7 +2,7 @@
 
 ### Игра для 2 модуля Яндекс.Практикума
 
-![preview.png](https://github.com/DieReiterin/middle.game.praktikum.yandex/blob/dev/packages/client/public/images/preview.png)
+![preview.png](packages/client/public/images/preview.png)
 
 - [Прототип в фигме](https://www.figma.com/design/JxDvcmFWCqOx6ll6lmoTRD/MAGE-FIGHT)
 
