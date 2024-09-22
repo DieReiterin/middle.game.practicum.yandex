@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { Form } from '../../components'
+import { FormFullScreen } from '../../components'
 
 export const Registration: FC = () => {
   return (
-    <Form
+    <FormFullScreen
       title="Регистрация"
       name="registration"
       items={[
