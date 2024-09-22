@@ -10,4 +10,9 @@ export const theme = createTheme({
     secondary: createColor('#ffffff'),
     primary: createColor('#B0ABFE'),
   },
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+  },
 })
