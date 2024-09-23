@@ -1,6 +1,5 @@
 import dotenv from 'dotenv'
 dotenv.config()
-console.log('<rootDir>/config/jest/cssTransform.js')
 
 export default {
   preset: 'ts-jest',

@@ -13,8 +13,8 @@ export const Registration: FC = () => {
         { label: 'Имя', name: 'first_name' },
         { label: 'Фамилия', name: 'second_name' },
         { label: 'Телефон', name: 'phone' },
-        { label: 'Пароль', name: 'password' },
-        { label: 'Пароль (ещё раз)', name: 'password_ok' },
+        { label: 'Пароль', name: 'password', type: 'password' },
+        { label: 'Пароль (ещё раз)', name: 'password_ok', type: 'password' },
       ]}
       buttons={[
         {

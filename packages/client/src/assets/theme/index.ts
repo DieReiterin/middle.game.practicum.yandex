@@ -1,16 +1,38 @@
 import { createTheme, PaletteColor } from '@mui/material'
+import {
+  colorAccentSoft,
+  colorBgSecondary,
+  colorBtn,
+  colorError,
+  colorText,
+  colorText2,
+  fontFamily,
+  fontSize,
+} from '../styles/vars'
 
 const { palette } = createTheme()
 const { augmentColor } = palette
-const createColor = (mainColor: string): PaletteColor =>
-  augmentColor({ color: { main: mainColor, contrastText: '#fff' } })
+const createColor = (mainColor: string, contrastText: string): PaletteColor =>
+  augmentColor({ color: { main: mainColor, contrastText } })
 
 export const theme = createTheme({
   palette: {
-    secondary: createColor('#ffffff'),
-    primary: createColor('#B0ABFE'),
+    primary: createColor(colorBtn, colorText2),
+    background: {
+      default: colorBgSecondary,
+    },
+    error: {
+      main: colorError,
+    },
+    text: {
+      primary: colorText,
+      secondary: colorAccentSoft,
+      disabled: colorText2,
+    },
   },
   typography: {
+    fontFamily,
+    fontSize,
     button: {
       textTransform: 'none',
     },
