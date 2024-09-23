@@ -8,7 +8,4 @@ export default {
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
-  moduleNameMapper: {
-    '\\.(css|less|scss|sass)$': '<rootDir>/config/jest/cssTransform.js',
-  },
 }
