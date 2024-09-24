@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router-dom'
-import { Registration } from '../pages'
+import { Login, Registration } from '../pages'
 import { PathsRoutes } from './types'
 
 export const routes: RouteObject[] = [
@@ -10,5 +10,9 @@ export const routes: RouteObject[] = [
   {
     path: PathsRoutes.Registration,
     element: <Registration />,
+  },
+  {
+    path: PathsRoutes.Login,
+    element: <Login />,
   },
 ]

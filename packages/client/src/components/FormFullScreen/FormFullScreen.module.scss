@@ -9,11 +9,15 @@
   background-color: $color-bg-primary;
 
   & .form {
-    width: 420px;
-    padding: 64px 46px;
+    width: 380px;
+    padding: 52px 30px 24px 30px;
     background-color: $color-bg-secondary;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: $box-shadow;
+
+    & .container {
+      min-height: 320px;
+    }
   }
 }
