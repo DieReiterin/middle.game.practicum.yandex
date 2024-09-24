@@ -1,0 +1,38 @@
+@use 'sass:math';
+
+//vars
+$bunker: #0d1117;
+$dusty-gray: #999999;
+$alabaster: #fbfbfb;
+$gallery: #efefef;
+$red-orange: #ff2f2f;
+$hawkes-blue: #e4edfd;
+$moon-raker: #e7daf8;
+$tropical-blue: #c0c6fb;
+$melrose: #b0abfe;
+
+//text
+$color-text: $bunker;
+$color-text2: $alabaster;
+$color-accent-soft: $dusty-gray;
+$color-error: $red-orange;
+$font-family: Manrope, sans-serif;
+$font-size: '13px';
+
+//border
+$color-border: $alabaster;
+$color-border2: $bunker;
+$color-border3: $gallery;
+
+//btn
+$color-btn: $melrose;
+$color-btn-hover: $tropical-blue;
+$color-btn-active: $moon-raker;
+
+//bg
+$color-bg-primary: $moon-raker;
+$color-bg-secondary: $alabaster;
+$color-bg-tertiary: $tropical-blue;
+
+// box-shadow
+$box-shadow: 0 0 4px 4px rgb(0 0 0 / 14.1%);
