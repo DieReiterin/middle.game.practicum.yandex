@@ -14,13 +14,17 @@ export const FormFullScreen: FC<FormFullScreenProps> = ({
   return (
     <Box className={styles.wrapper}>
       <Box className={styles.form}>
-        <Grid2 container spacing={4} direction="column">
+        <Grid2
+          container
+          spacing={4}
+          direction="column"
+          className={styles.container}>
           <Grid2>
             <Typography variant="h5" textAlign="center">
               {title}
             </Typography>
           </Grid2>
-          <Grid2>
+          <Grid2 flex="1 1 auto">
             <Form {...otherProps} />
           </Grid2>
         </Grid2>
