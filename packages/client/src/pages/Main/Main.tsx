@@ -1,14 +1,14 @@
 import { Box } from '@mui/material'
-import { Navigation, NavigationProps } from './conponents'
+import { Navigation, NavigationProps, Routes } from './conponents'
 import { FC } from 'react'
 import styles from './Main.module.scss'
 import logo from '../../assets/images/logo.png'
 
 const buttons: NavigationProps['buttons'] = [
-  { title: 'Начать игру', link: '/game' },
-  { title: 'Профиль и Настройки', link: '/profile' },
-  { title: 'Лидерборд', link: '/leaderboard' },
-  { title: 'Форум', link: '/forum' },
+  { title: 'Начать игру', link: Routes.Game },
+  { title: 'Профиль и Настройки', link: Routes.Profile },
+  { title: 'Лидерборд', link: Routes.Leaderboard },
+  { title: 'Форум', link: Routes.Forum },
 ]
 
 export const Main: FC = () => {

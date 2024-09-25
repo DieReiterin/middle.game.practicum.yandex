@@ -8,8 +8,15 @@ import {
 } from '../../../../assets/styles/vars'
 import { Link } from 'react-router-dom'
 
+export enum Routes {
+  Game = '/game',
+  Profile = '/profile',
+  Leaderboard = '/leaderboard',
+  Forum = '/forum',
+}
+
 interface NavigationButtonProps extends ButtonProps {
-  link: string
+  link: Routes
 }
 
 export interface NavigationProps {
