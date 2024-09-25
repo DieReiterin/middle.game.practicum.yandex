@@ -6,10 +6,10 @@ import styles from './Main.module.scss'
 import logo from '../../assets/images/logo.png'
 
 const buttons: NavigationProps['buttons'] = [
-  { title: 'Начать игру', link: PathsRoutes.Game },
-  { title: 'Профиль и Настройки', link: PathsRoutes.Profile },
-  { title: 'Лидерборд', link: PathsRoutes.Leaderboard },
-  { title: 'Форум', link: PathsRoutes.Forum },
+  { title: 'Начать игру', to: PathsRoutes.Game },
+  { title: 'Профиль и Настройки', to: PathsRoutes.Profile },
+  { title: 'Лидерборд', to: PathsRoutes.Leaderboard },
+  { title: 'Форум', to: PathsRoutes.Forum },
 ]
 
 export const Main: FC = () => {

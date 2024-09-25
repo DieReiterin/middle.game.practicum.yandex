@@ -1,30 +1,24 @@
-import { Stack, Button, ButtonProps } from '@mui/material'
+import { Stack } from '@mui/material'
 import { FC } from 'react'
-import styles from './Navigation.module.scss'
 import {
   colorBtn,
   colorBtnHover,
   alabaster,
 } from '../../../../assets/styles/vars'
-import { Link } from 'react-router-dom'
-import { PathsRoutes } from '../../../../router/types'
+import { ButtonLink, ButtonLinkProps } from '../../../../components/ButtonLink'
+import styles from './Navigation.module.scss'
 
-interface NavigationButtonProps extends ButtonProps {
-  link: PathsRoutes
-}
-
-export interface NavigationProps {
-  buttons: NavigationButtonProps[]
+export type NavigationProps = {
+  buttons: ButtonLinkProps[]
 }
 
 export const Navigation: FC<NavigationProps> = ({ buttons }) => {
   return (
     <Stack spacing={4.5} className={styles.navigation}>
-      {buttons.map(({ title, link, ...rest }) => (
-        <Button
+      {buttons.map(({ title, to, ...rest }) => (
+        <ButtonLink
           key={title}
-          component={Link}
-          to={link}
+          to={to}
           sx={{
             backgroundColor: colorBtn,
             color: alabaster,
@@ -35,7 +29,7 @@ export const Navigation: FC<NavigationProps> = ({ buttons }) => {
           className={styles.button}
           {...rest}>
           {title}
-        </Button>
+        </ButtonLink>
       ))}
     </Stack>
   )
