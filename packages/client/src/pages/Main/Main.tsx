@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { Navigation, NavigationProps, Routes } from './conponents'
+import { Navigation, NavigationProps, Routes } from './components'
 import { FC } from 'react'
 import styles from './Main.module.scss'
 import logo from '../../assets/images/logo.png'
