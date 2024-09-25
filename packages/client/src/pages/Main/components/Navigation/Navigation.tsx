@@ -7,16 +7,10 @@ import {
   alabaster,
 } from '../../../../assets/styles/vars'
 import { Link } from 'react-router-dom'
-
-export enum Routes {
-  Game = '/game',
-  Profile = '/profile',
-  Leaderboard = '/leaderboard',
-  Forum = '/forum',
-}
+import { PathsRoutes } from '../../../../router/types'
 
 interface NavigationButtonProps extends ButtonProps {
-  link: Routes
+  link: PathsRoutes
 }
 
 export interface NavigationProps {
