@@ -4,7 +4,7 @@ import styles from './Navigation.module.scss'
 import {
   colorBtn,
   colorBtnHover,
-  colorText3,
+  alabaster,
 } from '../../../../assets/styles/vars'
 import { Link } from 'react-router-dom'
 
@@ -12,7 +12,7 @@ interface NavigationButtonProps extends ButtonProps {
   link: string
 }
 
-interface NavigationProps {
+export interface NavigationProps {
   buttons: NavigationButtonProps[]
 }
 
@@ -26,7 +26,7 @@ export const Navigation: FC<NavigationProps> = ({ buttons }) => {
           to={link}
           sx={{
             backgroundColor: colorBtn,
-            color: colorText3,
+            color: alabaster,
             '&:hover': {
               backgroundColor: colorBtnHover,
             },
