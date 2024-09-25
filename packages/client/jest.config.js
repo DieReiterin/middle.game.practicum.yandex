@@ -10,5 +10,6 @@ export default {
   },
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': '<rootDir>/config/jest/cssTransform.js',
+    '\\.(jpg|jpeg|png|svg)$': '<rootDir>/config/jest/cssTransform.js',
   },
 }
