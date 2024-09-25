@@ -1,0 +1,15 @@
+@import '../../../../assets/styles/vars.scss';
+
+.navigation {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  padding: 28px 46px;
+  background-color: $color-bg-secondary;
+  border-radius: 8px;
+}
+
+.button {
+  min-height: 47px;
+  text-shadow: $text-shadow;
+}

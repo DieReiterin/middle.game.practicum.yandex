@@ -1,4 +1,5 @@
 //vars
+export const white = '#ffffff'
 export const bunker = '#0d1117'
 export const dustyGray = '#999999'
 export const alabaster = '#fbfbfb'
@@ -14,6 +15,7 @@ export const fontFamily = 'Manrope, sans-serif'
 export const fontSize = 13
 export const colorText = bunker
 export const colorText2 = alabaster
+export const colorText3 = white
 export const colorAccentSoft = dustyGray
 export const colorError = redOrange
 
