@@ -36,7 +36,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
                   ? '- ' + key.join('/') + ' -'
                   : '- ' + key + ' -'
                 return (
-                  <Grid2 container size={12}>
+                  <Grid2 container size={12} key={`key-${action}`}>
                     <Grid2 size={4}>
                       <Typography variant="subtitle1">{keyCode}</Typography>
                     </Grid2>
@@ -51,8 +51,8 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
           <Button
             fullWidth
             sx={{ marginTop: 'auto' }}
-            disableElevation={true}
-            variant={'contained'}
+            disableElevation
+            variant="contained"
             onClick={handleClose}>
             {buttonTitle}
           </Button>
