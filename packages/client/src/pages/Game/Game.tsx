@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import example from './draft-preview 2.png'
+import example from './draft-preview.png'
 import { Box } from '@mui/material'
 import { PreviewModal, TOpenMode } from '../../components'
 import HelpIcon from '@mui/icons-material/Help'

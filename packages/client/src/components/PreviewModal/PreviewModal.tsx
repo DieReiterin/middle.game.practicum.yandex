@@ -27,7 +27,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
       <Modal open={!!openMode}>
         <Box className={styles.modal}>
           <Typography variant="h6" textAlign="center">
-            {'Добро пожаловать в игру Mage Fight!'}
+            Добро пожаловать в игру Mage Fight!
           </Typography>
           <Box className={styles.actionsWrapper}>
             <Grid2 container spacing={1} direction="column">
