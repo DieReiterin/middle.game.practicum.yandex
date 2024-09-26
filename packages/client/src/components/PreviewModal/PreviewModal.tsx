@@ -19,7 +19,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
 
   const handleClose = () => {
     if (openMode === 'start') setStart(true)
-    setOpenMode('')
+    setOpenMode(null)
   }
 
   return (
