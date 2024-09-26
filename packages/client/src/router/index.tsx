@@ -1,11 +1,15 @@
 import { RouteObject } from 'react-router-dom'
-import { Login, Registration } from '../pages'
+import { Login, Registration, Main } from '../pages';
 import { PathsRoutes } from './types'
 
 export const routes: RouteObject[] = [
   {
-    path: PathsRoutes.Main,
+    path: PathsRoutes.StartPage,
     element: <>Вот тут будет жить ваше приложение :)</>,
+  },
+  {
+    path: PathsRoutes.Main,
+    element: <Main />,
   },
   {
     path: PathsRoutes.Registration,
