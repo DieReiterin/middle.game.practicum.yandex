@@ -1,0 +1,28 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.wrapper {
+  @include center-flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color-bg-primary;
+}
+
+.main {
+  @include column-flex;
+  width: 100%;
+  max-width: 915px;
+  gap: 33px;
+  padding: 47px 47px 72px;
+  background-color: $color-bg-tertiary;
+  border-radius: 12px;
+}
+
+.logoWrapper {
+  max-width: 375px;
+  margin: auto;
+}
+
+.logo {
+  width: 100%;
+}
