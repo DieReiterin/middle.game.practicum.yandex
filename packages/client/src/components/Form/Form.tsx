@@ -3,7 +3,7 @@ import { FC, FormEventHandler } from 'react'
 import { FormField, FormFieldProps } from '..'
 import styles from './Form.module.scss'
 
-export interface FormProps {
+export type FormProps = {
   name: string
   items: FormFieldProps[]
   buttons: ButtonProps[]

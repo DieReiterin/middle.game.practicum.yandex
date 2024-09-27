@@ -9,7 +9,7 @@ export type FieldName =
   | 'password'
   | 'passwordOk'
 
-export const validationMessage: Record<FieldName, string> = {
+export const validationErrorMessage: Record<FieldName, string> = {
   email: 'Не соответствует email',
   login:
     'От 3 до 20 символов, латиница (минимум 1), цифры, без пробелов, без спецсимволов (допустимы _ и -)',
@@ -24,44 +24,41 @@ export const validationMessage: Record<FieldName, string> = {
 
 const validationScheme: Record<FieldName, RegisterOptions> = {
   email: {
-    required: true,
     pattern:
       /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
   },
   login: {
-    required: true,
     minLength: 3,
     maxLength: 20,
     pattern: /^[a-zA-Z0-9_-]*[a-zA-Z][a-zA-Z0-9_-]*$/,
   },
   firstName: {
-    required: true,
     pattern: /^[A-ZА-Я][a-zA-ZА-Яа-я-]*$/,
   },
   secondName: {
-    required: true,
     pattern: /^[A-ZА-Я][a-zA-ZА-Яа-я-]*$/,
   },
   phone: {
-    required: true,
     minLength: 10,
     maxLength: 15,
     pattern: /^\+?\d{10,15}$/,
   },
   password: {
-    required: true,
     pattern: /^(?=.*[A-Z])(?=.*\d).*$/,
   },
   passwordOk: {
-    required: true,
     pattern: /^(?=.*[A-Z])(?=.*\d).*$/,
   },
 }
-
+//isRequired
 export const getValidationScheme = <
   TFieldValues extends FieldValues,
   Name extends Path<TFieldValues>
 >(
-  name: FieldName
+  name: FieldName,
+  isRequired?: boolean
 ): RegisterOptions<TFieldValues, Name> =>
-  validationScheme[name] as RegisterOptions<TFieldValues, Name>
+  ({ ...validationScheme[name], required: isRequired } as RegisterOptions<
+    TFieldValues,
+    Name
+  >)

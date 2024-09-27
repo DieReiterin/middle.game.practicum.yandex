@@ -1,17 +1,17 @@
 import { FC } from 'react'
 
-import { Form, FormFieldProps, FormFullScreen } from '../../components'
+import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { getValidationScheme, validationMessage } from '../../constants'
+import { getValidationScheme, validationErrorMessage } from '../../constants'
 
 enum Fields {
   Login = 'login',
   Password = 'password',
 }
 
-interface FormInput {
+type FormInput = {
   login: Fields.Login
   password: Fields.Password
 }
@@ -34,24 +34,27 @@ export const Login: FC = () => {
   const formItems: FormFieldProps[] = [
     {
       label: 'Логин',
-      message: validationMessage.login,
+      message: validationErrorMessage.login,
       error: Boolean(errors?.login),
-      ...register('login', getValidationScheme<FormInput, 'login'>('login')),
+      ...register(
+        'login',
+        getValidationScheme<FormInput, 'login'>('login', true)
+      ),
     },
     {
       label: 'Пароль',
       type: 'password',
-      message: validationMessage.password,
+      message: validationErrorMessage.password,
       error: Boolean(errors?.password),
       ...register(
         'password',
-        getValidationScheme<FormInput, 'password'>('password')
+        getValidationScheme<FormInput, 'password'>('password', true)
       ),
     },
   ]
 
   return (
-    <FormFullScreen title="Вход">
+    <FullScreenWrapper title="Вход">
       <Form
         name="login"
         items={formItems}
@@ -68,6 +71,6 @@ export const Login: FC = () => {
           },
         ]}
       />
-    </FormFullScreen>
+    </FullScreenWrapper>
   )
 }

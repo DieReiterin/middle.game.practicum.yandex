@@ -1,10 +1,10 @@
 import { FC } from 'react'
 
-import { Form, FormFieldProps, FormFullScreen } from '../../components'
+import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { getValidationScheme, validationMessage } from '../../constants'
+import { getValidationScheme, validationErrorMessage } from '../../constants'
 
 enum Fields {
   Email = 'email',
@@ -16,7 +16,7 @@ enum Fields {
   PasswordOk = 'password_ok',
 }
 
-interface FormInput {
+type FormInput = {
   email: Fields.Email
   login: Fields.Login
   firstName: Fields.FirstName
@@ -43,54 +43,63 @@ export const Registration: FC = () => {
   const formItems: FormFieldProps[] = [
     {
       label: 'Почта',
-      message: validationMessage.email,
+      message: validationErrorMessage.email,
       error: Boolean(errors?.email),
-      ...register('email', getValidationScheme<FormInput, 'email'>('email')),
+      ...register(
+        'email',
+        getValidationScheme<FormInput, 'email'>('email', true)
+      ),
     },
     {
       label: 'Логин',
-      message: validationMessage.login,
+      message: validationErrorMessage.login,
       error: Boolean(errors?.login),
-      ...register('login', getValidationScheme<FormInput, 'login'>('login')),
+      ...register(
+        'login',
+        getValidationScheme<FormInput, 'login'>('login', true)
+      ),
     },
     {
       label: 'Имя',
-      message: validationMessage.firstName,
+      message: validationErrorMessage.firstName,
       error: Boolean(errors?.firstName),
       ...register(
         'firstName',
-        getValidationScheme<FormInput, 'firstName'>('firstName')
+        getValidationScheme<FormInput, 'firstName'>('firstName', true)
       ),
     },
     {
       label: 'Фамилия',
-      message: validationMessage.secondName,
+      message: validationErrorMessage.secondName,
       error: Boolean(errors?.secondName),
       ...register(
         'secondName',
-        getValidationScheme<FormInput, 'secondName'>('secondName')
+        getValidationScheme<FormInput, 'secondName'>('secondName', true)
       ),
     },
     {
       label: 'Телефон',
-      message: validationMessage.phone,
+      message: validationErrorMessage.phone,
       error: Boolean(errors?.phone),
-      ...register('phone', getValidationScheme<FormInput, 'phone'>('phone')),
+      ...register(
+        'phone',
+        getValidationScheme<FormInput, 'phone'>('phone', true)
+      ),
     },
     {
       label: 'Пароль',
       type: 'password',
-      message: validationMessage.password,
+      message: validationErrorMessage.password,
       error: Boolean(errors?.password),
       ...register(
         'password',
-        getValidationScheme<FormInput, 'password'>('password')
+        getValidationScheme<FormInput, 'password'>('password', true)
       ),
     },
     {
       label: 'Пароль (ещё раз)',
       type: 'password',
-      message: validationMessage.passwordOk,
+      message: validationErrorMessage.passwordOk,
       error: Boolean(errors?.passwordOk),
       ...register('passwordOk', {
         validate: (value, form) => {
@@ -101,7 +110,7 @@ export const Registration: FC = () => {
   ]
 
   return (
-    <FormFullScreen title="Регистрация">
+    <FullScreenWrapper title="Регистрация">
       <Form
         name="registration"
         items={formItems}
@@ -118,6 +127,6 @@ export const Registration: FC = () => {
           },
         ]}
       />
-    </FormFullScreen>
+    </FullScreenWrapper>
   )
 }
