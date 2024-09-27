@@ -14,7 +14,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
   openMode,
   setOpenMode,
 }) => {
-  const [isStart, setStart] = useState<boolean>(false)
+  const [isStart, setStart] = useState(false)
   const buttonTitle = openMode === 'pause' ? 'Продолжить игру' : 'Начать игру'
 
   const handleClose = () => {
@@ -36,7 +36,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
                   ? '- ' + key.join('/') + ' -'
                   : '- ' + key + ' -'
                 return (
-                  <Grid2 container size={12} key={`key-${action}`}>
+                  <Grid2 container size={12} key={action}>
                     <Grid2 size={4}>
                       <Typography variant="subtitle1">{keyCode}</Typography>
                     </Grid2>
