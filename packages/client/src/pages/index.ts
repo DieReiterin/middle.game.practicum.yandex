@@ -1,4 +1,5 @@
 export * from './Main'
 export * from './Registration'
 export * from './Login'
+export * from './Game'
 export * from './Leaderboard'
