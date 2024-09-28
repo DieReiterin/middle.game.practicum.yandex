@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 
-import { ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './assets/theme'
 import { routes } from './router'
 import { BrowserRouter, useRoutes } from 'react-router-dom'
@@ -31,6 +31,7 @@ const App = () => {
     <div className="App">
       <BrowserRouter>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <Routes />
         </ThemeProvider>
       </BrowserRouter>

@@ -1,7 +1,7 @@
 import { createTheme, PaletteColor } from '@mui/material'
 import {
   colorAccentSoft,
-  colorBgSecondary,
+  colorBgPrimary,
   colorBtn,
   colorError,
   colorText,
@@ -19,7 +19,7 @@ export const theme = createTheme({
   palette: {
     primary: createColor(colorBtn, colorText2),
     background: {
-      default: colorBgSecondary,
+      default: colorBgPrimary,
     },
     error: {
       main: colorError,
