@@ -5,12 +5,19 @@ import styles from './Form.module.scss'
 
 export type FormProps = {
   name: string
+  error?: string
   items: FormFieldProps[]
   buttons: ButtonProps[]
   onSubmit?: FormEventHandler<HTMLFormElement>
 }
 
-export const Form: FC<FormProps> = ({ name, items, buttons, onSubmit }) => {
+export const Form: FC<FormProps> = ({
+  name,
+  error,
+  items,
+  buttons,
+  onSubmit,
+}) => {
   return (
     <Box component="form" noValidate name={name} onSubmit={onSubmit}>
       <Grid2 container spacing={10} direction="column" className={styles.form}>
@@ -29,6 +36,7 @@ export const Form: FC<FormProps> = ({ name, items, buttons, onSubmit }) => {
           ))}
         </Grid2>
       </Grid2>
+      {error && <p className={styles.error}>{error}</p>}
     </Box>
   )
 }
