@@ -10,7 +10,6 @@ import {
 } from 'react'
 import { user, UserResponse } from '../api/auth/user'
 import { isAxiosError } from 'axios'
-import { CircularProgress } from '@mui/material'
 import { Loader } from '../components/Loader'
 
 export type AuthContextInterface = {

@@ -4,7 +4,7 @@ import styles from './Loader.module.scss'
 
 export const Loader: FC = () => {
   return (
-    <Box className={styles.loader}>
+    <Box className={styles?.loader}>
       <CircularProgress size={100} />
     </Box>
   )
