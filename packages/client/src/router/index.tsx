@@ -1,6 +1,7 @@
 import { RouteObject } from 'react-router-dom'
 import { Login, Registration, Main, Game } from '../pages'
 import Forum from '../pages/Forum/Forum'
+import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
 import { PathsRoutes } from './types'
 
 export const routes: RouteObject[] = [
@@ -27,5 +28,9 @@ export const routes: RouteObject[] = [
   {
     path: PathsRoutes.Forum,
     element: <Forum />,
+  },
+  {
+    path: PathsRoutes.ForumBlockPage,
+    element: <ForumBlockPage />,
   },
 ]

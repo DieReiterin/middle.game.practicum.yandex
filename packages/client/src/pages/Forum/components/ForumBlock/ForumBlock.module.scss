@@ -1,0 +1,47 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.forumBlock {
+  width: 512px;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $gallery;
+  border-radius: 8px;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: .5s;
+
+  &:hover {
+    background: $tropical-blue;
+
+    .forumBlock__name {
+      color: $white;
+    }
+
+    .forumBlock__info {
+      p {
+        color: $white;
+      }
+    }
+  }
+
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+
+  &__name {}
+
+  &__info {
+    display: flex;
+    gap: 100px;
+    margin-right: 35px;
+  }
+
+  &__desc {
+    display: flex;
+    gap: 100px;
+    margin-right: 37px;
+  }
+}
