@@ -1,0 +1,10 @@
+.field {
+  position: relative;
+
+  & .error {
+    position: absolute;
+    font-size: 10px;
+    top: calc(100% + 2px);
+    color: $color-error;
+  }
+}
