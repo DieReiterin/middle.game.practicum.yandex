@@ -19,7 +19,7 @@ export const Game: FC = () => {
   }
 
   const handleOpenFinish = () => {
-    setFinishMode('loose')
+    setFinishMode('lose')
   }
 
   const handleStart = () => {
