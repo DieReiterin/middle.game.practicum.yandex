@@ -1,0 +1,18 @@
+.wrapper {
+  @include center-flex;
+  height: 100vh;
+
+  & .container {
+    width: 200px;
+
+    & .title {
+      font-size: 50px;
+      text-align: center;
+    }
+
+    & .subtitle {
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+}
