@@ -1,1 +1,1 @@
-export type TFinishMode = 'win' | 'loose'
+export type TFinishMode = 'win' | 'lose'
