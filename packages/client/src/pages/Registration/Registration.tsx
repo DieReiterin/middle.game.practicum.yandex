@@ -1,10 +1,13 @@
-import { FC } from 'react'
+import { FC, useContext, useState } from 'react'
 
 import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { getValidationScheme, validationErrorMessage } from '../../constants'
+import { signup } from '../../api/auth/signup'
+import { isAxiosError } from 'axios'
+import { AuthContext } from '../../context'
 
 enum Fields {
   Email = 'email',
@@ -27,17 +30,38 @@ type FormInput = {
 }
 
 export const Registration: FC = () => {
-  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({ mode: 'onBlur' })
+  const [error, setError] = useState<string>()
+
+  const navigate = useNavigate()
+  const context = useContext(AuthContext)
 
   const handleLoginButtonClick = (): void => navigate(PathsRoutes.Login)
 
-  const handleCreateButtonClick: SubmitHandler<FormInput> = data => {
-    console.log(data)
+  const handleCreateButtonClick: SubmitHandler<FormInput> = async data => {
+    setError(undefined)
+
+    const result = await signup({
+      email: data.email,
+      first_name: data.firstName,
+      login: data.login,
+      password: data.password,
+      phone: data.phone,
+      second_name: data.secondName,
+    })
+
+    if (isAxiosError(result)) {
+      setError(
+        result.response?.data?.reason || 'Произошла ошибка при регистрации'
+      )
+    } else {
+      navigate(PathsRoutes.Main)
+      context?.fetchUserData()
+    }
   }
 
   const formItems: FormFieldProps[] = [
@@ -112,8 +136,9 @@ export const Registration: FC = () => {
   return (
     <FullScreenWrapper title="Регистрация">
       <Form
-        name="registration"
+        error={error}
         items={formItems}
+        name="registration"
         onSubmit={handleSubmit(handleCreateButtonClick)}
         buttons={[
           {

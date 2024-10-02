@@ -1,8 +1,8 @@
-import { FC, useEffect } from 'react'
+import { FC, useContext } from 'react'
 
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './assets/theme'
-import { routes } from './router'
+import { getRoutes } from './router'
 import { BrowserRouter, useRoutes } from 'react-router-dom'
 
 import '@fontsource/manrope/300.css'
@@ -10,29 +10,26 @@ import '@fontsource/manrope/400.css'
 import '@fontsource/manrope/500.css'
 import '@fontsource/manrope/700.css'
 import './App.css'
+import { AuthContext, AuthProvider } from './context'
 
 const Routes: FC = () => {
+  const context = useContext(AuthContext)
+  const isAuthorized = Boolean(context?.userInfo)
+
+  const routes = getRoutes(isAuthorized)
+
   return useRoutes(routes)
 }
 
 const App = () => {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
-
-    fetchServerData()
-  }, [])
-
   return (
     <div className="App">
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Routes />
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
         </ThemeProvider>
       </BrowserRouter>
     </div>
