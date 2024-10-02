@@ -1,12 +1,12 @@
 // Control keys
 export enum Controls {
-  Left = 'a',
-  Right = 'd',
-  Jump = ' ',
-  Fireball = 'e',
-  AirAttack = 'f',
-  Shield = 'w',
-  Pause = 'escape',
+  Left = 'KeyA',
+  Right = 'KeyD',
+  Jump = 'Space',
+  Fireball = 'KeyE',
+  AirAttack = 'KeyF',
+  Shield = 'KeyW',
+  Pause = 'Escape',
 }
 
 // Game states

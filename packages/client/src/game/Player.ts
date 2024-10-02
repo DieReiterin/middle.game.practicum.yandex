@@ -104,7 +104,7 @@ export class Player {
   }
 
   private keydownHandler = (e: KeyboardEvent) => {
-    const key = e.key.toLowerCase()
+    const key = e.code
     if (!this.keysPressed[key]) {
       this.keysPressed[key] = true
       this.keysJustPressed[key] = true
@@ -112,7 +112,7 @@ export class Player {
   }
 
   private keyupHandler = (e: KeyboardEvent) => {
-    const key = e.key.toLowerCase()
+    const key = e.code
     this.keysPressed[key] = false
   }
 

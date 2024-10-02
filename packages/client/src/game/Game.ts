@@ -194,7 +194,7 @@ export class Game {
   }
 
   private keydownHandler = (e: KeyboardEvent) => {
-    if (e.key.toLowerCase() === Controls.Pause) {
+    if (e.code === Controls.Pause) {
       this.togglePause()
     }
   }

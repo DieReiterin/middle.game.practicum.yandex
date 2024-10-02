@@ -95,6 +95,16 @@ function GameDemo() {
     currentGame?.togglePause()
   }
 
+  const keyNames: { [key: string]: string } = {
+    KeyA: 'A',
+    KeyD: 'D',
+    KeyW: 'W',
+    KeyE: 'E',
+    KeyF: 'F',
+    Space: 'Пробел',
+    Escape: 'Escape',
+  }
+
   const controlsArray = Object.entries(Controls)
 
   return (
@@ -128,14 +138,9 @@ function GameDemo() {
                 {controlsArray.map(([action, key]) => (
                   <TableRow key={action}>
                     <TableCell>{action}</TableCell>
-                    <TableCell>{key === ' ' ? 'Space' : key}</TableCell>
+                    <TableCell>{keyNames[key] || key}</TableCell>
                   </TableRow>
                 ))}
-                <TableRow>
-                  <TableCell colSpan={2} align="center">
-                    * Use only the English keyboard layout!
-                  </TableCell>
-                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
