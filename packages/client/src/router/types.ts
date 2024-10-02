@@ -7,4 +7,5 @@ export enum PathsRoutes {
   Profile = '/profile',
   Leaderboard = '/leaderboard',
   Forum = '/forum',
+  GameDemo = '/game-demo',
 }

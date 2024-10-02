@@ -12,21 +12,19 @@ export default defineConfig({
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
+  resolve: {
+    alias: {
+      '@styles': path.resolve(__dirname, 'src/assets/styles'),
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
         api: 'modern-compiler',
-        additionalData: `@import "${path.resolve(
-          __dirname,
-          'src/assets/styles/vars.scss'
-        )}";`,
+        additionalData: `@import "@/assets/styles/vars.scss";\n`,
       },
     },
   },
   plugins: [react()],
-  resolve: {
-    alias: {
-      '@styles': path.resolve(__dirname, 'src/assets/styles'),
-    },
-  },
 })
