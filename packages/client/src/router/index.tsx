@@ -1,5 +1,5 @@
 import { Navigate, RouteObject } from 'react-router-dom'
-import { Login, Registration, Main, Game } from '../pages'
+import { Login, Registration, Main, Game, Leaderboard } from '../pages'
 import { PathsRoutes } from './types'
 
 const closePathUnauthorized = (
@@ -34,5 +34,9 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   {
     path: '*',
     element: <p>404</p>,
+  },
+  {
+    path: PathsRoutes.Leaderboard,
+    element: <Leaderboard />,
   },
 ]
