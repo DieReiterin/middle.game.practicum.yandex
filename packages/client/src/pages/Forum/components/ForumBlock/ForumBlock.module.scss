@@ -1,28 +1,27 @@
 @import '@styles/vars.scss';
 @import '@styles/mixins.scss';
 
-.forumBlock {
+.forum_block {
   width: 512px;
   height: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include space-between-flex;
   background: $gallery;
   border-radius: 8px;
   padding: 0 20px;
   cursor: pointer;
   transition: .5s;
+  border: none;
 
   &:hover {
     background: $tropical-blue;
 
     .forumBlock__name {
-      color: $white;
+      color: $alabaster;
     }
 
     .forumBlock__info {
       p {
-        color: $white;
+        color: $alabaster;
       }
     }
   }
@@ -30,8 +29,6 @@
   &:not(:first-child) {
     margin-top: 20px;
   }
-
-  &__name {}
 
   &__info {
     display: flex;

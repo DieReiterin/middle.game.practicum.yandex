@@ -21,14 +21,16 @@ const ForumModal: React.FC<ForumModalProps> = ({
   setNewDescription,
   addTopic,
 }) => {
+  const isButtonDisabled = !newTopic.trim() || !newDescription.trim()
+
   return (
     <Modal
-      className={styles.forumModal}
+      className={styles.forum_modal}
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <Box className={styles.forumModal__desc}>
+      <Box className={styles.forum_modal__desc}>
         <h3>Новая тема</h3>
         <TextField
           id="standard-basic"
@@ -44,7 +46,10 @@ const ForumModal: React.FC<ForumModalProps> = ({
           value={newDescription}
           onChange={e => setNewDescription(e.target.value)}
         />
-        <Button variant="contained" onClick={addTopic}>
+        <Button
+          variant="contained"
+          onClick={addTopic}
+          disabled={isButtonDisabled}>
           Добавить новую тему
         </Button>
       </Box>

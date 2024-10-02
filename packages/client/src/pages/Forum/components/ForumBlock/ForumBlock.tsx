@@ -15,13 +15,13 @@ const ForumBlock: React.FC<ForumBlockProps> = ({
   onClick,
 }) => {
   return (
-    <div className={styles.forumBlock} onClick={onClick}>
+    <button className={styles.forum_block} onClick={onClick}>
       <h4>{name}</h4>
-      <div className={styles.forumBlock__desc}>
+      <div className={styles.forum_block__desc}>
         <p>{threads}</p>
         <p>{messages}</p>
       </div>
-    </div>
+    </button>
   )
 }
 

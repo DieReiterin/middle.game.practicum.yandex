@@ -14,7 +14,7 @@ const Forum = () => {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const [topic, setTopic] = useState<string[]>(() => {
+  const [topics, setTopics] = useState<string[]>(() => {
     const savedTopics = localStorage.getItem('topics')
     return savedTopics ? JSON.parse(savedTopics) : []
   })
@@ -25,10 +25,10 @@ const Forum = () => {
   const addTopic = () => {
     if (newTopic.trim() && newDescription.trim()) {
       const updatedTopics = [
-        ...topic,
+        ...topics,
         JSON.stringify({ name: newTopic, description: newDescription }),
       ]
-      setTopic(updatedTopics)
+      setTopics(updatedTopics)
       setNewTopic('')
       setNewDescription('')
       handleClose()
@@ -38,20 +38,21 @@ const Forum = () => {
   }
 
   const handleBlockClick = (index: number) => {
-    const topicData = JSON.parse(topic[index])
+    const topicData = JSON.parse(topics[index])
     navigate(`${PathsRoutes.Forum}/${index + 1}`, { state: topicData })
   }
 
   const deleteTopic = (index: number) => {
-    const updatedTopics = topic.filter((_, i) => i !== index)
-    setTopic(updatedTopics) // Обновляем состояние
+    const updatedTopics = topics.filter((_, i) => i !== index)
+    setTopics(updatedTopics)
     localStorage.setItem('topics', JSON.stringify(updatedTopics))
 
+    // Удаляем комментарии из localStorage
     localStorage.removeItem(`comments_${index + 1}`)
   }
 
   const clearTopics = () => {
-    setTopic([])
+    setTopics([])
     localStorage.removeItem('topics')
     Object.keys(localStorage).forEach(key => {
       if (key.startsWith('comments_')) {
@@ -81,7 +82,7 @@ const Forum = () => {
           </Tooltip>
         </div>
         <div className={styles.forum__block_content}>
-          {topic.map((t, index) => {
+          {topics.map((t, index) => {
             let topicData
             try {
               topicData = JSON.parse(t)
