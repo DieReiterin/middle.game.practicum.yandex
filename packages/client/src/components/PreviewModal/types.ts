@@ -1,1 +1,1 @@
-export type TOpenMode = 'start' | 'pause' | null
+export type TOpenMode = 'start' | 'pause'

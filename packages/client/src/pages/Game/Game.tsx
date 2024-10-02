@@ -1,14 +1,30 @@
 import { FC, useState } from 'react'
 import example from './draft-preview.png'
 import { Box } from '@mui/material'
-import { PreviewModal, TOpenMode } from '../../components'
+import {
+  FinishModal,
+  PreviewModal,
+  TFinishMode,
+  TOpenMode,
+} from '../../components'
 import HelpIcon from '@mui/icons-material/Help'
+import ReplayIcon from '@mui/icons-material/Replay'
 
 export const Game: FC = () => {
-  const [openMode, setOpenMode] = useState<TOpenMode>('start')
+  const [openMode, setOpenMode] = useState<TOpenMode | null>('start')
+  const [finishMode, setFinishMode] = useState<TFinishMode | null>(null)
 
   const handleOpenHelp = () => {
     setOpenMode('pause')
+  }
+
+  const handleOpenFinish = () => {
+    setFinishMode('lose')
+  }
+
+  const handleStart = () => {
+    setFinishMode(null)
+    setOpenMode('start')
   }
   //заглушка
   return (
@@ -30,9 +46,21 @@ export const Game: FC = () => {
           cursor: 'pointer',
         }}
       />
+
+      <ReplayIcon
+        fontSize="large"
+        onClick={handleOpenFinish}
+        sx={{
+          position: 'absolute',
+          top: '20px',
+          right: '140px',
+          cursor: 'pointer',
+        }}
+      />
       <img src={example} alt={'example'} />
 
       <PreviewModal setOpenMode={setOpenMode} openMode={openMode} />
+      {finishMode && <FinishModal onStart={handleStart} mode={finishMode} />}
     </Box>
   )
 }
