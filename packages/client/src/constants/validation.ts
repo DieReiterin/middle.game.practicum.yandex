@@ -50,7 +50,7 @@ const validationScheme: Record<FieldName, RegisterOptions> = {
     pattern: /^(?=.*[A-Z])(?=.*\d).*$/,
   },
 }
-//isRequired
+
 export const getValidationScheme = <
   TFieldValues extends FieldValues,
   Name extends Path<TFieldValues>
