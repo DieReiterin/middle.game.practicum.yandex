@@ -1,5 +1,3 @@
-import { RouteObject } from 'react-router-dom'
-import { Login, Registration, Main, Game } from '../pages'
 import Forum from '../pages/Forum/Forum'
 import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
 import { Navigate, RouteObject } from 'react-router-dom'
