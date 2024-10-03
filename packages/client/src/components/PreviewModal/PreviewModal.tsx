@@ -6,8 +6,8 @@ import { Countdown } from '../Countdown'
 import { TOpenMode } from './types'
 
 interface IPreviewModalProps {
-  openMode: TOpenMode
-  setOpenMode: Dispatch<SetStateAction<TOpenMode>>
+  openMode: TOpenMode | null
+  setOpenMode: Dispatch<SetStateAction<TOpenMode | null>>
 }
 
 export const PreviewModal: FC<IPreviewModalProps> = ({
@@ -22,9 +22,13 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
     setOpenMode(null)
   }
 
+  const handleFinishCount = () => {
+    setStart(false)
+  }
+
   return (
     <>
-      <Modal open={!!openMode}>
+      <Modal open={!!openMode} className={styles.wrapper}>
         <Box className={styles.modal}>
           <Typography variant="h6" textAlign="center">
             Добро пожаловать в игру Mage Fight!
@@ -58,7 +62,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
           </Button>
         </Box>
       </Modal>
-      {isStart && <Countdown />}
+      {isStart && <Countdown onFinish={handleFinishCount} />}
     </>
   )
 }

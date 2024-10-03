@@ -1,32 +1,29 @@
 import { Box, Grid2, Typography } from '@mui/material'
-import { FC } from 'react'
-import styles from './FormFullScreen.module.scss'
-import { Form, FormProps } from '..'
+import { FC, PropsWithChildren } from 'react'
+import styles from './FullScreenWrapper.module.scss'
 
-export interface FormFullScreenProps extends FormProps {
+export type FormFullScreenProps = {
   title: string
 }
 
-export const FormFullScreen: FC<FormFullScreenProps> = ({
+export const FullScreenWrapper: FC<PropsWithChildren<FormFullScreenProps>> = ({
   title,
-  ...otherProps
+  children,
 }) => {
   return (
     <Box className={styles.wrapper}>
-      <Box className={styles.form}>
+      <Box className={styles.container}>
         <Grid2
           container
           spacing={4}
           direction="column"
-          className={styles.container}>
+          className={styles.content}>
           <Grid2>
             <Typography variant="h5" textAlign="center">
               {title}
             </Typography>
           </Grid2>
-          <Grid2 flex="1 1 auto">
-            <Form {...otherProps} />
-          </Grid2>
+          <Grid2 flex="1 1 auto">{children}</Grid2>
         </Grid2>
       </Box>
     </Box>

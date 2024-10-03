@@ -1,10 +1,11 @@
-@import '../../assets/styles/vars';
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.wrapper {
+  @include center-flex;
+}
 
 .modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 400px;
   min-height: 400px;
   height: 70%;
