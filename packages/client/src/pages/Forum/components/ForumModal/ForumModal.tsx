@@ -23,11 +23,17 @@ const ForumModal: React.FC<ForumModalProps> = ({
 }) => {
   const isButtonDisabled = !newTopic.trim() || !newDescription.trim()
 
+  const handleModalClose = () => {
+    handleClose()
+    setNewTopic('')
+    setNewDescription('')
+  }
+
   return (
     <Modal
       className={styles.forum_modal}
       open={open}
-      onClose={handleClose}
+      onClose={handleModalClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <Box className={styles.forum_modal__desc}>
