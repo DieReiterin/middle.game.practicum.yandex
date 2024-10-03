@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'path'
 dotenv.config()
-
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -12,24 +11,19 @@ export default defineConfig({
   define: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
+  resolve: {
+    alias: {
+      '@styles': path.resolve(__dirname, 'src/assets/styles'),
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   css: {
     preprocessorOptions: {
       scss: {
         api: 'modern-compiler',
-        additionalData: `@import "${path.resolve(
-          __dirname,
-          'src/assets/styles/vars.scss'
-        )}"; @import "${path.resolve(
-          __dirname,
-          'src/assets/styles/mixins.scss'
-        )}";`,
+        additionalData: `@import "@/assets/styles/vars.scss";\n@import "@/assets/styles/mixins.scss";\n`,
       },
     },
   },
   plugins: [react()],
-  resolve: {
-    alias: {
-      '@styles': path.resolve(__dirname, 'src/assets/styles'),
-    },
-  },
 })
