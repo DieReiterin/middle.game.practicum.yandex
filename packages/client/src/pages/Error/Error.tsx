@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 
 export type ErrorProps = {
-  title: string
-  text: string
+  title?: string
+  text?: string
 }
 
 export const Error: FC<ErrorProps> = ({ text, title }) => {
@@ -45,4 +45,9 @@ export const Error: FC<ErrorProps> = ({ text, title }) => {
       </Grid2>
     </Box>
   )
+}
+
+Error.defaultProps = {
+  title: '404',
+  text: 'Не туда попали',
 }
