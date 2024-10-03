@@ -47,7 +47,6 @@ const Forum = () => {
     setTopics(updatedTopics)
     localStorage.setItem('topics', JSON.stringify(updatedTopics))
 
-    // Удаляем комментарии из localStorage
     localStorage.removeItem(`comments_${index + 1}`)
   }
 
@@ -63,10 +62,10 @@ const Forum = () => {
 
   return (
     <div className={styles.forum}>
-      <div className={styles.forum__block}>
-        <h3 className={styles.forum__block_title}>Форумы</h3>
-        <div className={styles.forum__block_header}>
-          <div className={styles.forum__block_headerBlock}>
+      <div className={styles.forumBlock}>
+        <h3 className={styles.forumBlockTitle}>Форумы</h3>
+        <div className={styles.forumBlockHeader}>
+          <div className={styles.forumBlockHeaderBlock}>
             <div>
               <p>Тема</p>
             </div>
@@ -81,7 +80,7 @@ const Forum = () => {
             </IconButton>
           </Tooltip>
         </div>
-        <div className={styles.forum__block_content}>
+        <div className={styles.forumBlockContent}>
           {topics.map((t, index) => {
             let topicData
             try {
@@ -91,7 +90,7 @@ const Forum = () => {
             }
 
             return (
-              <div key={index} className={styles.forum__block_contentBlock}>
+              <div key={index} className={styles.forumBlockContentBlock}>
                 <ForumBlock
                   name={topicData.name}
                   threads={index + 1}
@@ -107,7 +106,7 @@ const Forum = () => {
             )
           })}
         </div>
-        <div className={styles.forum__block_footer}>
+        <div className={styles.forumBlockFooter}>
           <ButtonLink
             to={PathsRoutes.Main}
             sx={{

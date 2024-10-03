@@ -14,7 +14,7 @@ const ForumBlockPage: React.FC = () => {
 
   if (!topicData) {
     return (
-      <div className={styles.forum_Block__block}>
+      <div>
         <h3>Ошибка: Данные темы не найдены.</h3>
       </div>
     )
@@ -51,17 +51,15 @@ const ForumBlockPage: React.FC = () => {
   }
 
   return (
-    <div className={styles.forum_Block}>
-      <div className={styles.forum_Block__buttonHome} onClick={handleHomeClick}>
+    <div className={styles.pageForum}>
+      <div className={styles.pageForumButtonHome} onClick={handleHomeClick}>
         <HomeIcon />
       </div>
-      <div className={styles.forum_Block__block}>
-        <h2 className={styles.forum_Block__block__title}>{topicData.name}</h2>
-        <p className={styles.forum_Block__block__desc}>
-          {topicData.description}
-        </p>
+      <div className={styles.pageForumBlock}>
+        <h2 className={styles.pageForumBlockTitle}>{topicData.name}</h2>
+        <p className={styles.pageForumBlockDesc}>{topicData.description}</p>
       </div>
-      <div className={styles.forum_Block__input}>
+      <div className={styles.pageForumInput}>
         <TextField
           id="standard-basic"
           label="Добавить сообщение"
@@ -77,7 +75,7 @@ const ForumBlockPage: React.FC = () => {
           Добавить
         </Button>
       </div>
-      <div className={styles.forum_Block_messege}>
+      <div className={styles.pageForumMessege}>
         {comments.map((msg, index) => (
           <ForumMessage key={index} messege={msg} />
         ))}

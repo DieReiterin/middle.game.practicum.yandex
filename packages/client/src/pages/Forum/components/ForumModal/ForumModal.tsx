@@ -31,12 +31,12 @@ const ForumModal: React.FC<ForumModalProps> = ({
 
   return (
     <Modal
-      className={styles.forum_modal}
+      className={styles.forumModal}
       open={open}
       onClose={handleModalClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <Box className={styles.forum_modal__desc}>
+      <Box className={styles.forumModalDesc}>
         <h3>Новая тема</h3>
         <TextField
           id="standard-basic"

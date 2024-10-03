@@ -4,70 +4,65 @@
 .forum {
   @include center-flex;
   height: 100vh;
+}
 
-  &__block {
-    @include column-flex;
-    align-items: center;
-    background: $alabaster;
-    border-radius: 12px;
-    width: 680px;
-    height: 460px;
-    padding: 15px 0;
-    position: absolute;
+.forumBlock {
+  @include column-flex;
+  align-items: center;
+  background: $alabaster;
+  border-radius: 12px;
+  width: 680px;
+  height: 460px;
+  padding: 15px 0;
+  position: absolute;
+}
 
-    &_header {
-      @include center-flex;
-      gap: 10px;
-      margin-top: 40px;
+.forumBlockHeader {
+  @include center-flex;
+  gap: 10px;
+  margin-top: 40px;
+}
 
-    }
+.forumBlockTitle {
+  font-size: 18px;
+}
 
-    &_title {
-      font-size: 18px;
-    }
+.forumBlockHeaderBlock {
+  width: 512px;
+  min-height: 40px;
+  @include space-between-flex;
+  background: $gallery;
+  border-radius: 8px;
+  padding: 0 20px;
 
-    &_headerBlock {
-      width: 512px;
-      min-height: 40px;
-      @include space-between-flex;
-      background: $gallery;
-      border-radius: 8px;
-      padding: 0 20px;
-
-      div p {
-        color: $dusty-gray;
-      }
-
-      div:last-child {
-        display: flex;
-        gap: 50px;
-      }
-    }
-
-    &_content {
-      overflow-y: auto;
-      margin-top: 20px;
-      margin-bottom: 55px;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    &_footer {
-      position: absolute;
-      bottom: 0;
-    }
-
-    &_contentBlock {
-      cursor: pointer;
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    &_buttonDelete {
-      color: $melrose;
-    }
+  div p {
+    color: $dusty-gray;
   }
+
+  div:last-child {
+    display: flex;
+    gap: 50px;
+  }
+}
+
+.forumBlockContent {
+  overflow-y: auto;
+  margin-top: 20px;
+  margin-bottom: 55px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.forumBlockFooter {
+  position: absolute;
+  bottom: 0;
+}
+
+.forumBlockContentBlock {
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
 }

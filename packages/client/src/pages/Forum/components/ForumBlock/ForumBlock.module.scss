@@ -1,7 +1,7 @@
 @import '@styles/vars.scss';
 @import '@styles/mixins.scss';
 
-.forum_block {
+.forumBlockElem {
   width: 512px;
   height: 40px;
   @include space-between-flex;
@@ -14,31 +14,16 @@
 
   &:hover {
     background: $tropical-blue;
-
-    .forumBlock__name {
-      color: $alabaster;
     }
-
-    .forumBlock__info {
-      p {
-        color: $alabaster;
-      }
-    }
-  }
 
   &:not(:first-child) {
     margin-top: 20px;
   }
-
-  &__info {
-    display: flex;
-    gap: 100px;
-    margin-right: 35px;
-  }
-
-  &__desc {
-    display: flex;
-    gap: 100px;
-    margin-right: 37px;
-  }
 }
+
+.forumBlockElemDesc {
+  display: flex;
+  gap: 100px;
+  margin-right: 37px;
+}
+

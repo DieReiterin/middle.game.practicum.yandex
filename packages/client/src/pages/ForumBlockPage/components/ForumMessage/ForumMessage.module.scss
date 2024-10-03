@@ -1,69 +1,64 @@
 @import '@styles/vars.scss';
 @import '@styles/mixins.scss';
 
-.forumBlock {
+.forumMessage {
   @include column-flex;
   align-items: center;
   margin-top: 20px;
   width: 100%;
+}
 
-  &__block {
-    width: 90%;
-    padding: 30px;
-    background: #fff;
-    border-radius: 15px;
-    display: flex;
-    gap: 30px;
+.forumMessageBlock {
+  width: 90%;
+  padding: 30px;
+  background: #fff;
+  border-radius: 15px;
+  display: flex;
+  gap: 30px;
+}
 
-    &__content {
+.forumMessageBlockUserData {
+  width: 191px;
+  height: 240px;
+  border-radius: 10px;
+  border: 1px solid $dusty-gray;
+}
 
-      &__input {
-        margin-top: 10px;
-        display: flex;
-        align-items: end;
-        gap: 10px;
+.forumMessageBlockUserDataImg {
+  img {
+    width: 190px;
+    height: 140px;
+    border-radius: 10px 10px 0 0;
+  }
+}
 
-        button {
-          height: 30px;
-        }
-      }
+.forumMessageBlockUserDataDesc {
+  padding: 10px;
 
-      &__comments {
-        margin-top: 20px;
+  p:first-child {
+    font-size: 18px;
+  }
 
-        p {
-          margin-top: 5px;
-        }
-      }
-    }
+  p:last-child {
+    font-size: 15px;
+  }
+}
 
-    &__userData {
-      width: 191px;
-      height: 240px;
-      border-radius: 10px;
-      border: 1px solid $dusty-gray;
+.forumMessageBlockContentComments {
+  margin-top: 20px;
 
+  p {
+    margin-top: 5px;
+  }
+}
 
-      &_img {
+.forumMessageBlockContentInput {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
 
-        img {
-          width: 190px;
-          height: 140px;
-          border-radius: 10px 10px 0 0;
-        }
-      }
-
-      &_desc {
-        padding: 10px;
-
-        p:first-child {
-          font-size: 18px;
-        }
-
-        p:last-child {
-          font-size: 15px;
-        }
-      }
-    }
+  button {
+    height: 30px;
   }
 }

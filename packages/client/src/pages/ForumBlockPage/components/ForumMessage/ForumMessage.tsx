@@ -49,31 +49,31 @@ const ForumMessage: React.FC = ({ messege }) => {
   }, [id])
 
   return (
-    <div className={styles.forumBlock}>
-      <div className={styles.forumBlock__block}>
-        <div className={styles.forumBlock__block__userData}>
-          <div className={styles.forumBlock__block__userData_img}>
+    <div className={styles.forumMessage}>
+      <div className={styles.forumMessageBlock}>
+        <div className={styles.forumMessageBlockUserData}>
+          <div className={styles.forumMessageBlockUserDataImg}>
             <img src={avatar} alt="avatar" />
           </div>
-          <div className={styles.forumBlock__block__userData_desc}>
+          <div className={styles.forumMessageBlockUserDataDesc}>
             <p>Admin123</p>
             <p>admin</p>
           </div>
         </div>
-        <div className={styles.forumBlock__block__content}>
-          <div className={styles.forumBlock__block__content__messege}>
+        <div className={styles.forumMessageBlockContent}>
+          <div className={styles.forumMessageBlockContentMessege}>
             <h2>{messege}</h2>
           </div>
-          <div className={styles.forumBlock__block__content__comments}>
+          <div className={styles.forumMessageBlockContentComments}>
             {comments.map((c, index) => (
               <p
                 key={index}
-                className={styles.forumBlock__block__content__comments_desc}>
+                className={styles.forumMessageBlockContentCommentsDesc}>
                 {c}
               </p>
             ))}
           </div>
-          <div className={styles.forumBlock__block__content__input}>
+          <div className={styles.forumMessageBlockContentInput}>
             <TextField
               id="input-with-icon-textfield"
               label="Введите комментарий"
