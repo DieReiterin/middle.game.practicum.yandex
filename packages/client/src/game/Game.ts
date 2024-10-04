@@ -1,3 +1,4 @@
+// Game.ts
 import { GameConfig } from './types'
 import { Player } from './Player'
 import {
@@ -65,8 +66,6 @@ export class Game {
     this.initCanvas()
     this.bindEvents()
     this.loadImages()
-
-    console.log('Создан новый экземпляр Game')
   }
 
   public static createInstance(config: GameConfig): Game {
@@ -192,11 +191,10 @@ export class Game {
     this.player?.destroy()
     this.computer?.destroy()
     Game.instance = null
-    console.log('Экземпляр Game уничтожен')
   }
 
   private keydownHandler = (e: KeyboardEvent) => {
-    if (e.key.toLowerCase() === Controls.Pause) {
+    if (e.code === Controls.Pause) {
       this.togglePause()
     }
   }
@@ -255,12 +253,10 @@ export class Game {
 
     // Update the player
     this.player.update(deltaTime, this.computer)
-    //console.log(`After player update: Player Health = ${this.player.health}`);
 
     // If the player health is less than or equal to 0, the player lost
     if (this.player.health <= 0) {
       if (!this.isGameOver) {
-        console.log('Game Over: Player lost')
         this.isGameOver = true
         this.config.callback?.(GameStates.Lose)
         if (this.animationFrameId) {
@@ -273,12 +269,10 @@ export class Game {
 
     // Update the computer player
     this.computer.update(deltaTime, this.player)
-    //console.log(`After computer update: Computer Health = ${this.computer.health}`);
 
     // If the computer health is less than or equal to 0, the player won
     if (this.computer.health <= 0) {
       if (!this.isGameOver) {
-        console.log('Game Over: Player won')
         this.isGameOver = true
         this.config.callback?.(GameStates.Win)
         if (this.animationFrameId) {
@@ -288,8 +282,6 @@ export class Game {
       }
       return
     }
-
-    //console.log(`Player Health in Game.ts: ${this.player.health}`);
   }
 
   public isGameOverNow(): boolean {
