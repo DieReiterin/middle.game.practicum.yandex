@@ -4,13 +4,15 @@ import styles from './Countdown.module.scss'
 
 interface ICountdownProps {
   timeLeft?: number
+  onFinish: () => void
 }
 
-export const Countdown: FC<ICountdownProps> = ({ timeLeft = 3 }) => {
+export const Countdown: FC<ICountdownProps> = ({ timeLeft = 3, onFinish }) => {
   const [value, setValue] = useState<number>(timeLeft)
 
   useEffect(() => {
     if (value <= 0) {
+      onFinish()
       return
     }
 

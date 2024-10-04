@@ -1,6 +1,5 @@
 export enum PathsRoutes {
-  StartPage = '/',
-  Main = '/main',
+  Main = '/',
   Registration = '/registration',
   Login = '/login',
   Game = '/game',
