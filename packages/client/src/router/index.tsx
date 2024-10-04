@@ -33,7 +33,7 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   },
   {
     path: '*',
-    element: <Error />,
+    element: <Error title="404" text="Не туда попали" />,
   },
   {
     path: PathsRoutes.Leaderboard,
