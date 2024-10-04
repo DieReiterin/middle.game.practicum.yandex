@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import styles from './ForumMessage.module.scss'
-import { Button, InputAdornment, TextField } from '@mui/material'
-import { AccountCircle } from '@mui/icons-material'
+import { Button, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import avatar from '../../../../assets/images/photo-1-720.jpg'
 
-const ForumMessage: React.FC = ({ messege }) => {
+type ForumMessageProps = {
+  message: string
+}
+const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
   const { id } = useParams()
   const location = useLocation()
 
@@ -26,12 +28,6 @@ const ForumMessage: React.FC = ({ messege }) => {
   })
 
   const [comment, setComment] = useState('')
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && comment.trim()) {
-      addComment()
-    }
-  }
 
   const addComment = () => {
     const updatedComments = [...comments, comment]
@@ -61,8 +57,8 @@ const ForumMessage: React.FC = ({ messege }) => {
           </div>
         </div>
         <div className={styles.forumMessageBlockContent}>
-          <div className={styles.forumMessageBlockContentMessege}>
-            <h2>{messege}</h2>
+          <div>
+            <h2>{message}</h2>
           </div>
           <div className={styles.forumMessageBlockContentComments}>
             {comments.map((c, index) => (
@@ -80,14 +76,6 @@ const ForumMessage: React.FC = ({ messege }) => {
               variant="standard"
               value={comment}
               onChange={e => setComment(e.target.value)}
-              onKeyPress={handleKeyPress}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
             />
             <Button
               variant="contained"

@@ -5,6 +5,10 @@ import { Button, SvgIcon, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import ForumMessage from './components/ForumMessage/ForumMessage'
 
+type HomeIconProps = {
+  [key: string]: string | number | bigint | boolean
+}
+
 const ForumBlockPage: React.FC = () => {
   const { id } = useParams()
   const location = useLocation()
@@ -20,7 +24,7 @@ const ForumBlockPage: React.FC = () => {
     )
   }
 
-  function HomeIcon(props) {
+  function HomeIcon(props: HomeIconProps) {
     return (
       <SvgIcon {...props}>
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
@@ -75,9 +79,9 @@ const ForumBlockPage: React.FC = () => {
           Добавить
         </Button>
       </div>
-      <div className={styles.pageForumMessege}>
+      <div className={styles.pageForumMessage}>
         {comments.map((msg, index) => (
-          <ForumMessage key={index} messege={msg} />
+          <ForumMessage key={index} message={msg} />
         ))}
       </div>
     </div>
