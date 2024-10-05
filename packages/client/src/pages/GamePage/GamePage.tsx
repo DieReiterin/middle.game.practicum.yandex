@@ -38,7 +38,7 @@ export const GamePage: FC = () => {
             player2: player2,
         },
         computerDodgeProbability: 0.2,
-        computerAttackSpeedMultiplier: 1,
+        computerAttackSpeedMultiplier: 0.5,
     }))
 
     function handleGameEnd(state: 'win' | 'lose' | 'pause') {
@@ -55,8 +55,9 @@ export const GamePage: FC = () => {
             setGameConfig(newConfig)
             restartGame(newConfig)
         } else if (state === 'lose') {
-            console.log('Вы проиграли.')
-            restartGame(gameConfig)
+            setFinishMode('lose')
+            // console.log('Вы проиграли.')
+            // restartGame(gameConfig)
         } else if (state === 'pause') {
             console.log('Игра на паузе.')
         }
@@ -93,11 +94,13 @@ export const GamePage: FC = () => {
         }
     }, [gameConfig])
 
-    useEffect(() => {
-        handlePause()
-    }, [openMode])
+    // useEffect(() => {
+    //     handlePause()
+    // }, [openMode])
 
     useEffect(() => {
+        handlePause()
+
         const handleResize = () => {
             setGameConfig(prevConfig => ({
                 ...prevConfig,
@@ -128,30 +131,9 @@ export const GamePage: FC = () => {
                             setOpenMode('pause')
                         }}
                     />
-
-                    <ReplayIcon
-                        className={styles.btn}
-                        fontSize="large"
-                        onClick={() => {
-                            setFinishMode('lose')
-                        }}
-                    />
                 </Box>
             </Box>
             <div className={styles.gameContainer} ref={gameContainerRef}></div>
-
-            {/* <Container>
-        <div ref={gameContainerRef}></div>
-        <button
-          onKeyDown={e => {
-            if (e.key === ' ') {
-              e.preventDefault() // Disable space (only for demonstration)
-            }
-          }}
-          onClick={handlePause}>
-          Pause / Continue
-        </button>
-      </Container> */}
 
             <PreviewModal setOpenMode={setOpenMode} openMode={openMode} />
             {finishMode && (
@@ -159,6 +141,7 @@ export const GamePage: FC = () => {
                     onStart={() => {
                         setFinishMode(null)
                         setOpenMode('start')
+                        restartGame(gameConfig)
                     }}
                     mode={finishMode}
                 />
