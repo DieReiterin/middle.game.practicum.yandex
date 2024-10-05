@@ -1,0 +1,48 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.controlsWrapper {
+    position: relative;
+    width: 0;
+    height: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.controls {
+    box-sizing: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-width: 100px;
+    height: 50px;
+    padding: 0 20px;
+
+    background: $color-bg-tertiary;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.btn {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+    &:not(:last-child) {
+        margin-right: 20px;
+    }
+}
+
+.gameContainer {
+    width: 100%;
+    height: 100%;
+}
