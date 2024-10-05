@@ -1,12 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
-import { Game } from './Game'
-import sky1 from './textures/a-blue-sky.jpg'
-import ground1 from './textures/ground1.jpg'
-import player1 from './textures/player1.png'
-import player2 from './textures/player2.png'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Box, Container } from '@mui/material'
+import { Game } from '../../game/Game'
+import sky1 from '../../game/textures/a-blue-sky.jpg'
+import ground1 from '../../game/textures/ground1.jpg'
+import player1 from '../../game/textures/player1.png'
+import player2 from '../../game/textures/player2.png'
+import {
+  FinishModal,
+  PreviewModal,
+  TFinishMode,
+  TOpenMode,
+} from '../../components'
+import HelpIcon from '@mui/icons-material/Help'
+import ReplayIcon from '@mui/icons-material/Replay'
 
-function GameDemo() {
+export const GamePage: FC = () => {
+  const [openMode, setOpenMode] = useState<TOpenMode | null>('start')
+  const [finishMode, setFinishMode] = useState<TFinishMode | null>(null)
+
   const gameContainerRef = useRef<HTMLDivElement>(null)
 
   const [gameConfig, setGameConfig] = useState(() => ({
@@ -88,21 +99,64 @@ function GameDemo() {
     const currentGame = Game.getInstance()
     currentGame?.togglePause()
   }
-
   return (
-    <Container>
-      <div ref={gameContainerRef}></div>
-      <button
-        onKeyDown={e => {
-          if (e.key === ' ') {
-            e.preventDefault() // Disable space (only for demonstration)
-          }
+    <Box
+      sx={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <HelpIcon
+        fontSize="large"
+        onClick={() => {
+          setOpenMode('pause')
         }}
-        onClick={handlePause}>
-        Pause / Continue
-      </button>
-    </Container>
+        sx={{
+          position: 'absolute',
+          top: '20px',
+          right: '100px',
+          cursor: 'pointer',
+        }}
+      />
+
+      <ReplayIcon
+        fontSize="large"
+        onClick={() => {
+          setFinishMode('lose')
+        }}
+        sx={{
+          position: 'absolute',
+          top: '20px',
+          right: '140px',
+          cursor: 'pointer',
+        }}
+      />
+
+      <Container>
+        <div ref={gameContainerRef}></div>
+        <button
+          onKeyDown={e => {
+            if (e.key === ' ') {
+              e.preventDefault() // Disable space (only for demonstration)
+            }
+          }}
+          onClick={handlePause}>
+          Pause / Continue
+        </button>
+      </Container>
+
+      <PreviewModal setOpenMode={setOpenMode} openMode={openMode} />
+      {finishMode && (
+        <FinishModal
+          onStart={() => {
+            setFinishMode(null)
+            setOpenMode('start')
+          }}
+          mode={finishMode}
+        />
+      )}
+    </Box>
   )
 }
-
-export default GameDemo

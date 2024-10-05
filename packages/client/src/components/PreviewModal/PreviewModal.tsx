@@ -16,6 +16,8 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
 }) => {
   const [isStart, setStart] = useState(false)
   const buttonTitle = openMode === 'pause' ? 'Продолжить игру' : 'Начать игру'
+  const modalTitle =
+    openMode === 'pause' ? 'Пауза' : 'Добро пожаловать в игру Mage Fight!'
 
   const handleClose = () => {
     if (openMode === 'start') setStart(true)
@@ -31,7 +33,7 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
       <Modal open={!!openMode} className={styles.wrapper}>
         <Box className={styles.modal}>
           <Typography variant="h6" textAlign="center">
-            Добро пожаловать в игру Mage Fight!
+            {modalTitle}
           </Typography>
           <Box className={styles.actionsWrapper}>
             <Grid2 container spacing={1} direction="column">

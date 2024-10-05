@@ -1,5 +1,12 @@
 import { Navigate, RouteObject } from 'react-router-dom'
-import { Login, Registration, Main, Game, Leaderboard, Error } from '../pages'
+import {
+  Login,
+  Registration,
+  Main,
+  GamePage,
+  Leaderboard,
+  Error,
+} from '../pages'
 import GameDemo from '../game/GameDemo'
 import { PathsRoutes } from './types'
 
@@ -29,8 +36,8 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
     element: closePathUnauthorized(isAuthorized, <Main />),
   },
   {
-    path: PathsRoutes.Game,
-    element: closePathUnauthorized(isAuthorized, <Game />),
+    path: PathsRoutes.GamePage,
+    element: closePathUnauthorized(isAuthorized, <GamePage />),
   },
   {
     path: '*',

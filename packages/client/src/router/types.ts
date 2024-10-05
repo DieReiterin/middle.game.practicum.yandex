@@ -2,7 +2,7 @@ export enum PathsRoutes {
   Main = '/',
   Registration = '/registration',
   Login = '/login',
-  Game = '/game',
+  GamePage = '/game',
   Profile = '/profile',
   Leaderboard = '/leaderboard',
   Forum = '/forum',
