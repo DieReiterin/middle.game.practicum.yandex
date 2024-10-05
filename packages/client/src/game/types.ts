@@ -21,3 +21,36 @@ export interface GameConfig {
   shieldCooldown?: number
   manaRegenTime?: number
 }
+
+export interface PlayerConfig {
+  x: number
+  y: number
+  color: string
+  controls?: {
+    left: string
+    right: string
+    jump: string
+    fireball: string
+    airAttack: string
+    shield: string
+  }
+  isComputer: boolean
+  texture?: HTMLImageElement | null
+  config: GameConfig
+  dodgeProbability?: number
+  attackSpeedMultiplier?: number
+  canvasWidth: number
+  canvasHeight: number
+  groundHeight: number
+  name: string
+  getGameOver: () => boolean
+}
+
+export interface AirAttackConfig {
+  duration: number
+  numLines: number
+  lineColor: string
+  particleCount: number
+  particleColor: string
+  particleRadius: number
+}
