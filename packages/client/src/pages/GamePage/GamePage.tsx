@@ -99,8 +99,6 @@ export const GamePage: FC = () => {
     // }, [openMode])
 
     useEffect(() => {
-        handlePause()
-
         const handleResize = () => {
             setGameConfig(prevConfig => ({
                 ...prevConfig,
@@ -116,9 +114,17 @@ export const GamePage: FC = () => {
         }
     }, [])
 
-    const handlePause = () => {
+    // const handlePause = () => {
+    //     const currentGame = Game.getInstance()
+    //     currentGame?.togglePause()
+    // }
+    const pauseGame = () => {
         const currentGame = Game.getInstance()
-        currentGame?.togglePause()
+        currentGame?.pauseGame()
+    }
+    const resumeGame = () => {
+        const currentGame = Game.getInstance()
+        currentGame?.resumeGame()
     }
     return (
         <Box className={styles.wrapper}>
