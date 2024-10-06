@@ -1,0 +1,21 @@
+.wrapper {
+    @include center-flex;
+}
+
+.modal {
+    width: 400px;
+    min-height: 400px;
+    background-color: $color-bg-secondary;
+    border-radius: 12px;
+    padding: 24px;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.actionsWrapper {
+    background-color: $color-bg-tertiary;
+    border-radius: 8px;
+    margin: 16px 0;
+    padding: 16px;
+}

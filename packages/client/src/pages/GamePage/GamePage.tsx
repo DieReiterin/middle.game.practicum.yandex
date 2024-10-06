@@ -5,20 +5,11 @@ import sky1 from '../../game/textures/a-blue-sky.jpg'
 import ground1 from '../../game/textures/ground1.jpg'
 import player1 from '../../game/textures/player1.png'
 import player2 from '../../game/textures/player2.png'
-import {
-    FinishModal,
-    PreviewModal,
-    TFinishMode,
-    TOpenMode,
-} from '../../components'
-import ReplayIcon from '@mui/icons-material/Replay'
+import { GameModal, TGameModalMode } from '../../components'
 import PauseIcon from '@mui/icons-material/Pause'
 import styles from './GamePage.module.scss'
 
 export const GamePage: FC = () => {
-    const [openMode, setOpenMode] = useState<TOpenMode | null>('start')
-    const [finishMode, setFinishMode] = useState<TFinishMode | null>(null)
-
     const gameContainerRef = useRef<HTMLDivElement>(null)
 
     const [gameConfig, setGameConfig] = useState(() => ({
@@ -55,8 +46,8 @@ export const GamePage: FC = () => {
             setGameConfig(newConfig)
             restartGame(newConfig)
         } else if (state === 'lose') {
-            setFinishMode('lose')
-            // console.log('Вы проиграли.')
+            // setFinishMode('lose')
+            console.log('Вы проиграли.')
             // restartGame(gameConfig)
         } else if (state === 'pause') {
             console.log('Игра на паузе.')
@@ -94,30 +85,6 @@ export const GamePage: FC = () => {
         }
     }, [gameConfig])
 
-    // useEffect(() => {
-    //     handlePause()
-    // }, [openMode])
-
-    useEffect(() => {
-        const handleResize = () => {
-            setGameConfig(prevConfig => ({
-                ...prevConfig,
-                width: window.innerWidth,
-                height: window.innerHeight,
-            }))
-        }
-
-        window.addEventListener('resize', handleResize)
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [])
-
-    // const handlePause = () => {
-    //     const currentGame = Game.getInstance()
-    //     currentGame?.togglePause()
-    // }
     const pauseGame = () => {
         const currentGame = Game.getInstance()
         currentGame?.pauseGame()
@@ -126,6 +93,15 @@ export const GamePage: FC = () => {
         const currentGame = Game.getInstance()
         currentGame?.resumeGame()
     }
+
+    const [modalMode, setModalMode] = useState<TGameModalMode>('start')
+
+    // const changeModal = (newMode) => {
+    //     if (newMode === 'closed' || newMode === 'closed') {
+
+    //     }
+    // }
+
     return (
         <Box className={styles.wrapper}>
             <Box className={styles.controlsWrapper}>
@@ -134,24 +110,14 @@ export const GamePage: FC = () => {
                         className={styles.btn}
                         fontSize="large"
                         onClick={() => {
-                            setOpenMode('pause')
+                            setModalMode('pause')
                         }}
                     />
                 </Box>
             </Box>
             <div className={styles.gameContainer} ref={gameContainerRef}></div>
 
-            <PreviewModal setOpenMode={setOpenMode} openMode={openMode} />
-            {finishMode && (
-                <FinishModal
-                    onStart={() => {
-                        setFinishMode(null)
-                        setOpenMode('start')
-                        restartGame(gameConfig)
-                    }}
-                    mode={finishMode}
-                />
-            )}
+            <GameModal setOpenMode={setModalMode} openMode={modalMode} />
         </Box>
     )
 }

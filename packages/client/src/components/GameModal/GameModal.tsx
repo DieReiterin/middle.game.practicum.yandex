@@ -1,39 +1,30 @@
 import { Dispatch, FC, SetStateAction, useState } from 'react'
 import { Box, Button, Grid2, Modal, Typography } from '@mui/material'
-import styles from './PreviewModal.module.scss'
+import styles from './GameModal.module.scss'
+import { ButtonLink } from '../ButtonLink'
+import { PathsRoutes } from '../../router/types'
 import { actions } from './const'
-import { Countdown } from '../Countdown'
-import { TOpenMode } from './types'
+import { TGameModalMode } from './types'
 
-interface IPreviewModalProps {
-    openMode: TOpenMode | null
-    setOpenMode: Dispatch<SetStateAction<TOpenMode | null>>
+interface IGameModalProps {
+    openMode: TGameModalMode
+    setOpenMode: Dispatch<SetStateAction<TGameModalMode>>
 }
 
-export const PreviewModal: FC<IPreviewModalProps> = ({
-    openMode,
-    setOpenMode,
-}) => {
+export const GameModal: FC<IGameModalProps> = ({ openMode, setOpenMode }) => {
     const [isStart, setStart] = useState(false)
-    const buttonTitle = openMode === 'pause' ? 'Продолжить игру' : 'Начать игру'
-    const modalTitle =
-        openMode === 'pause' ? 'Пауза' : 'Добро пожаловать в игру Mage Fight!'
 
     const handleClose = () => {
         if (openMode === 'start') setStart(true)
-        setOpenMode(null)
+        setOpenMode('closed')
     }
-
-    // const handleFinishCount = () => {
-    //   setStart(false)
-    // }
 
     return (
         <>
-            <Modal open={!!openMode} className={styles.wrapper}>
+            <Modal open={openMode !== 'closed'} className={styles.wrapper}>
                 <Box className={styles.modal}>
                     <Typography variant="h6" textAlign="center">
-                        {modalTitle}
+                        Пауза
                     </Typography>
                     <Box className={styles.actionsWrapper}>
                         <Grid2 container spacing={1} direction="column">
@@ -60,15 +51,27 @@ export const PreviewModal: FC<IPreviewModalProps> = ({
                     </Box>
                     <Button
                         fullWidth
-                        sx={{ marginTop: 'auto' }}
                         disableElevation
                         variant="contained"
                         onClick={handleClose}>
-                        {buttonTitle}
+                        Продолжить игру
                     </Button>
+                    <ButtonLink
+                        fullWidth
+                        disableElevation
+                        variant="contained"
+                        to={PathsRoutes.Leaderboard}>
+                        Лидерборд
+                    </ButtonLink>
+                    <ButtonLink
+                        fullWidth
+                        to={PathsRoutes.Main}
+                        disableElevation
+                        variant="contained">
+                        На главную
+                    </ButtonLink>
                 </Box>
             </Modal>
-            {/* {isStart && <Countdown onFinish={handleFinishCount} />} */}
         </>
     )
 }
