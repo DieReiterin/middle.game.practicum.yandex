@@ -34,15 +34,15 @@
   background: $gallery;
   border-radius: 8px;
   padding: 0 20px;
+}
 
-  div p {
-    color: $dusty-gray;
-  }
+.forumBlockHeaderBlockText {
+  color: $dusty-gray;
+}
 
-  div:last-child {
-    display: flex;
-    gap: 50px;
-  }
+.forumBlockHeaderBlockDesc {
+  display: flex;
+  gap: 50px;
 }
 
 .forumBlockContent {
@@ -65,4 +65,11 @@
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+}
+
+.forumBlockFooterButton {
+  margin: 10px!important;
+  background-color: $melrose!important;
+  color: $alabaster!important;
+  width: 100px;
 }

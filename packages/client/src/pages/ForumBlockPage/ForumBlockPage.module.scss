@@ -40,17 +40,16 @@
   color: $melrose;
 }
 
-
 .pageForumInput {
   display: flex;
   align-items: flex-end;
   gap: 10px;
   width: 90%;
   margin-top: 20px;
+}
 
-  div {
-    width: 100%;
-  }
+.pageForumInputDesc {
+  width: 100%;
 }
 
 .pageForumMessage {

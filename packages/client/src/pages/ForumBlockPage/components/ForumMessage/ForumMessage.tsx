@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styles from './ForumMessage.module.scss'
 import { Button, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import avatar from '../../../../assets/images/photo-1-720.jpg'
+import useTopicData from '../../../../hooks/useTopicData'
 
 type ForumMessageProps = {
   message: string
 }
 const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
   const { id } = useParams()
-  const location = useLocation()
-
-  const topicData = location.state
-
-  if (!topicData) {
-    return (
-      <div className={styles.forumBlock__block}>
-        <h3>Ошибка: Данные темы не найдены.</h3>
-      </div>
-    )
-  }
+  useTopicData()
 
   const [comments, setComments] = useState<string[]>(() => {
     const savedComments = localStorage.getItem(`comments_${id}`)
@@ -48,12 +39,16 @@ const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
     <div className={styles.forumMessage}>
       <div className={styles.forumMessageBlock}>
         <div className={styles.forumMessageBlockUserData}>
-          <div className={styles.forumMessageBlockUserDataImg}>
-            <img src={avatar} alt="avatar" />
+          <div>
+            <img
+              className={styles.forumMessageBlockUserDataImg}
+              src={avatar}
+              alt="avatar"
+            />
           </div>
           <div className={styles.forumMessageBlockUserDataDesc}>
-            <p>Admin123</p>
-            <p>admin</p>
+            <p className={styles.forumMessageBlockUserDataDescNick}>Admin123</p>
+            <p className={styles.forumMessageBlockUserDataDescName}>admin</p>
           </div>
         </div>
         <div className={styles.forumMessageBlockContent}>
@@ -61,11 +56,11 @@ const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
             <h2>{message}</h2>
           </div>
           <div className={styles.forumMessageBlockContentComments}>
-            {comments.map((c, index) => (
+            {comments.map((comment, index) => (
               <p
                 key={index}
                 className={styles.forumMessageBlockContentCommentsDesc}>
-                {c}
+                {comment}
               </p>
             ))}
           </div>
@@ -78,6 +73,7 @@ const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
               onChange={e => setComment(e.target.value)}
             />
             <Button
+              className={styles.forumMessageBlockContentButton}
               variant="contained"
               endIcon={<SendIcon />}
               onClick={addComment}

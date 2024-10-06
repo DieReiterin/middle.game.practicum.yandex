@@ -24,30 +24,32 @@ const Forum = () => {
 
   const addTopic = () => {
     if (newTopic.trim() && newDescription.trim()) {
-      const updatedTopics = [
-        ...topics,
-        JSON.stringify({ name: newTopic, description: newDescription }),
-      ]
+      const topicData = {
+        id: Date.now(),
+        name: newTopic,
+        description: newDescription,
+      }
+      const updatedTopics = [...topics, JSON.stringify(topicData)]
       setTopics(updatedTopics)
       setNewTopic('')
       setNewDescription('')
       handleClose()
-
       localStorage.setItem('topics', JSON.stringify(updatedTopics))
     }
   }
 
-  const handleBlockClick = (index: number) => {
-    const topicData = JSON.parse(topics[index])
-    navigate(`${PathsRoutes.Forum}/${index + 1}`, { state: topicData })
+  const handleBlockClick = (id: number) => {
+    const topicData = topics
+      .map(t => JSON.parse(t))
+      .find(topic => topic.id === id)
+    navigate(`${PathsRoutes.Forum}/${id}`, { state: topicData })
   }
 
-  const deleteTopic = (index: number) => {
-    const updatedTopics = topics.filter((_, i) => i !== index)
+  const deleteTopic = (id: number) => {
+    const updatedTopics = topics.filter(t => JSON.parse(t).id !== id)
     setTopics(updatedTopics)
     localStorage.setItem('topics', JSON.stringify(updatedTopics))
-
-    localStorage.removeItem(`comments_${index + 1}`)
+    localStorage.removeItem(`comments_${id}`)
   }
 
   const clearTopics = () => {
@@ -60,6 +62,8 @@ const Forum = () => {
     })
   }
 
+  const parsedTopics = topics.map(t => JSON.parse(t))
+
   return (
     <div className={styles.forum}>
       <div className={styles.forumBlock}>
@@ -67,11 +71,11 @@ const Forum = () => {
         <div className={styles.forumBlockHeader}>
           <div className={styles.forumBlockHeaderBlock}>
             <div>
-              <p>Тема</p>
+              <p className={styles.forumBlockHeaderBlockText}>Тема</p>
             </div>
-            <div>
-              <p>Треды</p>
-              <p>Сообщения</p>
+            <div className={styles.forumBlockHeaderBlockDesc}>
+              <p className={styles.forumBlockHeaderBlockText}>Треды</p>
+              <p className={styles.forumBlockHeaderBlockText}>Сообщения</p>
             </div>
           </div>
           <Tooltip onClick={clearTopics} title="Удалить все записи">
@@ -81,40 +85,26 @@ const Forum = () => {
           </Tooltip>
         </div>
         <div className={styles.forumBlockContent}>
-          {topics.map((t, index) => {
-            let topicData
-            try {
-              topicData = JSON.parse(t)
-            } catch (error) {
-              return null
-            }
-
-            return (
-              <div key={index} className={styles.forumBlockContentBlock}>
-                <ForumBlock
-                  name={topicData.name}
-                  threads={index + 1}
-                  messages={index + 5}
-                  onClick={() => handleBlockClick(index)}
-                />
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => deleteTopic(index)}>
-                  <DeleteIcon />
-                </IconButton>
-              </div>
-            )
-          })}
+          {parsedTopics.map((topic, index) => (
+            <div key={topic.id} className={styles.forumBlockContentBlock}>
+              <ForumBlock
+                name={topic.name}
+                threads={index + 1}
+                messages={0}
+                onClick={() => handleBlockClick(topic.id)}
+              />
+              <IconButton
+                aria-label="delete"
+                onClick={() => deleteTopic(topic.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          ))}
         </div>
         <div className={styles.forumBlockFooter}>
           <ButtonLink
             to={PathsRoutes.Main}
-            sx={{
-              margin: '10px',
-              background: '#b0abfe',
-              color: 'white',
-              width: '100px',
-            }}>
+            className={styles.forumBlockFooterButton}>
             Назад
           </ButtonLink>
           <Button onClick={handleOpen} variant="contained">

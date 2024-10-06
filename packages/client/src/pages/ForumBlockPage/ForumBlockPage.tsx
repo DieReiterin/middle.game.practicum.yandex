@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import styles from './ForumBlockPage.module.scss'
 import { Button, SvgIcon, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import ForumMessage from './components/ForumMessage/ForumMessage'
+import useTopicData from '../../hooks/useTopicData'
 
 type HomeIconProps = {
   [key: string]: string | number | bigint | boolean
@@ -11,18 +12,8 @@ type HomeIconProps = {
 
 const ForumBlockPage: React.FC = () => {
   const { id } = useParams()
-  const location = useLocation()
   const navigate = useNavigate()
-
-  const topicData = location.state
-
-  if (!topicData) {
-    return (
-      <div>
-        <h3>Ошибка: Данные темы не найдены.</h3>
-      </div>
-    )
-  }
+  const topicData = useTopicData()
 
   function HomeIcon(props: HomeIconProps) {
     return (
@@ -65,6 +56,7 @@ const ForumBlockPage: React.FC = () => {
       </div>
       <div className={styles.pageForumInput}>
         <TextField
+          className={styles.pageForumInputDesc}
           id="standard-basic"
           label="Добавить сообщение"
           variant="standard"

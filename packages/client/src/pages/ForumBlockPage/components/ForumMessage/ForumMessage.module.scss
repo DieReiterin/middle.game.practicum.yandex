@@ -25,31 +25,29 @@
 }
 
 .forumMessageBlockUserDataImg {
-  img {
-    width: 190px;
-    height: 140px;
-    border-radius: 10px 10px 0 0;
-  }
+  width: 190px;
+  height: 140px;
+  border-radius: 10px 10px 0 0;
 }
 
 .forumMessageBlockUserDataDesc {
   padding: 10px;
+}
 
-  p:first-child {
-    font-size: 18px;
-  }
+.forumMessageBlockUserDataDescNick {
+  font-size: 18px;
+}
 
-  p:last-child {
-    font-size: 15px;
-  }
+.forumMessageBlockUserDataDescName {
+  font-size: 15px;
 }
 
 .forumMessageBlockContentComments {
   margin-top: 20px;
+}
 
-  p {
-    margin-top: 5px;
-  }
+.forumMessageBlockContentCommentsDesc {
+  margin-top: 5px;
 }
 
 .forumMessageBlockContentInput {
@@ -57,8 +55,8 @@
   display: flex;
   align-items: flex-end;
   gap: 10px;
+}
 
-  button {
-    height: 30px;
-  }
+.forumMessageBlockContentButton {
+  height: 30px;
 }

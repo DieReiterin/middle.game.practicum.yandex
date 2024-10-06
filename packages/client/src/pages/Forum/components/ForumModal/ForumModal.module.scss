@@ -1,7 +1,7 @@
 @import '@styles/mixins.scss';
 @import '@styles/vars.scss';
 
-.forumModalDesc {
+.forumModalContent {
   @include column-flex;
   justify-content: space-between;
   align-items: center;
@@ -16,12 +16,12 @@
   box-shadow: $box-shadow;
   padding: 15px;
   border-radius: 10px;
+}
 
-  h3 {
-    font-size: 18px;
-  }
+.forumModalContentTitle {
+  font-size: 18px;
+}
 
-  input {
-    width: 380px;
-  }
+.forumModalContentInput  {
+  width: 380px;
 }

@@ -36,9 +36,10 @@ const ForumModal: React.FC<ForumModalProps> = ({
       onClose={handleModalClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <Box className={styles.forumModalDesc}>
-        <h3>Новая тема</h3>
+      <Box className={styles.forumModalContent}>
+        <h3 className={styles.forumModalContentTitle}>Новая тема</h3>
         <TextField
+          className={styles.forumModalContentInput}
           id="standard-basic"
           label="Название темы"
           variant="standard"
@@ -46,6 +47,7 @@ const ForumModal: React.FC<ForumModalProps> = ({
           onChange={e => setNewTopic(e.target.value)}
         />
         <TextField
+          className={styles.forumModalContentInput}
           id="standard-basic-description"
           label="Описание темы"
           variant="standard"
