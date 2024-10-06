@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './assets/theme'
@@ -10,15 +10,16 @@ import '@fontsource/manrope/400.css'
 import '@fontsource/manrope/500.css'
 import '@fontsource/manrope/700.css'
 import './App.css'
-import { AuthContext, AuthProvider } from './context'
+import { useAuth } from './hooks'
+import { Loader } from './components'
 
 const Routes: FC = () => {
-  const context = useContext(AuthContext)
-  const isAuthorized = Boolean(context?.userInfo)
+  const { loader, user } = useAuth()
+  const isAuthorized = Boolean(user)
 
   const routes = getRoutes(isAuthorized)
 
-  return useRoutes(routes)
+  return loader ? <Loader /> : useRoutes(routes)
 }
 
 const App = () => {
@@ -27,9 +28,7 @@ const App = () => {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <AuthProvider>
-            <Routes />
-          </AuthProvider>
+          <Routes />
         </ThemeProvider>
       </BrowserRouter>
     </div>

@@ -1,13 +1,14 @@
-import { FC, useContext, useState } from 'react'
+import { FC, useState } from 'react'
 
 import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { getValidationScheme, validationErrorMessage } from '../../constants'
-import { signup } from '../../api/auth/signup'
 import { isAxiosError } from 'axios'
-import { AuthContext } from '../../context'
+import { useAppDispatch } from '../../ducks/store'
+import { signup, userErrorSelector } from '../../ducks/user'
+import { useSelector } from 'react-redux'
 
 enum Fields {
   Email = 'email',
@@ -35,33 +36,24 @@ export const Registration: FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({ mode: 'onBlur' })
-  const [error, setError] = useState<string>()
+  const error = useSelector(userErrorSelector)
 
   const navigate = useNavigate()
-  const context = useContext(AuthContext)
+  const dispatch = useAppDispatch()
 
   const handleLoginButtonClick = (): void => navigate(PathsRoutes.Login)
 
   const handleCreateButtonClick: SubmitHandler<FormInput> = async data => {
-    setError(undefined)
-
-    const result = await signup({
-      email: data.email,
-      first_name: data.firstName,
-      login: data.login,
-      password: data.password,
-      phone: data.phone,
-      second_name: data.secondName,
-    })
-
-    if (isAxiosError(result)) {
-      setError(
-        result.response?.data?.reason || 'Произошла ошибка при регистрации'
-      )
-    } else {
-      navigate(PathsRoutes.Main)
-      context?.fetchUserData()
-    }
+    dispatch(
+      signup({
+        email: data.email,
+        first_name: data.firstName,
+        login: data.login,
+        password: data.password,
+        phone: data.phone,
+        second_name: data.secondName,
+      })
+    )
   }
 
   const formItems: FormFieldProps[] = [
