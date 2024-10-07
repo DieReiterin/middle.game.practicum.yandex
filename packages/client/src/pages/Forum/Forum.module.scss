@@ -1,0 +1,75 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.forum {
+  @include center-flex;
+  height: 100vh;
+}
+
+.forumBlock {
+  @include column-flex;
+  align-items: center;
+  background: $alabaster;
+  border-radius: 12px;
+  width: 680px;
+  height: 460px;
+  padding: 15px 0;
+  position: absolute;
+}
+
+.forumBlockHeader {
+  @include center-flex;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.forumBlockTitle {
+  font-size: 18px;
+}
+
+.forumBlockHeaderBlock {
+  width: 512px;
+  min-height: 40px;
+  @include space-between-flex;
+  background: $gallery;
+  border-radius: 8px;
+  padding: 0 20px;
+}
+
+.forumBlockHeaderBlockText {
+  color: $dusty-gray;
+}
+
+.forumBlockHeaderBlockDesc {
+  display: flex;
+  gap: 50px;
+}
+
+.forumBlockContent {
+  overflow-y: auto;
+  margin-top: 20px;
+  margin-bottom: 55px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.forumBlockFooter {
+  position: absolute;
+  bottom: 0;
+}
+
+.forumBlockContentBlock {
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.forumBlockFooterButton {
+  margin: 10px!important;
+  background-color: $melrose!important;
+  color: $alabaster!important;
+  width: 100px;
+}
