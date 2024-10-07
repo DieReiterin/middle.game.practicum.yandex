@@ -1,7 +1,8 @@
 import Forum from '../pages/Forum/Forum'
 import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
 import { Navigate, RouteObject } from 'react-router-dom'
-import { Login, Registration, Main, Game, Leaderboard } from '../pages'
+import { Login, Registration, Main, Game, Leaderboard, Error } from '../pages'
+import GameDemo from '../game/GameDemo'
 import { PathsRoutes } from './types'
 
 const closePathUnauthorized = (
@@ -35,11 +36,15 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   },
   {
     path: '*',
-    element: <p>404</p>,
+    element: <Error title="404" text="Не туда попали" />,
   },
   {
     path: PathsRoutes.Leaderboard,
     element: <Leaderboard />,
+  },
+  {
+    path: PathsRoutes.GameDemo,
+    element: <GameDemo />,
   },
   {
     path: PathsRoutes.Forum,
