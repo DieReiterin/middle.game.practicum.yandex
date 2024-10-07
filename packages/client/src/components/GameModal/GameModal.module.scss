@@ -4,18 +4,27 @@
 
 .modal {
     width: 400px;
-    min-height: 400px;
+    min-height: 100px;
     background-color: $color-bg-secondary;
     border-radius: 12px;
     padding: 24px;
+    padding-bottom: 0;
     outline: none;
     display: flex;
     flex-direction: column;
 }
 
+.title {
+    margin-bottom: 30px;
+}
+
 .actionsWrapper {
     background-color: $color-bg-tertiary;
     border-radius: 8px;
-    margin: 16px 0;
+    margin-bottom: 20px;
     padding: 16px;
+}
+
+.btn {
+    margin-bottom: 20px;
 }

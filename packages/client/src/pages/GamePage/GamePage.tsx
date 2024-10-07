@@ -1,21 +1,23 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import { Box, Container } from '@mui/material'
+import { Box } from '@mui/material'
 import { Game } from '../../game/Game'
 import sky1 from '../../game/textures/a-blue-sky.jpg'
 import ground1 from '../../game/textures/ground1.jpg'
 import player1 from '../../game/textures/player1.png'
 import player2 from '../../game/textures/player2.png'
-import { GameModal, TGameModalMode } from '../../components'
+import { GameModal, TGameModalMode, TGameModalAction } from '../../components'
 import PauseIcon from '@mui/icons-material/Pause'
 import styles from './GamePage.module.scss'
 
 export const GamePage: FC = () => {
+    const [modalMode, setModalMode] = useState<TGameModalMode>('start')
+
     const gameContainerRef = useRef<HTMLDivElement>(null)
 
     const [gameConfig, setGameConfig] = useState(() => ({
         width: window.innerWidth,
         height: window.innerHeight,
-        callback: handleGameEnd,
+        callback: handleGameInnerEvent,
         colors: {
             ground: '#654321',
             sky: '#87CEEB',
@@ -32,29 +34,12 @@ export const GamePage: FC = () => {
         computerAttackSpeedMultiplier: 0.5,
     }))
 
-    function handleGameEnd(state: 'win' | 'lose' | 'pause') {
-        if (state === 'win') {
-            console.log('Вы победили!')
-            const newConfig = {
-                ...gameConfig,
-                computerDodgeProbability:
-                    gameConfig.computerDodgeProbability! + 0.05,
-                computerAttackSpeedMultiplier:
-                    gameConfig.computerAttackSpeedMultiplier! + 0.3,
-                callback: handleGameEnd,
-            }
-            setGameConfig(newConfig)
-            restartGame(newConfig)
-        } else if (state === 'lose') {
-            // setFinishMode('lose')
-            console.log('Вы проиграли.')
-            // restartGame(gameConfig)
-        } else if (state === 'pause') {
-            console.log('Игра на паузе.')
-        }
+    // Function opens modal when game instance is aborted from inside (by win, lose, or keyboard pause)
+    function handleGameInnerEvent(type: 'win' | 'lose' | 'pause') {
+        setModalMode(type)
     }
 
-    // Function to restart the game with a new configuration
+    // Function to restart game instance with a new config
     const restartGame = (config: typeof gameConfig) => {
         // Get the current game instance and destroy it
         const currentGame = Game.getInstance()
@@ -73,6 +58,7 @@ export const GamePage: FC = () => {
         }
     }
 
+    // Hook starts game instance on mount and destroys it on unmount
     useEffect(() => {
         restartGame(gameConfig)
 
@@ -83,24 +69,35 @@ export const GamePage: FC = () => {
             }
             currentGame?.destroy()
         }
-    }, [gameConfig])
+    }, [])
 
-    const pauseGame = () => {
+    const pauseGameInstance = () => {
         const currentGame = Game.getInstance()
         currentGame?.pauseGame()
     }
-    const resumeGame = () => {
+    const resumeGameInstance = () => {
         const currentGame = Game.getInstance()
         currentGame?.resumeGame()
     }
 
-    const [modalMode, setModalMode] = useState<TGameModalMode>('start')
+    const modalAction = (action: TGameModalAction) => {
+        if (action === 'restart') {
+            restartGame(gameConfig)
+        } else if (action === 'nextLevel') {
+            const newConfig = {
+                ...gameConfig,
+                computerDodgeProbability:
+                    gameConfig.computerDodgeProbability! + 0.05,
+                computerAttackSpeedMultiplier:
+                    gameConfig.computerAttackSpeedMultiplier! + 0.3,
+            }
+            setGameConfig(newConfig)
+            restartGame(gameConfig)
+        }
 
-    // const changeModal = (newMode) => {
-    //     if (newMode === 'closed' || newMode === 'closed') {
-
-    //     }
-    // }
+        setModalMode('closed')
+        resumeGameInstance() // game instance starts and restarts paused, so here we resume it
+    }
 
     return (
         <Box className={styles.wrapper}>
@@ -110,6 +107,7 @@ export const GamePage: FC = () => {
                         className={styles.btn}
                         fontSize="large"
                         onClick={() => {
+                            pauseGameInstance()
                             setModalMode('pause')
                         }}
                     />
@@ -117,7 +115,7 @@ export const GamePage: FC = () => {
             </Box>
             <div className={styles.gameContainer} ref={gameContainerRef}></div>
 
-            <GameModal setOpenMode={setModalMode} openMode={modalMode} />
+            <GameModal mode={modalMode} modalAction={modalAction} />
         </Box>
     )
 }
