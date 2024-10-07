@@ -49,10 +49,6 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
         element: <Leaderboard />,
     },
     {
-        path: PathsRoutes.GameDemo,
-        element: <GameDemo />,
-    },
-    {
         path: PathsRoutes.Forum,
         element: <Forum />,
     },
