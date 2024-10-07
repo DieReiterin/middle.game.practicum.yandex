@@ -9,7 +9,7 @@ self.addEventListener('install', event => {
         return cache.addAll(URLS)
       })
       .catch(err => {
-        throw err
+        console.error('Failed to cache resources', err)
       })
   )
 })
@@ -49,7 +49,8 @@ const update = (request) => {
         return response
       }
     ).catch(err => {
-    return err
+      console.error('Fetch failed:', err)
+      return err
   })
 
 }
