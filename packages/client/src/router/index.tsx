@@ -1,3 +1,5 @@
+import Forum from '../pages/Forum/Forum'
+import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
 import { Navigate, RouteObject } from 'react-router-dom'
 import {
     Login,
@@ -45,5 +47,17 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
     {
         path: PathsRoutes.Leaderboard,
         element: <Leaderboard />,
+    },
+    {
+        path: PathsRoutes.GameDemo,
+        element: <GameDemo />,
+    },
+    {
+        path: PathsRoutes.Forum,
+        element: <Forum />,
+    },
+    {
+        path: PathsRoutes.ForumBlockPage,
+        element: <ForumBlockPage />,
     },
 ]
