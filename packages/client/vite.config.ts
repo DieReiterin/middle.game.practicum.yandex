@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'path'
+import { VitePWA } from 'vite-plugin-pwa'
 dotenv.config()
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,5 +26,35 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      // strategies: 'injectManifest',
+      // srcDir: 'src',
+      // filename: 'sw.js',
+
+      injectRegister: 'auto',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/ya-praktikum\.tech\/api\/v2\/.*/,
+            handler: 'StaleWhileRevalidate',
+            method: 'GET',
+            options: {
+              cacheName: 'ya-praktikum-api-cache',
+              expiration: {
+                maxAgeSeconds: 3600, // cache for 1 hour
+              },
+            },
+          },
+        ],
+      },
+
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
+    }),
+  ],
 })

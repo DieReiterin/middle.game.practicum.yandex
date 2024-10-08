@@ -22,26 +22,6 @@ const Routes: FC = () => {
   return loader ? <Loader /> : useRoutes(routes)
 }
 
-const startServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(registration => {
-          console.debug(
-            'ServiceWorker registration successful with scope: ',
-            registration.scope
-          )
-        })
-        .catch((error: string) => {
-          console.debug('ServiceWorker registration failed: ', error)
-        })
-    })
-  }
-}
-
-startServiceWorker()
-
 const App = () => {
   return (
     <div className="App">
