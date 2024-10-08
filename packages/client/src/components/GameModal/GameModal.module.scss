@@ -1,31 +1,31 @@
 .wrapper {
-    @include center-flex;
+  @include center-flex;
 }
 
 .modal {
-    @include column-flex;
+  @include column-flex;
 
-    width: 400px;
-    min-height: 100px;
-    padding: 24px;
-    padding-bottom: 0;
+  width: 400px;
+  min-height: 100px;
+  padding: 24px;
+  padding-bottom: 0;
 
-    background-color: $color-bg-secondary;
-    border-radius: 12px;
-    outline: none;
+  background-color: $color-bg-secondary;
+  border-radius: 12px;
+  outline: none;
 }
 
 .title {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .actionsWrapper {
-    background-color: $color-bg-tertiary;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 16px;
+  background-color: $color-bg-tertiary;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 16px;
 }
 
 .btn {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }

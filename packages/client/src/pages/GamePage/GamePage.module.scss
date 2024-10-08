@@ -1,44 +1,44 @@
 .wrapper {
-    @include center-flex;
-    @include column-flex;
+  @include center-flex;
+  @include column-flex;
 
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .controlsWrapper {
-    @include horizontal-flex;
+  @include horizontal-flex;
 
-    position: relative;
-    width: 0;
-    height: 0;
+  position: relative;
+  width: 0;
+  height: 0;
 }
 
 .controls {
-    @include center-flex;
-    box-sizing: content-box;
+  @include center-flex;
+  box-sizing: content-box;
 
-    width: 50px;
-    height: 50px;
-    padding: 0 20px;
+  width: 50px;
+  height: 50px;
+  padding: 0 20px;
 
-    background: $color-bg-tertiary;
-    border-bottom-right-radius: 30px;
-    border-bottom-left-radius: 30px;
+  background: $color-bg-tertiary;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
 }
 
 .btn {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 
-    &:not(:last-child) {
-        margin-right: 20px;
-    }
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
 }
 
 .gameContainer {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }

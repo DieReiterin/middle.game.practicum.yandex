@@ -1,30 +1,30 @@
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../ducks/store'
 import {
-    getUser,
-    userLoaderSelector,
-    UserResponse,
-    userSelector,
+  getUser,
+  userLoaderSelector,
+  UserResponse,
+  userSelector,
 } from '../ducks/user'
 import { useEffect } from 'react'
 
 export type AuthReturn = {
-    user: UserResponse | null
-    loader: boolean
+  user: UserResponse | null
+  loader: boolean
 }
 
 export const useAuth = () => {
-    const dispatch = useAppDispatch()
-    const user = useSelector(userSelector)
-    const loader = useSelector(userLoaderSelector)
+  const dispatch = useAppDispatch()
+  const user = useSelector(userSelector)
+  const loader = useSelector(userLoaderSelector)
 
-    const fetchUserData = (): void => {
-        dispatch(getUser())
-    }
+  const fetchUserData = (): void => {
+    dispatch(getUser())
+  }
 
-    useEffect(() => {
-        fetchUserData()
-    }, [])
+  useEffect(() => {
+    fetchUserData()
+  }, [])
 
-    return { user, loader }
+  return { user, loader }
 }

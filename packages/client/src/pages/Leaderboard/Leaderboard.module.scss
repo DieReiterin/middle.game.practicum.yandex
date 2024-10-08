@@ -19,7 +19,6 @@
   align-items: center;
 }
 
-
 .tableContainer {
   max-height: 80%;
 }
@@ -28,20 +27,21 @@
   border-spacing: 0 16px !important;
 }
 
-.tableHead th{
+.tableHead th {
   background-color: $color-border3;
   color: $color-accent-soft;
 }
-.tableHead th:first-child, .tableBody td:first-child  {
-  border-radius: 8px 0  0 8px;
+.tableHead th:first-child,
+.tableBody td:first-child {
+  border-radius: 8px 0 0 8px;
   width: 10%;
 }
-.tableHead th:last-child, .tableBody td:last-child  {
+.tableHead th:last-child,
+.tableBody td:last-child {
   border-radius: 0 8px 8px 0;
 }
 
-
-.tableBody tr{
+.tableBody tr {
   background-color: $color-border3;
   border-radius: 8px;
   height: 70px;
@@ -50,7 +50,6 @@
 .tableBody td {
   color: $color-accent-soft;
 }
-
 
 .nameRow {
   @include vertical-flex;
@@ -62,7 +61,7 @@
   height: 47px;
   width: 47px;
   border-radius: 50%;
-  object-fit: cover
+  object-fit: cover;
 }
 
 .place {

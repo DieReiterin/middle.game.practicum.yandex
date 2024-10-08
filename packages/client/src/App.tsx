@@ -14,25 +14,25 @@ import { useAuth } from './hooks'
 import { Loader } from './components'
 
 const Routes: FC = () => {
-    const { loader, user } = useAuth()
-    const isAuthorized = Boolean(user)
+  const { loader, user } = useAuth()
+  const isAuthorized = Boolean(user)
 
-    const routes = getRoutes(isAuthorized)
+  const routes = getRoutes(isAuthorized)
 
-    return loader ? <Loader /> : useRoutes(routes)
+  return loader ? <Loader /> : useRoutes(routes)
 }
 
 const App = () => {
-    return (
-        <div className="App">
-            <BrowserRouter>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <Routes />
-                </ThemeProvider>
-            </BrowserRouter>
-        </div>
-    )
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes />
+        </ThemeProvider>
+      </BrowserRouter>
+    </div>
+  )
 }
 
 export default App
