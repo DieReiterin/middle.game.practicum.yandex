@@ -3,15 +3,16 @@
 }
 
 .modal {
+    @include column-flex;
+
     width: 400px;
     min-height: 100px;
-    background-color: $color-bg-secondary;
-    border-radius: 12px;
     padding: 24px;
     padding-bottom: 0;
+
+    background-color: $color-bg-secondary;
+    border-radius: 12px;
     outline: none;
-    display: flex;
-    flex-direction: column;
 }
 
 .title {

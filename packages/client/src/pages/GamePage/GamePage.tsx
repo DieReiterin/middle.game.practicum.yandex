@@ -1,13 +1,13 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { Box } from '@mui/material'
-import { Game } from '../../game/Game'
-import sky1 from '../../game/textures/a-blue-sky.jpg'
-import ground1 from '../../game/textures/ground1.jpg'
-import player1 from '../../game/textures/player1.png'
-import player2 from '../../game/textures/player2.png'
-import { GameModal, TGameModalMode, TGameModalAction } from '../../components'
 import PauseIcon from '@mui/icons-material/Pause'
+import { Game } from '@/game/Game'
+import sky1 from '@/game/textures/a-blue-sky.jpg'
+import ground1 from '@/game/textures/ground1.jpg'
+import player1 from '@/game/textures/player1.png'
+import player2 from '@/game/textures/player2.png'
 import styles from './GamePage.module.scss'
+import { GameModal, TGameModalMode, TGameModalAction } from '@/components'
 
 export const GamePage: FC = () => {
     const [modalMode, setModalMode] = useState<TGameModalMode>('start')

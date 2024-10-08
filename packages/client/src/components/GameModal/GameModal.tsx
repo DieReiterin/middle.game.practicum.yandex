@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { Box, Button, Grid2, Modal, Typography } from '@mui/material'
+import { ButtonLink } from '@/components/ButtonLink'
+import { PathsRoutes } from '@/router/types'
 import styles from './GameModal.module.scss'
-import { ButtonLink } from '../ButtonLink'
-import { PathsRoutes } from '../../router/types'
 import { actions } from './const'
 import { TGameModalMode, TGameModalAction } from './types'
 
