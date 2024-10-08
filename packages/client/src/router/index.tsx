@@ -1,7 +1,15 @@
 import Forum from '../pages/Forum/Forum'
 import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
 import { Navigate, RouteObject } from 'react-router-dom'
-import { Login, Registration, Main, Game, Leaderboard, Error } from '../pages'
+import {
+  Login,
+  Registration,
+  Main,
+  Game,
+  Leaderboard,
+  Error,
+  Profile,
+} from '../pages'
 import GameDemo from '../game/GameDemo'
 import { PathsRoutes } from './types'
 
@@ -33,6 +41,10 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   {
     path: PathsRoutes.Game,
     element: closePathUnauthorized(isAuthorized, <Game />),
+  },
+  {
+    path: PathsRoutes.Profile,
+    element: closePathUnauthorized(isAuthorized, <Profile />),
   },
   {
     path: '*',
