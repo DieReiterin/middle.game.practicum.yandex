@@ -12,6 +12,25 @@ interface IGameModalProps {
 }
 
 export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
+  const renderTitle = (text: string) => (
+    <Typography
+      sx={{ marginBottom: theme => theme.spacing(2) }}
+      variant="h6"
+      textAlign="center">
+      {text}
+    </Typography>
+  )
+  const renderBtn = (text: string, onClick: () => void) => (
+    <Button
+      sx={{ marginBottom: theme => theme.spacing(2) }}
+      fullWidth
+      disableElevation
+      variant="contained"
+      onClick={onClick}>
+      {text}
+    </Button>
+  )
+
   const contentElems = {
     gameTips: (
       <>
@@ -36,10 +55,10 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
         </Box>
       </>
     ),
-    navBtns: (
+    navLinks: (
       <>
         <ButtonLink
-          sx={{ marginBottom: '20px' }}
+          sx={{ marginBottom: theme => theme.spacing(2) }}
           fullWidth
           disableElevation
           variant="outlined"
@@ -47,7 +66,7 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
           Лидерборд
         </ButtonLink>
         <ButtonLink
-          sx={{ marginBottom: '20px' }}
+          sx={{ marginBottom: theme => theme.spacing(2) }}
           fullWidth
           to={PathsRoutes.Main}
           disableElevation
@@ -57,85 +76,39 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
       </>
     ),
   }
-  const contentVariants = {
+
+  const contentVariants: Record<TGameModalMode, JSX.Element | null> = {
     start: (
       <>
-        <Typography
-          sx={{ marginBottom: '20px' }}
-          variant="h6"
-          textAlign="center">
-          Добро пожаловать в игру Mage Fight!
-        </Typography>
+        {renderTitle('Добро пожаловать в игру Mage Fight!')}
         {contentElems.gameTips}
-        <Button
-          sx={{ marginBottom: '20px' }}
-          fullWidth
-          disableElevation
-          variant="contained"
-          onClick={() => modalAction('play')}>
-          Начать игру
-        </Button>
+        {renderBtn('Начать игру', () => modalAction('play'))}
       </>
     ),
     pause: (
       <>
-        <Typography
-          sx={{ marginBottom: '20px' }}
-          variant="h6"
-          textAlign="center">
-          Пауза
-        </Typography>
+        {renderTitle('Пауза')}
         {contentElems.gameTips}
-        <Button
-          sx={{ marginBottom: '20px' }}
-          fullWidth
-          disableElevation
-          variant="contained"
-          onClick={() => modalAction('play')}>
-          Продолжить игру
-        </Button>
+        {renderBtn('Продолжить игру', () => modalAction('play'))}
       </>
     ),
     win: (
       <>
-        <Typography
-          sx={{ marginBottom: '20px' }}
-          variant="h6"
-          textAlign="center">
-          Победа!
-        </Typography>
-        <Button
-          sx={{ marginBottom: '20px' }}
-          fullWidth
-          disableElevation
-          variant="contained"
-          onClick={() => modalAction('nextLevel')}>
-          Новый уровень
-        </Button>
-        {contentElems.navBtns}
+        {renderTitle('Победа!')}
+        {renderBtn('Новый уровень', () => modalAction('nextLevel'))}
+        {contentElems.navLinks}
       </>
     ),
     lose: (
       <>
-        <Typography
-          sx={{ marginBottom: '20px' }}
-          variant="h6"
-          textAlign="center">
-          Вы проиграли
-        </Typography>
-        <Button
-          sx={{ marginBottom: '20px' }}
-          fullWidth
-          disableElevation
-          variant="contained"
-          onClick={() => modalAction('restart')}>
-          Начать заново
-        </Button>
-        {contentElems.navBtns}
+        {renderTitle('Вы проиграли')}
+        {renderBtn('Начать заново', () => modalAction('restart'))}
+        {contentElems.navLinks}
       </>
     ),
     closed: null,
   }
+
   return (
     <>
       <Modal open={mode !== 'closed'} className={styles.wrapper}>

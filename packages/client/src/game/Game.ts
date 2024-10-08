@@ -234,7 +234,7 @@ export class Game {
     this.animationFrameId = requestAnimationFrame(this.gameLoop)
   }
 
-  private gameLoop(timestamp: number) {
+  private gameLoop = (timestamp: number) => {
     if (this.isGameOver) {
       return
     }

@@ -90,12 +90,11 @@ export const GamePage: FC = () => {
         computerAttackSpeedMultiplier:
           gameConfig.computerAttackSpeedMultiplier! + 0.3,
       }
-      setGameConfig(newConfig)
-      restartGame(gameConfig)
+      restartGame(newConfig)
     }
 
     setModalMode('closed')
-    resumeGameInstance() // game instance starts and restarts paused, so here we resume it
+    resumeGameInstance()
   }
 
   return (
