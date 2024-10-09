@@ -3,8 +3,11 @@ import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'path'
 import { VitePWA } from 'vite-plugin-pwa'
+
 dotenv.config()
 // https://vitejs.dev/config/
+
+console.log(process.env.NODE_ENV)
 export default defineConfig({
   server: {
     port: Number(process.env.CLIENT_PORT) || 3000,
@@ -29,10 +32,6 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      // strategies: 'injectManifest',
-      // srcDir: 'src',
-      // filename: 'sw.js',
-
       injectRegister: 'auto',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
@@ -52,7 +51,8 @@ export default defineConfig({
       },
 
       devOptions: {
-        enabled: true,
+        enabled:
+          !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
         type: 'module',
       },
     }),
