@@ -6,6 +6,7 @@ interface IProps {
   className?: string
   text?: string
   onClick?: () => void
+  disabled?: boolean
 }
 
 export const Link: FC<IProps> = ({
@@ -13,9 +14,13 @@ export const Link: FC<IProps> = ({
   className = '',
   text = '',
   onClick,
+  disabled,
 }) => {
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
+    if (disabled) {
+      e.preventDefault()
+      return
+    }
     if (onClick) {
       onClick()
     }
@@ -23,9 +28,12 @@ export const Link: FC<IProps> = ({
 
   return (
     <a
-      className={`${styles.link} ${className}`}
-      href={href || '#'}
-      onClick={handleClick}>
+      className={`${styles.link} ${className} ${
+        disabled ? styles.link_disabled : ''
+      }`}
+      href={disabled ? undefined : href}
+      onClick={handleClick}
+      aria-disabled={disabled ? 'true' : 'false'}>
       {text}
     </a>
   )

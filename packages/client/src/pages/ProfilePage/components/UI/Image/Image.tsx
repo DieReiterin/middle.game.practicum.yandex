@@ -17,6 +17,8 @@ export const Image: FC<IProps> = ({
   type = false,
   onClick,
 }) => {
+  const imageSrc = src && src.trim() ? src : defaultImage
+
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     if (onClick) {
@@ -30,7 +32,7 @@ export const Image: FC<IProps> = ({
         type ? styles.image_default : ''
       }`}
       onClick={handleClick}>
-      <img src={src} alt={alt} className={styles.image__pic} />
+      <img src={imageSrc} alt={alt} className={styles.image__pic} />
     </div>
   )
 }

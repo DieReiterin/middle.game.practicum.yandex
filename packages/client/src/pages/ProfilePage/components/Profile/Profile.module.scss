@@ -3,7 +3,7 @@
   min-height: 200px;
 }
 
-.profileHeader {
+.header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,96 +11,120 @@
   min-height: 100px;
   margin-bottom: 20px;
 
-  border: 1px solid red;
+  // border: 1px solid red;
 
-  // &__image {
-  //   position: relative;
+  &Image {
+    position: relative;
 
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  //   width: 130px;
-  //   height: 130px;
-  //   margin-bottom: 20px;
+    width: 130px;
+    height: 130px;
+    padding: 40px;
+    margin-bottom: 20px;
 
-  //   border-radius: 50%;
-  //   background-color: $color-bg-secondary;
+    border-radius: 50%;
+    background-color: $color-bg-secondary;
 
-  //   &::after {
-  //     position: absolute;
-  //     left: 0;
-  //     top: 0;
-  //     content: 'Поменять\Aаватар';
+    &::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: 'Поменять\Aаватар';
 
-  //     display: flex;
-  //     align-items: center;
-  //     justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  //     font-size: 14px;
-  //     text-align: center;
-  //     color: $color-text2;
-  //     white-space: pre;
+      font-size: 14px;
+      text-align: center;
+      color: $color-text2;
+      white-space: pre;
 
-  //     width: 100%;
-  //     height: 100%;
-  //     border-radius: 50%;
-  //     background-color: rgba($color: $bunker, $alpha: 0.5);
-  //     transition: opacity 0.5s;
-  //     opacity: 0;
-  //   }
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: rgba($color: $bunker, $alpha: 0.5);
+      transition: opacity 0.5s;
+      opacity: 0;
+    }
 
-  //   &:hover {
-  //     cursor: pointer;
+    &:hover {
+      cursor: pointer;
 
-  //     &::after {
-  //       opacity: 1;
-  //     }
-  //   }
-  // }
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
 
-  // &__title {
-  //   font-weight: 600;
-  //   font-size: 16px;
-  //   line-height: 100%;
-  //   color: $color-text;
-  // }
+  &Title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: $color-text;
+  }
 }
 
-.profileMain {
+.avatarControls {
+  display: flex;
+  justify-content: space-between;
+
+  box-sizing: content-box;
+  height: 24px;
+  padding: 10px 0;
+
+  // border: 1px solid green;
+}
+
+// .userFields {
+//   border: 1px solid red;
+// }
+
+.passwordFields {
+  height: 132px;
+  // border: 1px solid green;
+}
+
+.alertBlock {
+  height: 14px;
+  // border: 1px solid red;
+  &Text {
+    font-size: 14px;
+    color: $color-error;
+  }
+}
+
+.profileControls {
   min-height: 50px;
-  border: 1px solid red;
+  margin-bottom: 20px;
+  // border: 1px solid green;
 }
 
-.profileFooter {
+.footer {
   min-height: 50px;
-  border: 1px solid red;
-}
+  margin-bottom: 20px;
+  // border: 1px solid red;
 
-.profileAlert {
-  font-size: 14px;
-  color: $color-error;
-
-  &_hidden {
-    color: transparent;
+  &Btn {
+    margin: 0 auto;
   }
 }
 
 .profileRow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
+  box-sizing: content-box;
   height: 24px;
   padding: 10px 0;
 
   font-weight: 500;
   font-size: 14px;
   line-height: 100%;
-
-  // &_spaced {
-  //   display: flex;
-  //   justify-content: space-between;
-  // }
 
   // &_align-left {
   //   display: flex;
@@ -111,8 +135,51 @@
   //   display: flex;
   //   justify-content: center;
   // }
-
-  // &_bordered {
-  //   border-bottom: 1px solid $color-border;
-  // }
 }
+
+.profileRowBordered {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: content-box;
+  height: 24px;
+  padding: 10px 0;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  border-bottom: 1px solid $color-border;
+}
+
+.subtitleBold {
+  font-weight: 600;
+}
+
+.subtitleGrey {
+  color: $color-accent-soft;
+}
+
+.linkRed {
+  color: $color-error;
+}
+
+// .profileInput {
+//   position: relative;
+
+//   display: flex;
+//   align-items: flex-end;
+//   justify-content: center;
+
+//   height: 12px;
+//   margin: -5px 0;
+//   padding: 5px 0;
+
+//   // &__error {
+//   //   position: absolute;
+//   //   right: 0;
+//   //   top: 20px;
+//   //   width: 200%;
+//   //   text-align: right;
+//   // }
+// }

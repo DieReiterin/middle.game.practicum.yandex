@@ -18,18 +18,18 @@ import styles from './Profile.module.scss'
 // const userLoginController = new UserLoginController();
 export const Profile: FC = () => {
   // const navigate = useNavigate()
-  // const [userInfo, setUserInfo] = useState({
-  //     avatar: '',
-  //     email: '',
-  //     login: '',
-  //     first_name: '',
-  //     second_name: '',
-  //     display_name: '',
-  //     phone: '',
-  //     old_password: '',
-  //     new_password: '',
-  //     repeat_password: ''
-  // });
+  const [userInfo, setUserInfo] = useState({
+    avatar: '',
+    email: 'email',
+    login: 'login',
+    first_name: 'first_name',
+    second_name: 'second_name',
+    display_name: 'display_name',
+    phone: 'phone',
+    old_password: 'old_password',
+    new_password: 'new_password',
+    repeat_password: 'repeat_password',
+  })
   // const [alertText, setAlertText] = useState('');
   // const [avatarFile, setAvatarFile] = useState<File | null>(null);
   // const [editMode, setEditMode] = useState<'default' | 'profile' | 'password' | 'avatar'>('default');
@@ -146,69 +146,173 @@ export const Profile: FC = () => {
   //         showAlert('Ошибка при выходе: ' + error.message);
   //     }
   // };
+  const [showAvatarControls, setShowAvatarControls] = useState<boolean>(true)
+  const renderAvatarControls = (show: boolean) => {
+    return show ? (
+      <form className={styles.avatarControls}>
+        <InputFile name="avatar" id="avatar" accept="image/*" />
+        <Link className={styles.linkRed} text="Поменять" />
+      </form>
+    ) : (
+      <div className={styles.avatarControls}></div>
+    )
+  }
+  const [showUserInputs, setShowUserInputs] = useState<boolean>(true)
+  const renderUserFields = (showInputs: boolean) => {
+    return showInputs ? (
+      <div className={styles.userFields}>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Почта" className={styles.subtitleBold} />
+          <InputField value={userInfo.email} typeProfile={true} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Логин" className={styles.subtitleBold} />
+          <InputField value={userInfo.login} typeProfile={true} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Имя" className={styles.subtitleBold} />
+          <InputField value={userInfo.first_name} typeProfile={true} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Фамилия" className={styles.subtitleBold} />
+          <InputField value={userInfo.second_name} typeProfile={true} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Имя в чате" className={styles.subtitleBold} />
+          <InputField value={userInfo.display_name} typeProfile={true} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Телефон" className={styles.subtitleBold} />
+          <InputField value={userInfo.phone} typeProfile={true} />
+        </div>
+      </div>
+    ) : (
+      <div className={styles.userFields}>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Почта" className={styles.subtitleBold} />
+          <Subtitle text={userInfo.email} className={styles.subtitleGrey} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Логин" className={styles.subtitleBold} />
+          <Subtitle text={userInfo.login} className={styles.subtitleGrey} />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Имя" className={styles.subtitleBold} />
+          <Subtitle
+            text={userInfo.first_name}
+            className={styles.subtitleGrey}
+          />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Фамилия" className={styles.subtitleBold} />
+          <Subtitle
+            text={userInfo.second_name}
+            className={styles.subtitleGrey}
+          />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Имя в чате" className={styles.subtitleBold} />
+          <Subtitle
+            text={userInfo.display_name}
+            className={styles.subtitleGrey}
+          />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Subtitle text="Телефон" className={styles.subtitleBold} />
+          <Subtitle text={userInfo.phone} className={styles.subtitleGrey} />
+        </div>
+      </div>
+    )
+  }
+  const [showPasswordFields, setShowPasswordFields] = useState<boolean>(true)
+  const renderPasswordFields = (show: boolean) => {
+    return show ? (
+      <div className={styles.passwordFields}>
+        <div className={styles.profileRow}>
+          <Subtitle text="Старый пароль" className={styles.subtitleBold} />
+          <InputField value={userInfo.old_password} typeProfile={true} />
+        </div>
+        <div className={styles.profileRow}>
+          <Subtitle text="Новый пароль" className={styles.subtitleBold} />
+          <InputField value={userInfo.new_password} typeProfile={true} />
+        </div>
+        <div className={styles.profileRow}>
+          <Subtitle text="Повторите пароль" className={styles.subtitleBold} />
+          <InputField value={userInfo.repeat_password} typeProfile={true} />
+        </div>
+      </div>
+    ) : (
+      <div className={styles.passwordFields}></div>
+    )
+  }
+  const [alertText, setAlertText] = useState('alertTextalertText')
+  const renderAlertBlock = (show: string) => {
+    return show ? (
+      <div className={styles.alertBlock}>
+        <PageTitle text={alertText} className={styles.alertBlockText} />
+      </div>
+    ) : (
+      <div className={styles.alertBlock}></div>
+    )
+  }
+  const [showProfileLinks, setShowProfileLinks] = useState<boolean>(true)
+  const renderProfileControls = (showLinks: boolean) => {
+    return showLinks ? (
+      <div className={styles.profileControls}>
+        <div className={styles.profileRowBordered}>
+          <Link text="Изменить данные" />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Link text="Изменить пароль" />
+        </div>
+        <div className={styles.profileRow}>
+          <Link text="Выйти" className={styles.linkRed} />
+        </div>
+      </div>
+    ) : (
+      <div className={styles.profileControls}>
+        <div className={styles.profileRowBordered}>
+          <Link text="Изменить данные" disabled />
+        </div>
+        <div className={styles.profileRowBordered}>
+          <Link text="Изменить пароль" disabled />
+        </div>
+        <div className={styles.profileRow}>
+          <Link text="Выйти" disabled />
+        </div>
+      </div>
+    )
+  }
+
+  const [showSaveBtn, setShowSaveBtn] = useState<boolean>(true)
+  const renderFooter = (show: boolean) => {
+    return show ? (
+      <div className={styles.footer}>
+        <div className={styles.profileRow}>
+          <Button text="Сохранить" className={styles.footerBtn} />
+        </div>
+      </div>
+    ) : (
+      <div className={styles.footer}></div>
+    )
+  }
   return (
     <div className={styles.profile}>
-      <div className={styles.profileHeader}>
-        profileHeader
-        {/* <Image
-                        className="profile-header__image"
-                        src={userInfo.avatar}
-                        onClick={() => setEditMode('avatar')}
-                    />
-                        <Subtitle text={userInfo.first_name} className="profile__row-text subtitle_grey" /> */}
+      <div className={styles.header}>
+        <Image
+          className={styles.headerImage}
+          src={userInfo.avatar}
+          onClick={() => setShowSaveBtn(val => !val)}
+          //   onClick={() => setAlertText(val => (val ? '' : 'alertTextalertText'))}
+        />
+        <Subtitle className={styles.headerTitle} text={userInfo.first_name} />
       </div>
-      <div className={styles.profileMain}>
-        profileMain
-        {/* <form class="profile__row profile__row_spaced profile__row_bordered">
-                            {{{avatarInput}}}
-                            {{{avatarLink}}}
-                        </form>
-                        <div class="profile__row profile__row_spaced profile__row_bordered">
-                            {{{firstNameTitle}}}
-                            {{{firstName}}}
-                        </div>
-                        <div class="profile__row profile__row_spaced profile__row_bordered">
-                            {{{secondNameTitle}}}
-                            {{{secondName}}}
-                        </div>
-                        <div class="profile__row profile__row_spaced profile__row_bordered">
-                            {{{displayNameTitle}}}
-                            {{{displayName}}}
-                        </div>
-                        <div class="profile__row profile__row_spaced profile__row_bordered">
-                            {{{phoneTitle}}}
-                            {{{phone}}}
-                        </div>              
-                        <div class="profile__row profile__row_spaced">
-                            {{{oldPasswordTitle}}}
-                            {{{oldPassword}}}
-                        </div>
-                        <div class="profile__row profile__row_spaced">
-                            {{{newPasswordTitle}}}
-                            {{{newPassword}}}
-                        </div>
-                        <div class="profile__row profile__row_spaced">
-                            {{{repeatPasswordTitle}}}
-                            {{{repeatPassword}}}
-                        </div>
-                        {alertText && <PageTitle text={alertText} className="profile__alert" />} */}
-      </div>
-      <div className={styles.profileFooter}>
-        profileFooter1
-        {/* {editMode === 'default' && (
-                        <>
-                            <Link text="Изменить данные" onClick={() => setEditMode('profile')} />
-                            <Link text="Изменить пароль" onClick={() => setEditMode('password')} />
-                            <Link text="Выйти" onClick={requestLogout} />
-                        </>
-            )} */}
-      </div>
-      <div className={styles.profileFooter}>
-        profileFooter2
-        {/* <div className="profile__row profile__row_align-center">
-                            <Button text="Сохранить" onClick={requestChangeProfile} />
-                        </div> */}
-      </div>
+      {renderAvatarControls(showAvatarControls)}
+      {renderUserFields(showUserInputs)}
+      {renderPasswordFields(showPasswordFields)}
+      {renderAlertBlock(alertText)}
+      {renderProfileControls(showProfileLinks)}
+      {renderFooter(showSaveBtn)}
     </div>
   )
 }
