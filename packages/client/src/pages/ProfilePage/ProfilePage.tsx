@@ -1,12 +1,12 @@
 import { FC } from 'react'
-import { Box, IconButton, Typography } from '@mui/material'
+import { IconButton } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
-// import { Profile } from '@/components/Profile'
-import styles from './Profile.module.scss'
+import { Profile } from './components'
+import styles from './ProfilePage.module.scss'
 
-export const Profile: FC = () => {
+export const ProfilePage: FC = () => {
   const navigate = useNavigate()
 
   const handleBackClick = () => {
@@ -26,7 +26,7 @@ export const Profile: FC = () => {
         </nav>
       </div>
       <div className={styles.main}>
-        <Typography>main</Typography>
+        <Profile />
       </div>
     </div>
   )
