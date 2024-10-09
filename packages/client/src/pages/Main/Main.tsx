@@ -6,7 +6,7 @@ import styles from './Main.module.scss'
 import logo from '../../assets/images/logo.png'
 
 const buttons: NavigationProps['buttons'] = [
-  { title: 'Начать игру', to: PathsRoutes.Game },
+  { title: 'Начать игру', to: PathsRoutes.GamePage },
   { title: 'Профиль и Настройки', to: PathsRoutes.Profile },
   { title: 'Лидерборд', to: PathsRoutes.Leaderboard },
   { title: 'Форум', to: PathsRoutes.Forum },

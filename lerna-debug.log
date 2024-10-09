@@ -1,0 +1,12 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   scope: 'client',
+0 silly argv   lernaVersion: '5.4.3',
+0 silly argv   '$0': 'node_modules\\lerna\\cli.js',
+0 silly argv   script: 'dev'
+0 silly argv }
+1 notice cli v5.4.3
+2 verbose rootPath C:\Users\zzera\projects\work-projects\middle.game.practicum.yandex
+3 notice filter including "client"
+4 info filter [ 'client' ]
+5 error
