@@ -26,6 +26,7 @@ export default defineConfig({
       scss: {
         api: 'modern-compiler',
         additionalData: `@import "@/assets/styles/vars.scss";\n@import "@/assets/styles/mixins.scss";\n`,
+        silenceDeprecations: ['legacy-js-api'],
       },
     },
   },

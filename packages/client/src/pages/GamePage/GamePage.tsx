@@ -8,11 +8,14 @@ import player1 from '@/game/textures/player1.png'
 import player2 from '@/game/textures/player2.png'
 import styles from './GamePage.module.scss'
 import { GameModal, TGameModalMode, TGameModalAction } from '@/components'
+import { useFullscreen } from '@/hooks'
 
 export const GamePage: FC = () => {
   const [modalMode, setModalMode] = useState<TGameModalMode>('start')
 
   const gameContainerRef = useRef<HTMLDivElement>(null)
+
+  useFullscreen()
 
   const [gameConfig, setGameConfig] = useState(() => ({
     width: window.innerWidth,
