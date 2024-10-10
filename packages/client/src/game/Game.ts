@@ -163,6 +163,7 @@ export class Game {
       groundHeight: GROUND_HEIGHT,
       name: PLAYER_NAME,
       getGameOver: this.isGameOverNow.bind(this),
+      shouldFlip: false,
     })
 
     this.computer = new Player({
@@ -179,6 +180,7 @@ export class Game {
       groundHeight: GROUND_HEIGHT,
       name: COMPUTER_NAME,
       getGameOver: this.isGameOverNow.bind(this),
+      shouldFlip: true,
     })
   }
 
