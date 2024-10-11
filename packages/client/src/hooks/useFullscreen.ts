@@ -11,7 +11,10 @@ export const useFullscreen = (props?: IUseFullscreen) => {
     }
     e.preventDefault()
     const element = props ? props.elemRef?.current : document.documentElement
-    if (!element) return
+
+    if (!element) {
+      return
+    }
 
     if (!document.fullscreenElement) {
       if (element.requestFullscreen) {
