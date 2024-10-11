@@ -11,14 +11,17 @@ import {
 import styles from './Profile.module.scss'
 // import { useNavigate } from 'react-router-dom'
 // import { PathsRoutes } from '../../../../router/types'
+
 // import ProfileController from '../../controllers/profile';
 // import UserLoginController from '../../controllers/user-login';
 
 // const profileController = new ProfileController();
 // const userLoginController = new UserLoginController();
+type TEditMode = 'default' | 'editAvatar' | 'editProfile' | 'editPassword'
+
 export const Profile: FC = () => {
   // const navigate = useNavigate()
-  const [userInfo, setUserInfo] = useState({
+  const [userData, setUserData] = useState({
     avatar: '',
     email: 'email',
     login: 'login',
@@ -30,20 +33,27 @@ export const Profile: FC = () => {
     new_password: 'new_password',
     repeat_password: 'repeat_password',
   })
-  // const [alertText, setAlertText] = useState('');
-  // const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  // const [editMode, setEditMode] = useState<'default' | 'profile' | 'password' | 'avatar'>('default');
+  const [editMode, setEditMode] = useState<TEditMode>('default')
+  const [alertText, setAlertText] = useState('')
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+
+  const clickSaveBtn = () => {
+    setEditMode('default')
+  }
+  const clickSaveAvatar = () => {
+    setEditMode('default')
+  }
   // useEffect(() => {///
-  //     const fetchUserInfo = async () => {
+  //     const fetchuserData = async () => {
   //         try {
   //             const info = await userLoginController.getInfo();
-  //             setUserInfo(info);
+  //             setUserData(info);
   //             loadUserAvatar(info.avatar);
   //         } catch (error) {
-  //             console.error('getUserInfo failed:', error);
+  //             console.error('getuserData failed:', error);
   //         }
   //     };
-  //     fetchUserInfo();
+  //     fetchuserData();
   // }, []);
   // const loadUserAvatar = async (path: string | null) => {
   //     if (path === null) {
@@ -51,20 +61,12 @@ export const Profile: FC = () => {
   //     }
   //     try {
   //         const result = await userLoginController.getStatic(path);
-  //         setUserInfo(prev => ({ ...prev, avatar: result }));
+  //         setUserData(prev => ({ ...prev, avatar: result }));
   //     } catch (error) {
   //         showAlert('Не получилось загрузить ваш аватар');
   //     }
   // };
-  // const showAlert = (text: string) => {
-  //     setAlertText(text);
-  // };
-  // const hideAlert = () => {
-  //     setAlertText('');
-  // };
-  // const handleInputChange = (field: string) => (value: string) => {
-  //     setUserInfo(prev => ({ ...prev, [field]: value }));
-  // };
+
   // const requestChangeAvatar = async () => {
   //     if (!avatarFile) return;
   //     const formData = new FormData();
@@ -74,69 +76,25 @@ export const Profile: FC = () => {
   //         showAlert('Новый аватар сохранен');
   //         // Обновляем информацию пользователя
   //         const updatedInfo = await userLoginController.getInfo();
-  //         setUserInfo(updatedInfo);
+  //         setUserData(updatedInfo);
   //     } catch (error) {
   //         showAlert('Не получилось сменить аватар');
   //     }
   // };
   // const requestChangeProfile = async () => {
   //     try {
-  //         const response = await profileController.editProfile(userInfo);
+  //         const response = await profileController.editProfile(userData);
   //         if (typeof response === 'string') {
   //             showAlert(response);
   //         } else {
   //             showAlert('Данные сохранены');
   //             // Обновляем информацию пользователя
   //             const updatedInfo = await userLoginController.getInfo();
-  //             setUserInfo(updatedInfo);
+  //             setUserData(updatedInfo);
   //         }
   //     } catch (error) {
   //         console.error(error);
   //     }
-  // };
-  // const renderAvatarControls = () => {
-  //     if (editMode !== 'avatar') return null
-  //     return (
-  //         <div>
-  //             <InputFile onChange={(file: File) => {
-  //                     setAvatarFile(file);
-  //                 }} name="avatar" id="avatar" accept="image/*" />
-  //             <Link text="Поменять" onClick={() => requestChangeAvatar()}/>
-  //         </div>
-  //     );
-  // };
-  // const renderUserInfo = () => {
-  //     return (
-  //         <div>
-  //             <Subtitle text="Почта" />
-  //             <InputField value={userInfo.email} onInput={handleInputChange('email')} />
-  //             <Subtitle text="Логин" />
-  //             <InputField value={userInfo.login} onInput={handleInputChange('login')} />
-  //             <Subtitle text="Имя" />
-  //             <InputField value={userInfo.first_name} onInput={handleInputChange('first_name')} />
-  //             <Subtitle text="Фамилия" />
-  //             <InputField value={userInfo.second_name} onInput={handleInputChange('second_name')} />
-  //             <Subtitle text="Имя в чате" />
-  //             <InputField value={userInfo.display_name} onInput={handleInputChange('display_name')} />
-  //             <Subtitle text="Телефон" />
-  //             <InputField value={userInfo.phone} onInput={handleInputChange('phone')} />
-  //         </div>
-  //     );
-  // };
-  // const renderPasswordControls = () => {
-  //     if (editMode !== 'password') return null
-  //     return (
-  //         <div>
-  //             <InputFile onChange={(file: File) => {
-  //                     setAvatarFile(file);
-  //                 }} name="avatar" id="avatar" accept="image/*" />
-  //             <Link text="Поменять" onClick={() => requestChangeAvatar()}/>
-  //         </div>
-  //     );
-  // };
-  // const renderAlert = () => {
-  //     if (!alertText) return null;
-  //     return <PageTitle className="profile__alert" text={alertText} />;
   // };
   // const requestLogout = async () => {
   //     try {
@@ -146,124 +104,177 @@ export const Profile: FC = () => {
   //         showAlert('Ошибка при выходе: ' + error.message);
   //     }
   // };
-  const [showAvatarControls, setShowAvatarControls] = useState<boolean>(true)
+  const setUserDataField = (field: string) => (value: string) => {
+    setUserData(prev => ({ ...prev, [field]: value }))
+  }
   const renderAvatarControls = (show: boolean) => {
     return show ? (
       <form className={styles.avatarControls}>
-        <InputFile name="avatar" id="avatar" accept="image/*" />
-        <Link className={styles.linkRed} text="Поменять" />
+        <InputFile
+          onChange={(newAvatar: File) => {
+            setAvatarFile(newAvatar)
+          }}
+          name="avatar"
+          id="avatar"
+          accept="image/*"
+        />
+        {/* <Link onClick={() => requestChangeAvatar()} className={styles.linkRed} text="Поменять" /> */}
+        {/* <InputFile name="avatar" id="avatar" accept="image/*" /> */}
+        <Link
+          text="Поменять"
+          onClick={() => clickSaveAvatar()}
+          className={styles.linkRed}
+        />
       </form>
     ) : (
       <div className={styles.avatarControls}></div>
     )
   }
-  const [showUserInputs, setShowUserInputs] = useState<boolean>(true)
   const renderUserFields = (showInputs: boolean) => {
     return showInputs ? (
       <div className={styles.userFields}>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Почта" className={styles.subtitleBold} />
-          <InputField value={userInfo.email} typeProfile={true} />
+          <InputField
+            value={userData.email}
+            onInput={setUserDataField('email')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Логин" className={styles.subtitleBold} />
-          <InputField value={userInfo.login} typeProfile={true} />
+          <InputField
+            value={userData.login}
+            onInput={setUserDataField('login')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Имя" className={styles.subtitleBold} />
-          <InputField value={userInfo.first_name} typeProfile={true} />
+          <InputField
+            value={userData.first_name}
+            onInput={setUserDataField('first_name')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Фамилия" className={styles.subtitleBold} />
-          <InputField value={userInfo.second_name} typeProfile={true} />
+          <InputField
+            value={userData.second_name}
+            onInput={setUserDataField('second_name')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Имя в чате" className={styles.subtitleBold} />
-          <InputField value={userInfo.display_name} typeProfile={true} />
+          <InputField
+            value={userData.display_name}
+            onInput={setUserDataField('display_name')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Телефон" className={styles.subtitleBold} />
-          <InputField value={userInfo.phone} typeProfile={true} />
+          <InputField
+            value={userData.phone}
+            onInput={setUserDataField('phone')}
+            typeProfile={true}
+          />
         </div>
       </div>
     ) : (
       <div className={styles.userFields}>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Почта" className={styles.subtitleBold} />
-          <Subtitle text={userInfo.email} className={styles.subtitleGrey} />
+          <Subtitle text={userData.email} className={styles.subtitleGrey} />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Логин" className={styles.subtitleBold} />
-          <Subtitle text={userInfo.login} className={styles.subtitleGrey} />
+          <Subtitle text={userData.login} className={styles.subtitleGrey} />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Имя" className={styles.subtitleBold} />
           <Subtitle
-            text={userInfo.first_name}
+            text={userData.first_name}
             className={styles.subtitleGrey}
           />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Фамилия" className={styles.subtitleBold} />
           <Subtitle
-            text={userInfo.second_name}
+            text={userData.second_name}
             className={styles.subtitleGrey}
           />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Имя в чате" className={styles.subtitleBold} />
           <Subtitle
-            text={userInfo.display_name}
+            text={userData.display_name}
             className={styles.subtitleGrey}
           />
         </div>
         <div className={styles.profileRowBordered}>
           <Subtitle text="Телефон" className={styles.subtitleBold} />
-          <Subtitle text={userInfo.phone} className={styles.subtitleGrey} />
+          <Subtitle text={userData.phone} className={styles.subtitleGrey} />
         </div>
       </div>
     )
   }
-  const [showPasswordFields, setShowPasswordFields] = useState<boolean>(true)
   const renderPasswordFields = (show: boolean) => {
     return show ? (
       <div className={styles.passwordFields}>
         <div className={styles.profileRow}>
           <Subtitle text="Старый пароль" className={styles.subtitleBold} />
-          <InputField value={userInfo.old_password} typeProfile={true} />
+          <InputField
+            value={userData.old_password}
+            onInput={setUserDataField('old_password')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRow}>
           <Subtitle text="Новый пароль" className={styles.subtitleBold} />
-          <InputField value={userInfo.new_password} typeProfile={true} />
+          <InputField
+            value={userData.new_password}
+            onInput={setUserDataField('new_password')}
+            typeProfile={true}
+          />
         </div>
         <div className={styles.profileRow}>
           <Subtitle text="Повторите пароль" className={styles.subtitleBold} />
-          <InputField value={userInfo.repeat_password} typeProfile={true} />
+          <InputField
+            value={userData.repeat_password}
+            onInput={setUserDataField('repeat_password')}
+            typeProfile={true}
+          />
         </div>
       </div>
     ) : (
       <div className={styles.passwordFields}></div>
     )
   }
-  const [alertText, setAlertText] = useState('alertTextalertText')
-  const renderAlertBlock = (show: string) => {
-    return show ? (
+  const renderAlertBlock = (text: string) => {
+    return text ? (
       <div className={styles.alertBlock}>
-        <PageTitle text={alertText} className={styles.alertBlockText} />
+        <PageTitle text={text} className={styles.alertBlockText} />
       </div>
     ) : (
       <div className={styles.alertBlock}></div>
     )
   }
-  const [showProfileLinks, setShowProfileLinks] = useState<boolean>(true)
   const renderProfileControls = (showLinks: boolean) => {
     return showLinks ? (
       <div className={styles.profileControls}>
         <div className={styles.profileRowBordered}>
-          <Link text="Изменить данные" />
+          <Link
+            text="Изменить данные"
+            onClick={() => setEditMode('editProfile')}
+          />
         </div>
         <div className={styles.profileRowBordered}>
-          <Link text="Изменить пароль" />
+          <Link
+            text="Изменить пароль"
+            onClick={() => setEditMode('editPassword')}
+          />
         </div>
         <div className={styles.profileRow}>
           <Link text="Выйти" className={styles.linkRed} />
@@ -283,13 +294,15 @@ export const Profile: FC = () => {
       </div>
     )
   }
-
-  const [showSaveBtn, setShowSaveBtn] = useState<boolean>(true)
   const renderFooter = (show: boolean) => {
     return show ? (
       <div className={styles.footer}>
         <div className={styles.profileRow}>
-          <Button text="Сохранить" className={styles.footerBtn} />
+          <Button
+            text="Сохранить"
+            onClick={() => clickSaveBtn()}
+            className={styles.footerBtn}
+          />
         </div>
       </div>
     ) : (
@@ -301,18 +314,20 @@ export const Profile: FC = () => {
       <div className={styles.header}>
         <Image
           className={styles.headerImage}
-          src={userInfo.avatar}
-          onClick={() => setShowSaveBtn(val => !val)}
+          src={userData.avatar}
+          onClick={() => setEditMode('editAvatar')}
+          // onClick={() => setShowSaveBtn(val => !val)}
           //   onClick={() => setAlertText(val => (val ? '' : 'alertTextalertText'))}
         />
-        <Subtitle className={styles.headerTitle} text={userInfo.first_name} />
+        {/* <Subtitle className={styles.headerTitle} text={userData.first_name} /> */}
+        <Subtitle className={styles.headerTitle} text={editMode} />
       </div>
-      {renderAvatarControls(showAvatarControls)}
-      {renderUserFields(showUserInputs)}
-      {renderPasswordFields(showPasswordFields)}
+      {renderAvatarControls(editMode === 'editAvatar')}
+      {renderUserFields(editMode === 'editProfile')}
+      {renderPasswordFields(editMode === 'editPassword')}
       {renderAlertBlock(alertText)}
-      {renderProfileControls(showProfileLinks)}
-      {renderFooter(showSaveBtn)}
+      {renderProfileControls(editMode === 'default')}
+      {renderFooter(editMode === 'editPassword' || editMode === 'editProfile')}
     </div>
   )
 }

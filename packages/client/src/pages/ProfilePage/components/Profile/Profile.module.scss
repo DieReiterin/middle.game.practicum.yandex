@@ -9,7 +9,7 @@
   align-items: center;
 
   min-height: 100px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 
   // border: 1px solid red;
 
@@ -27,6 +27,14 @@
 
     border-radius: 50%;
     background-color: $color-bg-secondary;
+
+    * {
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
 
     &::after {
       position: absolute;
@@ -99,7 +107,7 @@
 
 .profileControls {
   min-height: 50px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
   // border: 1px solid green;
 }
 
