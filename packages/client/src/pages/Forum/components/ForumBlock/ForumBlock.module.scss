@@ -9,12 +9,12 @@
   border-radius: 8px;
   padding: 0 20px;
   cursor: pointer;
-  transition: .5s;
+  transition: 0.5s;
   border: none;
 
   &:hover {
     background: $tropical-blue;
-    }
+  }
 
   &:not(:first-child) {
     margin-top: 20px;
@@ -26,4 +26,3 @@
   gap: 100px;
   margin-right: 37px;
 }
-

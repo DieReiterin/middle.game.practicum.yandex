@@ -33,7 +33,7 @@ export class Game {
   private readonly config: GameConfig
   private player!: Player
   private computer!: Player
-  private isPaused = false
+  private isPaused = true
   private isGameOver = false
   private lastTime = 0
   private animationFrameId: number | null = null
@@ -163,6 +163,7 @@ export class Game {
       groundHeight: GROUND_HEIGHT,
       name: PLAYER_NAME,
       getGameOver: this.isGameOverNow.bind(this),
+      shouldFlip: false,
     })
 
     this.computer = new Player({
@@ -179,6 +180,7 @@ export class Game {
       groundHeight: GROUND_HEIGHT,
       name: COMPUTER_NAME,
       getGameOver: this.isGameOverNow.bind(this),
+      shouldFlip: true,
     })
   }
 
@@ -203,23 +205,38 @@ export class Game {
     window.addEventListener('keydown', this.keydownHandler)
   }
 
-  public togglePause() {
-    this.isPaused = !this.isPaused
+  private togglePause() {
     if (this.isPaused) {
-      // Cancel the animation when paused
-      if (this.animationFrameId) {
-        cancelAnimationFrame(this.animationFrameId)
-        this.animationFrameId = null
-      }
-      this.config.callback?.(GameStates.Pause)
+      this.resumeGame()
     } else {
-      // Resume the game
-      this.justUnpaused = true
-      this.animationFrameId = requestAnimationFrame(this.gameLoop)
+      this.pauseGame()
     }
   }
 
-  private gameLoop(timestamp: number) {
+  public pauseGame() {
+    if (this.isPaused) {
+      return
+    }
+
+    this.isPaused = true
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId)
+      this.animationFrameId = null
+    }
+    this.config.callback?.(GameStates.Pause)
+  }
+
+  public resumeGame() {
+    if (!this.isPaused) {
+      return
+    }
+
+    this.isPaused = false
+    this.justUnpaused = true
+    this.animationFrameId = requestAnimationFrame(this.gameLoop)
+  }
+
+  private gameLoop = (timestamp: number) => {
     if (this.isGameOver) {
       return
     }

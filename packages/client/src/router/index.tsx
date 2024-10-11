@@ -5,12 +5,11 @@ import {
   Login,
   Registration,
   Main,
-  Game,
+  GamePage,
   Leaderboard,
   Error,
   ProfilePage,
 } from '../pages'
-import GameDemo from '../game/GameDemo'
 import { PathsRoutes } from './types'
 
 const closePathUnauthorized = (
@@ -39,8 +38,8 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
     element: closePathUnauthorized(isAuthorized, <Main />),
   },
   {
-    path: PathsRoutes.Game,
-    element: closePathUnauthorized(isAuthorized, <Game />),
+    path: PathsRoutes.GamePage,
+    element: closePathUnauthorized(isAuthorized, <GamePage />),
   },
   {
     path: PathsRoutes.Profile,
@@ -53,10 +52,6 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   {
     path: PathsRoutes.Leaderboard,
     element: <Leaderboard />,
-  },
-  {
-    path: PathsRoutes.GameDemo,
-    element: <GameDemo />,
   },
   {
     path: PathsRoutes.Forum,

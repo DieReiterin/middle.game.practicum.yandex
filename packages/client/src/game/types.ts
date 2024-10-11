@@ -44,6 +44,7 @@ export interface PlayerConfig {
   groundHeight: number
   name: string
   getGameOver: () => boolean
+  shouldFlip: boolean
 }
 
 export interface AirAttackConfig {

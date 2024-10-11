@@ -50,7 +50,7 @@ export class Player {
   public name: string
   private readonly texture: HTMLImageElement | null
   private movementDirection = 1 // 1 - right, -1 - left
-
+  private shouldFlip: boolean
   private readonly isComputer: boolean
   private controls: any
   private config: GameConfig
@@ -93,6 +93,7 @@ export class Player {
     this.name = config.name
     this.texture = config.texture || null
     this.getGameOver = config.getGameOver
+    this.shouldFlip = config.shouldFlip
 
     if (!this.isComputer && config.controls) {
       this.controls = config.controls
@@ -142,6 +143,9 @@ export class Player {
     this.checkFireballCollisions(opponent)
     this.regenerateMana(deltaTime)
     this.updateShield(deltaTime)
+
+    // If the player is on the right side of the opponent, flip the texture
+    this.shouldFlip = this.x > opponent.x
 
     // Update cooldown timers
     if (this.fireballCooldownTimer > 0) {
@@ -544,6 +548,14 @@ export class Player {
       this.airAttack.draw(context)
     }
 
+    context.save()
+
+    if (this.shouldFlip) {
+      // Flip the context horizontally
+      context.scale(-1, 1)
+      context.translate(-this.x * 2 - this.width, 0)
+    }
+
     // Draw the character
     if (this.texture) {
       context.drawImage(
@@ -558,6 +570,8 @@ export class Player {
         this.isPreparingAirAttack && this.airAttack ? 'white' : this.color
       context.fillRect(this.x, this.y - this.height, this.width, this.height)
     }
+
+    context.restore()
 
     // Draw the shield if it is active
     if (this.isShieldActive) {
