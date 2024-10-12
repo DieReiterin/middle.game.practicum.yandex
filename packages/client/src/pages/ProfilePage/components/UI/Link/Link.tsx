@@ -17,8 +17,8 @@ export const Link: FC<IProps> = ({
   disabled,
 }) => {
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
     if (disabled) {
-      e.preventDefault()
       return
     }
     if (onClick) {

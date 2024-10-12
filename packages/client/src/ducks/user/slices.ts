@@ -10,12 +10,7 @@ import {
 
 import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
-import {
-  userURL,
-  signinURL,
-  signupURL,
-  getstaticURL,
-} from '../../api/constants'
+import { userURL, signinURL, signupURL, staticURL } from '../../api/constants'
 
 const initialState: UserState = {
   user: null,
@@ -78,6 +73,11 @@ export const getUser = createAsyncThunk(
       const user = response.data
 
       if (user.avatar && user.avatar !== '') {
+        // console.log(
+        //   'getAvatar from getUser with: ',
+        //   user.avatar.substring(user.avatar.length - 10, user.avatar.length)
+        // )
+
         dispatch(getUserAvatar(user.avatar))
       }
 
@@ -97,10 +97,11 @@ export const getUserAvatar = createAsyncThunk(
   async (pathToFile: string, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<Blob>>({
-        url: getstaticURL + pathToFile,
+        url: staticURL + pathToFile,
         method: Methods.GET,
         responseType: 'blob',
       })
+
       const fileURL = URL.createObjectURL(response.data)
       return fileURL
     } catch (err) {

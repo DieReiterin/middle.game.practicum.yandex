@@ -11,7 +11,7 @@ export enum Methods {
 const api = axios.create({
   baseURL,
   method: Methods.GET,
-  timeout: 1000,
+  timeout: 5000,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true,
 })

@@ -11,20 +11,22 @@ import {
 import styles from './Profile.module.scss'
 // import { useNavigate } from 'react-router-dom'
 // import { PathsRoutes } from '../../../../router/types'
+import api, { Methods } from '@/api'
+import { userURL, signinURL, signupURL, avatarURL } from '@/api/constants'
+import { AxiosResponse, isAxiosError } from 'axios'
 
 import { useAppDispatch } from '@/ducks/store'
 import {
-  getUserAvatar,
   userSelector,
   userAvatarSelector,
+  userErrorSelector,
   UserResponse as TUser,
+  getUserAvatar,
+  getUser,
 } from '@/ducks/user'
 import { useSelector } from 'react-redux'
 
-// const profileController = new ProfileController();
-// const userLoginController = new UserLoginController();
 type TEditMode = 'default' | 'editAvatar' | 'editProfile' | 'editPassword'
-
 type TLocalUser = {
   avatar: string
   email: string
@@ -37,15 +39,15 @@ type TLocalUser = {
   new_password: string
   repeat_password: string
 }
-
 type MatchingKeys = Extract<keyof TLocalUser, keyof TUser>
 type MatchingFields = Pick<TLocalUser, MatchingKeys>
 
 export const Profile: FC = () => {
   const user = useSelector(userSelector)
   const userAvatar = useSelector(userAvatarSelector)
+  const serverError = useSelector(userErrorSelector)
   // const navigate = useNavigate()
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
 
   const [localUser, setLocalUser] = useState<TLocalUser>({
     avatar: '',
@@ -61,14 +63,16 @@ export const Profile: FC = () => {
   })
   const [editMode, setEditMode] = useState<TEditMode>('default')
   const [alertText, setAlertText] = useState('')
-  const [LocalAvatarFile, setLocalAvatarFile] = useState<File | null>(null)
+  const [localAvatarFile, setLocalAvatarFile] = useState<File | null>(null)
 
   useEffect(() => {
     if (user) {
+      // console.log(
+      // user.avatar.substring(user.avatar.length - 10, user.avatar.length)
+      // )
       mapUserToLocal()
-      // dispatch(getUserAvatar(user.avatar))
     }
-  }, [])
+  }, [user])
 
   const mapUserToLocal = () => {
     if (!user) {
@@ -83,54 +87,48 @@ export const Profile: FC = () => {
       }, {} as MatchingFields)
 
       const newLocalUser = { ...prevLocalUser, ...updatedFields }
-      console.log('mapped user', newLocalUser.first_name)
+      // console.log('mapped user', newLocalUser.first_name)
 
       return newLocalUser
     })
   }
 
-  // const loadUserAvatar = () => {
+  const clickSaveAvatar = async () => {
+    if (!localAvatarFile) return
 
-  // }
+    try {
+      const newAvatarPath = await requestChangeAvatar(localAvatarFile)
+      if (newAvatarPath) {
+        dispatch(getUserAvatar(newAvatarPath))
+      }
+    } catch (error) {
+      setAlertText(error as string)
+    }
+  }
+  const requestChangeAvatar = async (newAvatar: File) => {
+    const formData = new FormData()
+    formData.append('avatar', newAvatar)
 
-  // useEffect(() => {///
-  //     const fetchlocalUser = async () => {
-  //         try {
-  //             const info = await userLoginController.getInfo();
-  //             setLocalUser(info);
-  //             loadUserAvatar(info.avatar);
-  //         } catch (error) {
-  //             console.error('getlocalUser failed:', error);
-  //         }
-  //     };
-  //     fetchlocalUser();
-  // }, []);
-  // const loadUserAvatar = async (path: string | null) => {
-  //     if (path === null) {
-  //         return;
-  //     }
-  //     try {
-  //         const result = await userLoginController.getStatic(path);
-  //         setLocalUser(prev => ({ ...prev, avatar: result }));
-  //     } catch (error) {
-  //         showAlert('Не получилось загрузить ваш аватар');
-  //     }
-  // };
+    try {
+      const response = await api<undefined, AxiosResponse<string>>({
+        url: avatarURL,
+        method: Methods.PUT,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+      })
+      return (response.data as { avatar?: string })?.avatar
+    } catch (error) {
+      setAlertText(error as string)
+    }
+  }
 
-  // const requestChangeAvatar = async () => {
-  //     if (!avatarFile) return;
-  //     const formData = new FormData();
-  //     formData.append('avatar', avatarFile);
-  //     try {
-  //         await profileController.editAvatar(formData);
-  //         showAlert('Новый аватар сохранен');
-  //         // Обновляем информацию пользователя
-  //         const updatedInfo = await userLoginController.getInfo();
-  //         setLocalUser(updatedInfo);
-  //     } catch (error) {
-  //         showAlert('Не получилось сменить аватар');
-  //     }
-  // };
+  const clickSaveBtn = () => {
+    // if (editMode === 'editProfile') {
+
+    // } else if (editMode === 'editPassword') {
+    setEditMode('default')
+    // }
+  }
   // const requestChangeProfile = async () => {
   //     try {
   //         const response = await profileController.editProfile(localUser);
@@ -154,13 +152,6 @@ export const Profile: FC = () => {
   //         showAlert('Ошибка при выходе: ' + error.message);
   //     }
   // };
-  const clickSaveBtn = () => {
-    setEditMode('default')
-  }
-  const clickSaveAvatar = () => {
-    setEditMode('default')
-  }
-
   const setLocalUserField = (field: string) => (value: string) => {
     setLocalUser(prev => ({ ...prev, [field]: value }))
   }
@@ -371,16 +362,17 @@ export const Profile: FC = () => {
       <div className={styles.header}>
         <Image
           className={styles.headerImage}
+          // src={userAvatar}
           src={userAvatar}
           onClick={() => setEditMode('editAvatar')}
         />
-        {/* <Subtitle className={styles.headerTitle} text={localUser.first_name} /> */}
+        {/* <Subtitle className={styles.headerTitle} text={user?.avatar} /> */}
         <Subtitle className={styles.headerTitle} text={localUser.first_name} />
       </div>
       {renderAvatarControls(editMode === 'editAvatar')}
       {renderUserFields(editMode === 'editProfile')}
       {renderPasswordFields(editMode === 'editPassword')}
-      {renderAlertBlock(alertText)}
+      {renderAlertBlock((serverError as string) || alertText)}
       {renderProfileControls(editMode === 'default')}
       {renderFooter(editMode === 'editPassword' || editMode === 'editProfile')}
     </div>
