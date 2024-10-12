@@ -50,8 +50,8 @@ export default defineConfig({
       },
 
       devOptions: {
-        enabled:
-          !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+        enabled: false,
+        // !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
         type: 'module',
       },
     }),
