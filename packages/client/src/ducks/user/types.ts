@@ -1,5 +1,6 @@
 export interface UserState {
   user: UserResponse | null
+  avatarUrl: string
   loading: boolean
   error?: string
 }

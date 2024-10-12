@@ -6,10 +6,7 @@
     height: 100%;
   }
 
-  &_default & {
-    &__pic {
-      width: 30%;
-      height: 30%;
-    }
+  &_default {
+    padding: 40px;
   }
 }

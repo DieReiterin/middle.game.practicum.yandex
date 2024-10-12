@@ -12,12 +12,16 @@ interface IProps {
 
 export const Image: FC<IProps> = ({
   className = '',
-  src = defaultImage,
+  src = '',
   alt = '',
-  type = false,
   onClick,
 }) => {
-  const imageSrc = src && src.trim() ? src : defaultImage
+  let typeDefault = true
+  let imageSrc = defaultImage
+  if (src && src.trim()) {
+    typeDefault = false
+    imageSrc = src
+  }
 
   const handleClick = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
@@ -29,7 +33,7 @@ export const Image: FC<IProps> = ({
   return (
     <div
       className={`${styles.image} ${className} ${
-        type ? styles.image_default : ''
+        typeDefault ? styles.image_default : ''
       }`}
       onClick={handleClick}>
       <img src={imageSrc} alt={alt} className={styles.image__pic} />
