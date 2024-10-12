@@ -7,7 +7,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 dotenv.config()
 // https://vitejs.dev/config/
 
-console.log(process.env.NODE_ENV)
 export default defineConfig({
   server: {
     port: Number(process.env.CLIENT_PORT) || 3000,
@@ -26,6 +25,7 @@ export default defineConfig({
       scss: {
         api: 'modern-compiler',
         additionalData: `@import "@/assets/styles/vars.scss";\n@import "@/assets/styles/mixins.scss";\n`,
+        silenceDeprecations: ['legacy-js-api'],
       },
     },
   },
