@@ -73,11 +73,6 @@ export const getUser = createAsyncThunk(
       const user = response.data
 
       if (user.avatar && user.avatar !== '') {
-        // console.log(
-        //   'getAvatar from getUser with: ',
-        //   user.avatar.substring(user.avatar.length - 10, user.avatar.length)
-        // )
-
         dispatch(getUserAvatar(user.avatar))
       }
 

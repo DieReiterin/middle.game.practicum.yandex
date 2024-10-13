@@ -12,7 +12,13 @@ import styles from './Profile.module.scss'
 // import { useNavigate } from 'react-router-dom'
 // import { PathsRoutes } from '../../../../router/types'
 import api, { Methods } from '@/api'
-import { userURL, signinURL, signupURL, avatarURL } from '@/api/constants'
+import {
+  userURL,
+  signinURL,
+  signupURL,
+  avatarURL,
+  profileURL,
+} from '@/api/constants'
 import { AxiosResponse, isAxiosError } from 'axios'
 
 import { useAppDispatch } from '@/ducks/store'
@@ -35,9 +41,6 @@ type TLocalUser = {
   second_name: string
   display_name: string
   phone: string
-  old_password: string
-  new_password: string
-  repeat_password: string
 }
 type MatchingKeys = Extract<keyof TLocalUser, keyof TUser>
 type MatchingFields = Pick<TLocalUser, MatchingKeys>
@@ -51,15 +54,17 @@ export const Profile: FC = () => {
 
   const [localUser, setLocalUser] = useState<TLocalUser>({
     avatar: '',
-    email: 'email',
-    login: 'login',
-    first_name: 'first_name',
-    second_name: 'second_name',
-    display_name: 'display_name',
-    phone: 'phone',
-    old_password: 'old_password',
-    new_password: 'new_password',
-    repeat_password: 'repeat_password',
+    email: '',
+    login: '',
+    first_name: '',
+    second_name: '',
+    display_name: '',
+    phone: '',
+  })
+  const [passwordFields, setPasswordFields] = useState({
+    old_password: '',
+    new_password: '',
+    repeat_password: '',
   })
   const [editMode, setEditMode] = useState<TEditMode>('default')
   const [alertText, setAlertText] = useState('')
@@ -71,6 +76,7 @@ export const Profile: FC = () => {
       // user.avatar.substring(user.avatar.length - 10, user.avatar.length)
       // )
       mapUserToLocal()
+      // dispatch(getUserAvatar(userAvatar))
     }
   }, [user])
 
@@ -93,21 +99,11 @@ export const Profile: FC = () => {
     })
   }
 
-  const clickSaveAvatar = async () => {
+  const requestChangeAvatar = async () => {
     if (!localAvatarFile) return
 
-    try {
-      const newAvatarPath = await requestChangeAvatar(localAvatarFile)
-      if (newAvatarPath) {
-        dispatch(getUserAvatar(newAvatarPath))
-      }
-    } catch (error) {
-      setAlertText(error as string)
-    }
-  }
-  const requestChangeAvatar = async (newAvatar: File) => {
     const formData = new FormData()
-    formData.append('avatar', newAvatar)
+    formData.append('avatar', localAvatarFile)
 
     try {
       const response = await api<undefined, AxiosResponse<string>>({
@@ -116,19 +112,56 @@ export const Profile: FC = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
         data: formData,
       })
-      return (response.data as { avatar?: string })?.avatar
+      const error = (response.data as { reason?: string })?.reason
+      if (!error) {
+        dispatch(getUser())
+      } else {
+        setAlertText(error)
+      }
+      // const newAvatarPath = (response.data as { avatar?: string })?.avatar
+      // if (newAvatarPath) {
+      //   dispatch(getUserAvatar(newAvatarPath))
+      // }
     } catch (error) {
       setAlertText(error as string)
     }
   }
 
   const clickSaveBtn = () => {
-    // if (editMode === 'editProfile') {
-
-    // } else if (editMode === 'editPassword') {
-    setEditMode('default')
+    if (editMode === 'editProfile') {
+      requestChangeUserFields()
+    }
+    // else if (editMode === 'editPassword') {
     // }
+    setEditMode('default')
   }
+
+  const requestChangeUserFields = async () => {
+    const dataToSend = Object.keys(localUser).reduce((acc, key) => {
+      if (key !== 'avatar') {
+        acc[key as keyof TLocalUser] = localUser[key as keyof TLocalUser]
+      }
+      return acc
+    }, {} as TLocalUser)
+
+    try {
+      const response = await api<undefined, AxiosResponse<string>>({
+        url: profileURL,
+        method: Methods.PUT,
+        data: dataToSend,
+      })
+      const error = (response.data as { reason?: string })?.reason
+      if (!error) {
+        dispatch(getUser())
+      } else {
+        setAlertText(error)
+      }
+    } catch (error) {
+      setAlertText(error as string)
+    }
+  }
+
+  // }
   // const requestChangeProfile = async () => {
   //     try {
   //         const response = await profileController.editProfile(localUser);
@@ -152,9 +185,14 @@ export const Profile: FC = () => {
   //         showAlert('Ошибка при выходе: ' + error.message);
   //     }
   // };
+
   const setLocalUserField = (field: string) => (value: string) => {
     setLocalUser(prev => ({ ...prev, [field]: value }))
   }
+  const setPasswordField = (field: string) => (value: string) => {
+    setPasswordFields(prev => ({ ...prev, [field]: value }))
+  }
+
   const renderAvatarControls = (show: boolean) => {
     return show ? (
       <form className={styles.avatarControls}>
@@ -166,11 +204,9 @@ export const Profile: FC = () => {
           id="avatar"
           accept="image/*"
         />
-        {/* <Link onClick={() => requestChangeAvatar()} className={styles.linkRed} text="Поменять" /> */}
-        {/* <InputFile name="avatar" id="avatar" accept="image/*" /> */}
         <Link
           text="Поменять"
-          onClick={() => clickSaveAvatar()}
+          onClick={() => requestChangeAvatar()}
           className={styles.linkRed}
         />
       </form>
@@ -274,24 +310,24 @@ export const Profile: FC = () => {
         <div className={styles.profileRow}>
           <Subtitle text="Старый пароль" className={styles.subtitleBold} />
           <InputField
-            value={localUser.old_password}
-            onInput={setLocalUserField('old_password')}
+            value={passwordFields.old_password}
+            onInput={setPasswordField('old_password')}
             typeProfile={true}
           />
         </div>
         <div className={styles.profileRow}>
           <Subtitle text="Новый пароль" className={styles.subtitleBold} />
           <InputField
-            value={localUser.new_password}
-            onInput={setLocalUserField('new_password')}
+            value={passwordFields.new_password}
+            onInput={setPasswordField('new_password')}
             typeProfile={true}
           />
         </div>
         <div className={styles.profileRow}>
           <Subtitle text="Повторите пароль" className={styles.subtitleBold} />
           <InputField
-            value={localUser.repeat_password}
-            onInput={setLocalUserField('repeat_password')}
+            value={passwordFields.repeat_password}
+            onInput={setPasswordField('repeat_password')}
             typeProfile={true}
           />
         </div>
@@ -367,7 +403,7 @@ export const Profile: FC = () => {
           onClick={() => setEditMode('editAvatar')}
         />
         {/* <Subtitle className={styles.headerTitle} text={user?.avatar} /> */}
-        <Subtitle className={styles.headerTitle} text={localUser.first_name} />
+        <Subtitle className={styles.headerTitle} text={user?.first_name} />
       </div>
       {renderAvatarControls(editMode === 'editAvatar')}
       {renderUserFields(editMode === 'editProfile')}
