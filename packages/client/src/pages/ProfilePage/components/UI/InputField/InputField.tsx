@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
 import { Input } from '../Input'
 import styles from './InputField.module.scss'
-import validate from '../../../tools/validate'
 
 interface IProps {
   typeProfile?: boolean
@@ -27,13 +26,11 @@ export const InputField: FC<IProps> = ({
   onInput,
 }) => {
   const [inputValue, setInputValue] = useState(value || '')
-  const [error, setError] = useState<string>('')
 
   const handleBlur = () => {
     if (onBlur) {
       onBlur()
     }
-    validateField()
   }
 
   const handleInput = (val: string) => {
@@ -41,18 +38,6 @@ export const InputField: FC<IProps> = ({
     if (onInput) {
       onInput(val)
     }
-  }
-
-  const validateField = () => {
-    const validationResult = validate(name, inputValue)
-    if (validationResult && validationResult !== 'ok') {
-      setError(validationResult)
-      return false
-    } else if (validationResult === 'ok') {
-      setError('')
-      return true
-    }
-    return true
   }
 
   return (
@@ -74,11 +59,6 @@ export const InputField: FC<IProps> = ({
         onBlur={handleBlur}
         onInput={handleInput}
       />
-      {error && (
-        <label className={styles.inputField__error} htmlFor={id}>
-          {error}
-        </label>
-      )}
     </div>
   )
 }

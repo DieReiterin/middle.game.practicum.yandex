@@ -9,9 +9,6 @@
   align-items: center;
 
   min-height: 100px;
-  // margin-bottom: 20px;
-
-  // border: 1px solid red;
 
   &Image {
     position: relative;
@@ -82,22 +79,14 @@
   box-sizing: content-box;
   height: 24px;
   padding: 10px 0;
-
-  // border: 1px solid green;
 }
-
-// .userFields {
-//   border: 1px solid red;
-// }
 
 .passwordFields {
   height: 132px;
-  // border: 1px solid green;
 }
 
 .alertBlock {
   height: 14px;
-  // border: 1px solid red;
   &Text {
     font-size: 14px;
     color: $color-error;
@@ -106,14 +95,11 @@
 
 .profileControls {
   min-height: 50px;
-  // margin-bottom: 20px;
-  // border: 1px solid green;
 }
 
 .footer {
   min-height: 50px;
   margin-bottom: 20px;
-  // border: 1px solid red;
 
   &Btn {
     margin: 0 auto;
@@ -132,16 +118,6 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 100%;
-
-  // &_align-left {
-  //   display: flex;
-  //   justify-content: flex-start;
-  // }
-
-  // &_align-center {
-  //   display: flex;
-  //   justify-content: center;
-  // }
 }
 
 .profileRowBordered {
@@ -170,23 +146,3 @@
 .linkRed {
   color: $color-error;
 }
-
-// .profileInput {
-//   position: relative;
-
-//   display: flex;
-//   align-items: flex-end;
-//   justify-content: center;
-
-//   height: 12px;
-//   margin: -5px 0;
-//   padding: 5px 0;
-
-//   // &__error {
-//   //   position: absolute;
-//   //   right: 0;
-//   //   top: 20px;
-//   //   width: 200%;
-//   //   text-align: right;
-//   // }
-// }

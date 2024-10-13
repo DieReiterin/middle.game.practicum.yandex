@@ -14,13 +14,6 @@
     color: $color-accent-soft;
   }
 
-  &__error {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 100%;
-    color: $color-error;
-  }
-
   &_hidden {
     display: none;
   }
@@ -35,15 +28,5 @@
     height: 12px;
     margin: -5px 0;
     padding: 5px 0;
-  }
-
-  &_type_profile & {
-    &__error {
-      position: absolute;
-      right: 0;
-      top: 20px;
-      width: 200%;
-      text-align: right;
-    }
   }
 }

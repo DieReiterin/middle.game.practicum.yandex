@@ -8,13 +8,13 @@ import {
   Image,
   PageTitle,
 } from '../UI/index'
+import { UserFields } from '../UserFields'
 import styles from './Profile.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '@/router/types'
 import api, { Methods } from '@/api'
 import { passwordURL, avatarURL, profileURL } from '@/api/constants'
 import { AxiosResponse, isAxiosError } from 'axios'
-
 import { useAppDispatch } from '@/ducks/store'
 import {
   userSelector,
@@ -26,16 +26,8 @@ import {
 } from '@/ducks/user'
 import { useSelector } from 'react-redux'
 
+import { TLocalUser } from '../types'
 type TEditMode = 'default' | 'editAvatar' | 'editProfile' | 'editPassword'
-type TLocalUser = {
-  avatar: string
-  email: string
-  login: string
-  first_name: string
-  second_name: string
-  display_name: string
-  phone: string
-}
 type MatchingKeys = Extract<keyof TLocalUser, keyof TUser>
 type MatchingFields = Pick<TLocalUser, MatchingKeys>
 
@@ -47,7 +39,6 @@ export const Profile: FC = () => {
   const dispatch = useAppDispatch()
 
   const [localUser, setLocalUser] = useState<TLocalUser>({
-    avatar: '',
     email: '',
     login: '',
     first_name: '',
@@ -66,11 +57,7 @@ export const Profile: FC = () => {
 
   useEffect(() => {
     if (user) {
-      // console.log(
-      // user.avatar.substring(user.avatar.length - 10, user.avatar.length)
-      // )
       mapUserToLocal()
-      // dispatch(getUserAvatar(userAvatar))
     }
   }, [user])
 
@@ -87,8 +74,6 @@ export const Profile: FC = () => {
       }, {} as MatchingFields)
 
       const newLocalUser = { ...prevLocalUser, ...updatedFields }
-      // console.log('mapped user', newLocalUser.first_name)
-
       return newLocalUser
     })
   }
@@ -103,9 +88,7 @@ export const Profile: FC = () => {
 
   const requestChangeUserFields = async () => {
     const dataToSend = Object.keys(localUser).reduce((acc, key) => {
-      if (key !== 'avatar') {
-        acc[key as keyof TLocalUser] = localUser[key as keyof TLocalUser]
-      }
+      acc[key as keyof TLocalUser] = localUser[key as keyof TLocalUser]
       return acc
     }, {} as TLocalUser)
 
@@ -193,7 +176,7 @@ export const Profile: FC = () => {
     }
   }
 
-  const setLocalUserField = (field: string) => (value: string) => {
+  const setLocalUserField = (field: keyof TLocalUser) => (value: string) => {
     setLocalUser(prev => ({ ...prev, [field]: value }))
   }
   const setPasswordField = (field: string) => (value: string) => {
@@ -219,96 +202,6 @@ export const Profile: FC = () => {
       </form>
     ) : (
       <div className={styles.avatarControls}></div>
-    )
-  }
-  const renderUserFields = (showInputs: boolean) => {
-    return showInputs ? (
-      <div className={styles.userFields}>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Почта" className={styles.subtitleBold} />
-          <InputField
-            value={localUser.email}
-            onInput={setLocalUserField('email')}
-            typeProfile={true}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Логин" className={styles.subtitleBold} />
-          <InputField
-            value={localUser.login}
-            onInput={setLocalUserField('login')}
-            typeProfile={true}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Имя" className={styles.subtitleBold} />
-          <InputField
-            value={localUser.first_name}
-            onInput={setLocalUserField('first_name')}
-            typeProfile={true}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Фамилия" className={styles.subtitleBold} />
-          <InputField
-            value={localUser.second_name}
-            onInput={setLocalUserField('second_name')}
-            typeProfile={true}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Имя в чате" className={styles.subtitleBold} />
-          <InputField
-            value={localUser.display_name}
-            onInput={setLocalUserField('display_name')}
-            typeProfile={true}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Телефон" className={styles.subtitleBold} />
-          <InputField
-            value={localUser.phone}
-            onInput={setLocalUserField('phone')}
-            typeProfile={true}
-          />
-        </div>
-      </div>
-    ) : (
-      <div className={styles.userFields}>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Почта" className={styles.subtitleBold} />
-          <Subtitle text={localUser.email} className={styles.subtitleGrey} />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Логин" className={styles.subtitleBold} />
-          <Subtitle text={localUser.login} className={styles.subtitleGrey} />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Имя" className={styles.subtitleBold} />
-          <Subtitle
-            text={localUser.first_name}
-            className={styles.subtitleGrey}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Фамилия" className={styles.subtitleBold} />
-          <Subtitle
-            text={localUser.second_name}
-            className={styles.subtitleGrey}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Имя в чате" className={styles.subtitleBold} />
-          <Subtitle
-            text={localUser.display_name}
-            className={styles.subtitleGrey}
-          />
-        </div>
-        <div className={styles.profileRowBordered}>
-          <Subtitle text="Телефон" className={styles.subtitleBold} />
-          <Subtitle text={localUser.phone} className={styles.subtitleGrey} />
-        </div>
-      </div>
     )
   }
   const renderPasswordFields = (show: boolean) => {
@@ -409,14 +302,17 @@ export const Profile: FC = () => {
       <div className={styles.header}>
         <Image
           className={styles.headerImage}
-          // src={userAvatar}
           src={userAvatar}
           onClick={() => setEditMode('editAvatar')}
         />
         <Subtitle className={styles.headerTitle} text={user?.first_name} />
       </div>
       {renderAvatarControls(editMode === 'editAvatar')}
-      {renderUserFields(editMode === 'editProfile')}
+      <UserFields
+        user={localUser}
+        onChange={(field, value) => setLocalUserField(field)(value)}
+        editable={editMode === 'editProfile'}
+      />
       {renderPasswordFields(editMode === 'editPassword')}
       {renderAlertBlock((serverError as string) || alertText)}
       {renderProfileControls(editMode === 'default')}
