@@ -10,7 +10,13 @@ import {
 
 import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
-import { userURL, signinURL, signupURL, staticURL } from '../../api/constants'
+import {
+  userURL,
+  signinURL,
+  signupURL,
+  staticURL,
+  logoutURL,
+} from '../../api/constants'
 
 const initialState: UserState = {
   user: null,
@@ -53,6 +59,24 @@ export const signin = createAsyncThunk(
 
       dispatch(getUser())
       return response.data
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  }
+)
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await api<undefined, AxiosResponse<string>>({
+        url: logoutURL,
+        method: Methods.POST,
+      })
+      dispatch(actions.reset())
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err
@@ -137,6 +161,19 @@ const userStateSlice = createSlice({
       state.error = undefined
     })
     builder.addCase(signin.rejected, (state, error) => {
+      state.loading = false
+      state.error = (error.payload as { reason?: string })?.reason
+    })
+
+    builder.addCase(logout.fulfilled, state => {
+      state.loading = false
+      state.error = undefined
+    })
+    builder.addCase(logout.pending, state => {
+      state.loading = true
+      state.error = undefined
+    })
+    builder.addCase(logout.rejected, (state, error) => {
       state.loading = false
       state.error = (error.payload as { reason?: string })?.reason
     })

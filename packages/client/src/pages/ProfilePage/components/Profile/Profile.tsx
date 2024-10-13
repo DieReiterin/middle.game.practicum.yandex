@@ -9,16 +9,10 @@ import {
   PageTitle,
 } from '../UI/index'
 import styles from './Profile.module.scss'
-// import { useNavigate } from 'react-router-dom'
-// import { PathsRoutes } from '../../../../router/types'
+import { useNavigate } from 'react-router-dom'
+import { PathsRoutes } from '@/router/types'
 import api, { Methods } from '@/api'
-import {
-  userURL,
-  signinURL,
-  signupURL,
-  avatarURL,
-  profileURL,
-} from '@/api/constants'
+import { passwordURL, avatarURL, profileURL } from '@/api/constants'
 import { AxiosResponse, isAxiosError } from 'axios'
 
 import { useAppDispatch } from '@/ducks/store'
@@ -27,8 +21,8 @@ import {
   userAvatarSelector,
   userErrorSelector,
   UserResponse as TUser,
-  getUserAvatar,
   getUser,
+  logout,
 } from '@/ducks/user'
 import { useSelector } from 'react-redux'
 
@@ -49,7 +43,7 @@ export const Profile: FC = () => {
   const user = useSelector(userSelector)
   const userAvatar = useSelector(userAvatarSelector)
   const serverError = useSelector(userErrorSelector)
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
   const [localUser, setLocalUser] = useState<TLocalUser>({
@@ -99,41 +93,12 @@ export const Profile: FC = () => {
     })
   }
 
-  const requestChangeAvatar = async () => {
-    if (!localAvatarFile) return
-
-    const formData = new FormData()
-    formData.append('avatar', localAvatarFile)
-
-    try {
-      const response = await api<undefined, AxiosResponse<string>>({
-        url: avatarURL,
-        method: Methods.PUT,
-        headers: { 'Content-Type': 'multipart/form-data' },
-        data: formData,
-      })
-      const error = (response.data as { reason?: string })?.reason
-      if (!error) {
-        dispatch(getUser())
-      } else {
-        setAlertText(error)
-      }
-      // const newAvatarPath = (response.data as { avatar?: string })?.avatar
-      // if (newAvatarPath) {
-      //   dispatch(getUserAvatar(newAvatarPath))
-      // }
-    } catch (error) {
-      setAlertText(error as string)
-    }
-  }
-
   const clickSaveBtn = () => {
     if (editMode === 'editProfile') {
       requestChangeUserFields()
+    } else if (editMode === 'editPassword') {
+      requestChangePassword()
     }
-    // else if (editMode === 'editPassword') {
-    // }
-    setEditMode('default')
   }
 
   const requestChangeUserFields = async () => {
@@ -145,46 +110,88 @@ export const Profile: FC = () => {
     }, {} as TLocalUser)
 
     try {
-      const response = await api<undefined, AxiosResponse<string>>({
+      await api<undefined, AxiosResponse<string>>({
         url: profileURL,
         method: Methods.PUT,
         data: dataToSend,
       })
-      const error = (response.data as { reason?: string })?.reason
-      if (!error) {
-        dispatch(getUser())
-      } else {
-        setAlertText(error)
-      }
+      dispatch(getUser())
     } catch (error) {
-      setAlertText(error as string)
+      if (isAxiosError(error)) {
+        const serverError = error.response?.data?.reason || 'Ошибка сервера'
+        setAlertText(serverError)
+      } else {
+        setAlertText('Неизвестная ошибка')
+      }
     }
   }
+  const requestChangePassword = async () => {
+    if (
+      !passwordFields.old_password ||
+      !passwordFields.new_password ||
+      !passwordFields.repeat_password
+    ) {
+      setAlertText('Заполните все поля')
+      return
+    }
+    if (passwordFields.new_password !== passwordFields.repeat_password) {
+      setAlertText('Пароли не совпадают')
+      return
+    }
+    const dataToSend = {
+      oldPassword: passwordFields.old_password,
+      newPassword: passwordFields.new_password,
+    }
 
-  // }
-  // const requestChangeProfile = async () => {
-  //     try {
-  //         const response = await profileController.editProfile(localUser);
-  //         if (typeof response === 'string') {
-  //             showAlert(response);
-  //         } else {
-  //             showAlert('Данные сохранены');
-  //             // Обновляем информацию пользователя
-  //             const updatedInfo = await userLoginController.getInfo();
-  //             setLocalUser(updatedInfo);
-  //         }
-  //     } catch (error) {
-  //         console.error(error);
-  //     }
-  // };
-  // const requestLogout = async () => {
-  //     try {
-  //         await userLoginController.logout();
-  //         navigate(PathsRoutes.Login)
-  //     } catch (error) {
-  //         showAlert('Ошибка при выходе: ' + error.message);
-  //     }
-  // };
+    try {
+      await api<undefined, AxiosResponse<string>>({
+        url: passwordURL,
+        method: Methods.PUT,
+        data: dataToSend,
+      })
+      setAlertText('Пароль успешно изменен')
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const serverError = error.response?.data?.reason || 'Ошибка сервера'
+        setAlertText(serverError)
+      } else {
+        setAlertText('Неизвестная ошибка')
+      }
+    } finally {
+      setEditMode('default')
+    }
+  }
+  const requestChangeAvatar = async () => {
+    if (!localAvatarFile) return
+
+    const formData = new FormData()
+    formData.append('avatar', localAvatarFile)
+
+    try {
+      await api<undefined, AxiosResponse<string>>({
+        url: avatarURL,
+        method: Methods.PUT,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+      })
+      dispatch(getUser())
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const serverError = error.response?.data?.reason || 'Ошибка сервера'
+        setAlertText(serverError)
+      } else {
+        setAlertText('Неизвестная ошибка')
+      }
+    }
+  }
+  const requestLogout = async () => {
+    try {
+      await dispatch(logout()).unwrap()
+      navigate(PathsRoutes.Login)
+    } catch (error) {
+      setAlertText('Ошибка при выходе')
+    }
+  }
 
   const setLocalUserField = (field: string) => (value: string) => {
     setLocalUser(prev => ({ ...prev, [field]: value }))
@@ -361,7 +368,11 @@ export const Profile: FC = () => {
           />
         </div>
         <div className={styles.profileRow}>
-          <Link text="Выйти" className={styles.linkRed} />
+          <Link
+            text="Выйти"
+            onClick={() => requestLogout()}
+            className={styles.linkRed}
+          />
         </div>
       </div>
     ) : (
@@ -402,7 +413,6 @@ export const Profile: FC = () => {
           src={userAvatar}
           onClick={() => setEditMode('editAvatar')}
         />
-        {/* <Subtitle className={styles.headerTitle} text={user?.avatar} /> */}
         <Subtitle className={styles.headerTitle} text={user?.first_name} />
       </div>
       {renderAvatarControls(editMode === 'editAvatar')}
