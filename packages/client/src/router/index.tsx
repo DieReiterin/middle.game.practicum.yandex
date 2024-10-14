@@ -8,6 +8,7 @@ import {
   GamePage,
   Leaderboard,
   Error,
+  ProfilePage,
 } from '../pages'
 import { PathsRoutes } from './types'
 
@@ -39,6 +40,10 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   {
     path: PathsRoutes.GamePage,
     element: closePathUnauthorized(isAuthorized, <GamePage />),
+  },
+  {
+    path: PathsRoutes.Profile,
+    element: closePathUnauthorized(isAuthorized, <ProfilePage />),
   },
   {
     path: '*',

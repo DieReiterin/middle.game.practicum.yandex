@@ -10,22 +10,32 @@ import {
 
 import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
-import { userURL, signinURL, signupURL } from '../../api/constants'
+import {
+  getuserURL,
+  signinURL,
+  signupURL,
+  staticURL,
+  logoutURL,
+} from '../../api/constants'
 
 const initialState: UserState = {
   user: null,
+  avatarUrl: '',
   loading: false,
   error: undefined,
 }
 
-export const getUser = createAsyncThunk(
-  'user/getUser',
-  async (_, { rejectWithValue }) => {
+export const signup = createAsyncThunk(
+  'user/signup',
+  async (data: SignupData, { dispatch, rejectWithValue }) => {
     try {
-      const response = await api<undefined, AxiosResponse<UserResponse>>({
-        url: userURL,
+      const response = await api<undefined, AxiosResponse<SignupResponse>>({
+        url: signupURL,
+        method: Methods.POST,
+        data: data,
       })
 
+      dispatch(getUser())
       return response.data
     } catch (err) {
       if (!isAxiosError(err)) {
@@ -58,23 +68,65 @@ export const signin = createAsyncThunk(
   }
 )
 
-export const signup = createAsyncThunk(
-  'user/signup',
-  async (data: SignupData, { dispatch, rejectWithValue }) => {
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_, { rejectWithValue, dispatch }) => {
     try {
-      const response = await api<undefined, AxiosResponse<SignupResponse>>({
-        url: signupURL,
+      await api<undefined, AxiosResponse<string>>({
+        url: logoutURL,
         method: Methods.POST,
-        data: data,
+      })
+      dispatch(actions.reset())
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  }
+)
+
+export const getUser = createAsyncThunk(
+  'user/getUser',
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<UserResponse>>({
+        url: getuserURL,
       })
 
-      dispatch(getUser())
-      return response.data
+      const user = response.data
+
+      if (user.avatar && user.avatar !== '') {
+        dispatch(getUserAvatar(user.avatar))
+      }
+
+      return user
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err
       }
 
+      return rejectWithValue(err?.response?.data)
+    }
+  }
+)
+
+export const getUserAvatar = createAsyncThunk(
+  'user/getAvatar',
+  async (pathToFile: string, { rejectWithValue }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<Blob>>({
+        url: staticURL + pathToFile,
+        method: Methods.GET,
+        responseType: 'blob',
+      })
+
+      const fileURL = URL.createObjectURL(response.data)
+      return fileURL
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
       return rejectWithValue(err?.response?.data)
     }
   }
@@ -87,18 +139,17 @@ const userStateSlice = createSlice({
     reset: () => initialState,
   },
   extraReducers: builder => {
-    builder.addCase(
-      getUser.fulfilled,
-      (state, action: PayloadAction<UserResponse>) => {
-        state.user = action.payload
-        state.loading = false
-      }
-    )
-    builder.addCase(getUser.pending, state => {
-      state.loading = true
-    })
-    builder.addCase(getUser.rejected, state => {
+    builder.addCase(signup.fulfilled, state => {
       state.loading = false
+      state.error = undefined
+    })
+    builder.addCase(signup.pending, state => {
+      state.loading = true
+      state.error = undefined
+    })
+    builder.addCase(signup.rejected, (state, error) => {
+      state.loading = false
+      state.error = (error.payload as { reason?: string })?.reason
     })
 
     builder.addCase(signin.fulfilled, state => {
@@ -114,15 +165,45 @@ const userStateSlice = createSlice({
       state.error = (error.payload as { reason?: string })?.reason
     })
 
-    builder.addCase(signup.fulfilled, state => {
+    builder.addCase(logout.fulfilled, state => {
       state.loading = false
       state.error = undefined
     })
-    builder.addCase(signup.pending, state => {
+    builder.addCase(logout.pending, state => {
       state.loading = true
       state.error = undefined
     })
-    builder.addCase(signup.rejected, (state, error) => {
+    builder.addCase(logout.rejected, (state, error) => {
+      state.loading = false
+      state.error = (error.payload as { reason?: string })?.reason
+    })
+
+    builder.addCase(
+      getUser.fulfilled,
+      (state, action: PayloadAction<UserResponse>) => {
+        state.user = action.payload
+        state.loading = false
+      }
+    )
+    builder.addCase(getUser.pending, state => {
+      state.loading = true
+    })
+    builder.addCase(getUser.rejected, state => {
+      state.loading = false
+    })
+
+    builder.addCase(
+      getUserAvatar.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        state.avatarUrl = action.payload
+        state.loading = false
+      }
+    )
+    builder.addCase(getUserAvatar.pending, state => {
+      state.loading = true
+      state.error = undefined
+    })
+    builder.addCase(getUserAvatar.rejected, (state, error) => {
       state.loading = false
       state.error = (error.payload as { reason?: string })?.reason
     })

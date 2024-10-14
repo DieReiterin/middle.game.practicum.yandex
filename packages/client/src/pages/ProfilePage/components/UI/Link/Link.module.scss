@@ -1,0 +1,28 @@
+.link {
+  color: $color-text;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    color: $color-accent-soft;
+    cursor: pointer;
+  }
+
+  &_red {
+    color: $color-error;
+  }
+
+  &_disabled {
+    color: $color-accent-soft;
+
+    &:hover {
+      color: $color-accent-soft;
+      cursor: default;
+    }
+  }
+
+  &_hidden {
+    display: none;
+  }
+}
