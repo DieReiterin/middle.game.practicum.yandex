@@ -13,9 +13,7 @@
   &Image {
     position: relative;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include center-flex;
 
     width: 130px;
     height: 130px;

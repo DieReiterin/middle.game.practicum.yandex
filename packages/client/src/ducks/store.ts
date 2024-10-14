@@ -7,14 +7,14 @@ import { UserState, reducer as userReducer } from './user'
 
 export const store = configureStore({
   reducer: {
-    userData: userReducer,
+    userInfo: userReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
 })
 
 export const useAppDispatch = (): ThunkDispatch<
   {
-    userData: UserState
+    userInfo: UserState
   },
   undefined,
   AnyAction

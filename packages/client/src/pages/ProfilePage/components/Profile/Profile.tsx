@@ -303,7 +303,11 @@ export const Profile: FC = () => {
         <Image
           className={styles.headerImage}
           src={userAvatar}
-          onClick={() => setEditMode('editAvatar')}
+          onClick={() => {
+            if (editMode === 'default') {
+              setEditMode('editAvatar')
+            }
+          }}
         />
         <Subtitle className={styles.headerTitle} text={user?.first_name} />
       </div>

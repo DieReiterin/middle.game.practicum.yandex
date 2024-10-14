@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 import { Profile } from './components'
 import styles from './ProfilePage.module.scss'
+import { colorBtn, colorBtnHover, alabaster } from '@/assets/styles/vars'
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -18,10 +19,24 @@ export const ProfilePage: FC = () => {
       <div className={styles.leftPanel}>
         <nav className={styles.nav}>
           <IconButton
+            sx={{
+              boxSizing: 'border-box',
+              padding: '5px',
+              marginBottom: '20px',
+              borderRadius: '50%',
+              backgroundColor: colorBtn,
+              '&:hover': {
+                backgroundColor: colorBtnHover,
+              },
+            }}
             className={styles.btn}
             onClick={handleBackClick}
             aria-label="назад">
-            <ArrowBackIcon />
+            <ArrowBackIcon
+              sx={{
+                color: alabaster,
+              }}
+            />
           </IconButton>
         </nav>
       </div>

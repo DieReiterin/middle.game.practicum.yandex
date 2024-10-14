@@ -11,7 +11,7 @@ import {
 import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
 import {
-  userURL,
+  getuserURL,
   signinURL,
   signupURL,
   staticURL,
@@ -91,7 +91,7 @@ export const getUser = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const response = await api<undefined, AxiosResponse<UserResponse>>({
-        url: userURL,
+        url: getuserURL,
       })
 
       const user = response.data
@@ -133,7 +133,7 @@ export const getUserAvatar = createAsyncThunk(
 )
 
 const userStateSlice = createSlice({
-  name: 'userData',
+  name: 'userInfo',
   initialState,
   reducers: {
     reset: () => initialState,

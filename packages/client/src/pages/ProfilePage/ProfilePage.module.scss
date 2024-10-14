@@ -23,25 +23,12 @@
 }
 
 .btn {
-  box-sizing: border-box;
   width: 30px;
   height: 30px;
-  padding: 5px;
-  margin-bottom: 20px;
-
-  border-radius: 50%;
-  background-color: $color-btn;
-
-  &:hover {
-    cursor: pointer;
-    background-color: $color-btn-hover;
-  }
 }
 
 .main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include center-flex;
 
   flex-basis: 100px;
   flex-grow: 1;
