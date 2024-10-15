@@ -1,0 +1,62 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.forumMessage {
+  @include column-flex;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.forumMessageBlock {
+  width: 90%;
+  padding: 30px;
+  background: #fff;
+  border-radius: 15px;
+  display: flex;
+  gap: 30px;
+}
+
+.forumMessageBlockUserData {
+  width: 191px;
+  height: 240px;
+  border-radius: 10px;
+  border: 1px solid $dusty-gray;
+}
+
+.forumMessageBlockUserDataImg {
+  width: 190px;
+  height: 140px;
+  border-radius: 10px 10px 0 0;
+}
+
+.forumMessageBlockUserDataDesc {
+  padding: 10px;
+}
+
+.forumMessageBlockUserDataDescNick {
+  font-size: 18px;
+}
+
+.forumMessageBlockUserDataDescName {
+  font-size: 15px;
+}
+
+.forumMessageBlockContentComments {
+  margin-top: 20px;
+}
+
+.forumMessageBlockContentCommentsDesc {
+  margin-top: 5px;
+}
+
+.forumMessageBlockContentInput {
+  margin-top: 10px;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.forumMessageBlockContentButton {
+  height: 30px;
+}

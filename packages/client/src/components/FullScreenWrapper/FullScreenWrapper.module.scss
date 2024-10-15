@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg-primary;
+
+  & .container {
+    width: 380px;
+    padding: 52px 30px 24px 30px;
+    background-color: $color-bg-secondary;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: $box-shadow;
+
+    & .content {
+      min-height: 320px;
+    }
+  }
+}

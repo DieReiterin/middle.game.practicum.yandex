@@ -1,0 +1,12 @@
+export const baseURL = 'https://ya-praktikum.tech/api/v2'
+
+export const authURL = '/auth'
+export const signinURL = authURL + '/signin'
+export const signupURL = authURL + '/signup'
+export const getuserURL = authURL + '/user'
+export const logoutURL = authURL + '/logout'
+export const staticURL = '/resources'
+export const userURL = '/user'
+export const passwordURL = userURL + '/password'
+export const profileURL = userURL + '/profile'
+export const avatarURL = profileURL + '/avatar'

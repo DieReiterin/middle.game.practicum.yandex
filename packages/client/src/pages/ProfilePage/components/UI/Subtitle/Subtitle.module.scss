@@ -1,0 +1,11 @@
+.subtitle {
+  color: $color-text;
+
+  &_grey {
+    color: $color-accent-soft;
+  }
+
+  &_bold {
+    font-weight: 600;
+  }
+}

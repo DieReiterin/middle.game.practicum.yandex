@@ -1,0 +1,10 @@
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.counter {
+  text-shadow: 1px 1px 5px #000;
+}

@@ -1,0 +1,146 @@
+.profile {
+  width: 510px;
+  min-height: 200px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 100px;
+
+  &Image {
+    position: relative;
+
+    @include center-flex;
+
+    width: 130px;
+    height: 130px;
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+    background-color: $color-bg-secondary;
+
+    * {
+      -webkit-user-drag: none;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    &::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: 'Поменять\Aаватар';
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 14px;
+      text-align: center;
+      color: $color-text2;
+      white-space: pre;
+
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: rgba($color: $bunker, $alpha: 0.5);
+      transition: opacity 0.5s;
+      opacity: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &Title {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: $color-text;
+  }
+}
+
+.avatarControls {
+  display: flex;
+  justify-content: space-between;
+
+  box-sizing: content-box;
+  height: 24px;
+  padding: 10px 0;
+}
+
+.passwordFields {
+  height: 132px;
+}
+
+.alertBlock {
+  height: 14px;
+  &Text {
+    font-size: 14px;
+    color: $color-error;
+  }
+}
+
+.profileControls {
+  min-height: 50px;
+}
+
+.footer {
+  min-height: 50px;
+  margin-bottom: 20px;
+
+  &Btn {
+    margin: 0 auto;
+  }
+}
+
+.profileRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: content-box;
+  height: 24px;
+  padding: 10px 0;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+}
+
+.profileRowBordered {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: content-box;
+  height: 24px;
+  padding: 10px 0;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  border-bottom: 1px solid $color-border;
+}
+
+.subtitleBold {
+  font-weight: 600;
+}
+
+.subtitleGrey {
+  color: $color-accent-soft;
+}
+
+.linkRed {
+  color: $color-error;
+}

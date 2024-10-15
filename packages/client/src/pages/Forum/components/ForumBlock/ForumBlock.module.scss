@@ -1,0 +1,28 @@
+@import '@styles/vars.scss';
+@import '@styles/mixins.scss';
+
+.forumBlockElem {
+  width: 512px;
+  height: 40px;
+  @include space-between-flex;
+  background: $gallery;
+  border-radius: 8px;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: 0.5s;
+  border: none;
+
+  &:hover {
+    background: $tropical-blue;
+  }
+
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+}
+
+.forumBlockElemDesc {
+  display: flex;
+  gap: 100px;
+  margin-right: 37px;
+}

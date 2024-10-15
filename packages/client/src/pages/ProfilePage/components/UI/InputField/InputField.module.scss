@@ -1,0 +1,32 @@
+.inputField {
+  display: flex;
+  flex-direction: column;
+
+  height: 50px;
+  padding-top: 3px;
+
+  &__label {
+    margin-bottom: 2px;
+
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 100%;
+    color: $color-accent-soft;
+  }
+
+  &_hidden {
+    display: none;
+  }
+
+  &_type_profile {
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    height: 12px;
+    margin: -5px 0;
+    padding: 5px 0;
+  }
+}
