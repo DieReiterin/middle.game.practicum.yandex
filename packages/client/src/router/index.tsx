@@ -51,14 +51,14 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   },
   {
     path: PathsRoutes.Leaderboard,
-    element: <Leaderboard />,
+    element: closePathUnauthorized(isAuthorized, <Leaderboard />),
   },
   {
     path: PathsRoutes.Forum,
-    element: <Forum />,
+    element: closePathUnauthorized(isAuthorized, <Forum />),
   },
   {
     path: PathsRoutes.ForumBlockPage,
-    element: <ForumBlockPage />,
+    element: closePathUnauthorized(isAuthorized, <ForumBlockPage />),
   },
 ]
