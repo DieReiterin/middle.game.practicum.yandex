@@ -4,7 +4,7 @@ import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '../../router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { validationErrorMessage } from '../../constants'
+import { getValidationScheme, validationErrorMessage } from '@/constants'
 import { useAppDispatch } from '../../ducks/store'
 import { signin, userErrorSelector } from '../../ducks/user'
 import { useSelector } from 'react-redux'
@@ -42,14 +42,20 @@ export const Login: FC = () => {
       label: 'Логин',
       message: validationErrorMessage.login,
       error: Boolean(errors?.login),
-      ...register('login'),
+      ...register(
+        'login',
+        getValidationScheme<FormInput, 'login'>('login', true)
+      ),
     },
     {
       label: 'Пароль',
       type: 'password',
       message: validationErrorMessage.password,
       error: Boolean(errors?.password),
-      ...register('password'),
+      ...register(
+        'password',
+        getValidationScheme<FormInput, 'password'>('password', true)
+      ),
     },
   ]
 
