@@ -1,22 +1,14 @@
 import { FC } from 'react'
 
-import { Box, Button, Grid2, Typography } from '@mui/material'
+import { Box, Grid2, Typography } from '@mui/material'
 import styles from './Error.module.scss'
-import { useNavigate } from 'react-router-dom'
-import { PathsRoutes } from '../../router/types'
-
 export type ErrorProps = {
   title: string
+  descr: string
   text: string
 }
 
-export const Error: FC<ErrorProps> = ({ text, title }) => {
-  const navigate = useNavigate()
-
-  const handleButtonClick = (): void => {
-    navigate(PathsRoutes.Main)
-  }
-
+export const Error: FC<ErrorProps> = ({ text, descr, title }) => {
   return (
     <Box className={styles.wrapper}>
       <Grid2
@@ -34,13 +26,16 @@ export const Error: FC<ErrorProps> = ({ text, title }) => {
             variant="subtitle1"
             className={styles.subtitle}
             fontWeight={500}>
-            {text}
+            {descr}
           </Typography>
         </Grid2>
-        <Grid2 textAlign="center">
-          <Button variant="text" onClick={handleButtonClick}>
-            На главную
-          </Button>
+        <Grid2>
+          <Typography
+            variant="subtitle1"
+            className={styles.subtitle}
+            fontWeight={500}>
+            {text}
+          </Typography>
         </Grid2>
       </Grid2>
     </Box>

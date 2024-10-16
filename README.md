@@ -4,9 +4,9 @@
 
 ![preview.png](packages/client/public/images/preview.png)
 
-- [Прототип в фигме](https://www.figma.com/design/JxDvcmFWCqOx6ll6lmoTRD/MAGE-FIGHT)
+- [Видео для командного зачёта](https://disk.yandex.ru/i/bemFDp9nvTfZHA)
 
-- [Ссылка для деплоя на Версель](https://mage-fight.vercel.app/)
+- [Прототип в фигме](https://www.figma.com/design/JxDvcmFWCqOx6ll6lmoTRD/MAGE-FIGHT)
 
 - [Документация](docs/README.md) (Порядок работы с проектом, сценарий игры)
 
