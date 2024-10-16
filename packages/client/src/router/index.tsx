@@ -47,7 +47,9 @@ export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   },
   {
     path: '*',
-    element: <Error title="404" text="Не туда попали" />,
+    element: (
+      <Error title="404" descr="Не туда попали" text="Давайте вернемся назад" />
+    ),
   },
   {
     path: PathsRoutes.Leaderboard,

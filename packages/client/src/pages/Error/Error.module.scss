@@ -1,9 +1,10 @@
 .wrapper {
   @include center-flex;
   height: 100vh;
+  background-color: $color-bg-primary;
 
   & .container {
-    width: 200px;
+    margin: 0 auto;
 
     & .title {
       font-size: 50px;
