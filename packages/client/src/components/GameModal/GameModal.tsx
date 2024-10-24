@@ -9,9 +9,14 @@ import { TGameModalMode, TGameModalAction } from './types'
 interface IGameModalProps {
   mode: TGameModalMode
   modalAction: (action: TGameModalAction) => void
+  isGamepadOn: boolean
 }
 
-export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
+export const GameModal: FC<IGameModalProps> = ({
+  mode,
+  modalAction,
+  isGamepadOn,
+}) => {
   const renderTitle = (text: string) => (
     <Typography
       sx={{ marginBottom: theme => theme.spacing(2) }}
@@ -31,12 +36,20 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
     </Button>
   )
 
+  const controlType = isGamepadOn ? 'геймпада 🎮' : 'клавиатуры ⌨️'
+
   const contentElems = {
     gameTips: (
       <>
         <Box className={styles.actionsWrapper}>
           <Grid2 container spacing={1} direction="column">
-            {actions.map(({ key, action }) => {
+            <Grid2 container size={12}>
+              <Typography variant="subtitle1">
+                Управление игрой для {controlType}
+              </Typography>
+            </Grid2>
+            {actions.map(({ keyboardKey, gamepadKey, action }) => {
+              const key = isGamepadOn ? gamepadKey : keyboardKey
               const keyCode = Array.isArray(key)
                 ? '- ' + key.join('/') + ' -'
                 : '- ' + key + ' -'
