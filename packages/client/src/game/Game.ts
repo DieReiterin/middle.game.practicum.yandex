@@ -1,4 +1,3 @@
-// Game.ts
 import { GameConfig } from './types'
 import { Player } from './Player'
 import {
@@ -81,6 +80,10 @@ export class Game {
   }
 
   private initCanvas() {
+    if (typeof document === 'undefined') {
+      return
+    }
+
     this.canvas = document.createElement('canvas')
     this.canvas.width = this.config.width!
     this.canvas.height = this.config.height!

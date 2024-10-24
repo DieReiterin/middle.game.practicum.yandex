@@ -6,6 +6,10 @@ interface IUseFullscreen<T = HTMLDivElement> {
 
 export const useFullscreen = (props?: IUseFullscreen) => {
   const fullScreenHandler = (e: KeyboardEvent) => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
     if (e.code !== 'F11') {
       return
     }
@@ -26,6 +30,9 @@ export const useFullscreen = (props?: IUseFullscreen) => {
   }
 
   useEffect(() => {
+    if (typeof document === 'undefined') {
+      return
+    }
     document.addEventListener('keydown', fullScreenHandler)
 
     return () => {
