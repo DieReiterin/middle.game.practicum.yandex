@@ -1,5 +1,5 @@
 // Game.ts
-import { GameConfig } from './types'
+import { GameConfig, GamepadState } from './types'
 import { Player } from './Player'
 import {
   GROUND_HEIGHT,
@@ -289,7 +289,7 @@ export class Game {
 
       // Retrieve the state of the gamepad and pass it to the update method
 
-      let gamepadState = null
+      let gamepadState: GamepadState | null = null
       if (this.gamepadIndex !== null) {
         const gamepad = navigator.getGamepads()[this.gamepadIndex]
         if (gamepad) {
@@ -312,7 +312,7 @@ export class Game {
     }
   }
 
-  private update(deltaTime: number, gamepadState: any) {
+  private update(deltaTime: number, gamepadState: GamepadState | null) {
     if (this.isGameOver || !this.player || !this.computer) {
       return
     }

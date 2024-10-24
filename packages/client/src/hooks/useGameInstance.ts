@@ -32,7 +32,9 @@ export const useGameInstance = (
   )
 
   useEffect(() => {
-    restartGame()
+    if (containerRef.current) {
+      restartGame()
+    }
 
     return () => {
       const currentGame = Game.getInstance()

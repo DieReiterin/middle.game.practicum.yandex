@@ -1,4 +1,4 @@
-import { GameConfig, PlayerConfig } from './types'
+import { GameConfig, PlayerConfig, GamepadState } from './types'
 import { Fireball } from './Fireball'
 import { AirAttack } from './AirAttack'
 import { drawRoundedRect } from './utils'
@@ -33,6 +33,7 @@ import {
   AIR_ATTACK_LINE_COLOR,
   AIR_ATTACK_LINE_WIDTH,
   AIR_ATTACK_DURATION,
+  GamepadButtons,
 } from './constants'
 
 export class Player {
@@ -131,7 +132,11 @@ export class Player {
     // (future implementation)
   }
 
-  public update(deltaTime: number, opponent: Player, gamepadState: any = null) {
+  public update(
+    deltaTime: number,
+    opponent: Player,
+    gamepadState: GamepadState | null = null
+  ) {
     if (this.isComputer) {
       this.computerAI(deltaTime, opponent)
     } else {
@@ -197,7 +202,11 @@ export class Player {
     }
   }
 
-  private handleInput(deltaTime: number, opponent: Player, gamepadState: any) {
+  private handleInput(
+    deltaTime: number,
+    opponent: Player,
+    gamepadState: GamepadState | null
+  ) {
     if (this.isShieldActive || this.isPerformingAirAttack) {
       return
     }
@@ -234,43 +243,45 @@ export class Player {
   private handleGamepadInput(
     deltaTime: number,
     opponent: Player,
-    gamepadState: any
+    gamepadState: GamepadState | null
   ) {
     const moveSpeed = MOVE_SPEED * (deltaTime / 1000)
 
     // Mapping gamepad buttons to actions
-    const [leftStickX] = gamepadState.axes
-    const buttons = gamepadState.buttons
+    if (gamepadState) {
+      const [leftStickX] = gamepadState.axes
+      const buttons = gamepadState.buttons
 
-    // Move left and right with the analog stick
-    if (leftStickX < -0.2) {
-      this.x -= moveSpeed
-      if (this.x < 0) this.x = 0
-    } else if (leftStickX > 0.2) {
-      this.x += moveSpeed
-      if (this.x + this.width > this.canvasWidth)
-        this.x = this.canvasWidth - this.width
-    }
+      // Move left and right with the analog stick
+      if (leftStickX < -0.2) {
+        this.x -= moveSpeed
+        if (this.x < 0) this.x = 0
+      } else if (leftStickX > 0.2) {
+        this.x += moveSpeed
+        if (this.x + this.width > this.canvasWidth)
+          this.x = this.canvasWidth - this.width
+      }
 
-    // Jump (assume button 0 to “A” on the Xbox controller)
-    if (buttons[0] && !this.isJumping) {
-      this.isJumping = true
-      this.velocityY = JUMP_VELOCITY
-    }
+      // Jump (assume button 0 to “A” on the Xbox controller)
+      if (buttons[GamepadButtons.A] && !this.isJumping) {
+        this.isJumping = true
+        this.velocityY = JUMP_VELOCITY
+      }
 
-    // Fireball shot (assume button 2 is the “X” button on the Xbox controller)
-    if (buttons[2]) {
-      this.shootFireball(opponent)
-    }
+      // Fireball shot (assume button 2 is the “X” button on the Xbox controller)
+      if (buttons[GamepadButtons.X]) {
+        this.shootFireball(opponent)
+      }
 
-    // Air attack (assume button 1 is “B” on the Xbox controller)
-    if (buttons[1]) {
-      this.performAirAttack(opponent)
-    }
+      // Air attack (assume button 1 is “B” on the Xbox controller)
+      if (buttons[GamepadButtons.B]) {
+        this.performAirAttack(opponent)
+      }
 
-    // Shield (assume button 3 is the “Y” button on the Xbox controller)
-    if (buttons[3]) {
-      this.activateShield()
+      // Shield (assume button 3 is the “Y” button on the Xbox controller)
+      if (buttons[GamepadButtons.Y]) {
+        this.activateShield()
+      }
     }
   }
 
@@ -349,7 +360,7 @@ export class Player {
   public executeAirAttackEffect(opponent: Player) {
     if (this.isAirAttacking) {
       if (opponent.isShieldActive || opponent.isJumping) {
-        // Atack failed
+        // Attack failed
         // You can add a visual effect of failure
         // (feature implementation)
       } else {

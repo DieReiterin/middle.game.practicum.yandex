@@ -2,6 +2,8 @@ import { FC, useRef, useState, useMemo } from 'react'
 import { Box } from '@mui/material'
 import PauseIcon from '@mui/icons-material/Pause'
 import { Game } from '@/game/Game'
+import { GameStates } from '@/game/constants'
+import { GameConfig } from '@/game/types'
 import styles from './GamePage.module.scss'
 import { GameModal, TGameModalMode, TGameModalAction } from '@/components'
 import { useFullscreen, useGamepadStatus, useGameInstance } from '@/hooks'
@@ -18,14 +20,13 @@ export const GamePage: FC = () => {
   const [modalMode, setModalMode] = useState<TGameModalMode>('start')
   const gameContainerRef = useRef<HTMLDivElement>(null)
   const isGamepadOn = useGamepadStatus()
-  const gameWidth = window.innerWidth > maxWidth ? maxWidth : window.innerWidth
-  const gameHeight =
-    window.innerHeight > maxHeight ? maxHeight : window.innerHeight
-  const initialGameConfig = useMemo(
+  const gameWidth = Math.min(window.innerWidth, maxWidth)
+  const gameHeight = Math.min(window.innerHeight, maxHeight)
+  const initialGameConfig = useMemo<GameConfig>(
     () => ({
       width: gameWidth,
       height: gameHeight,
-      callback: (type: 'win' | 'lose' | 'pause') => setModalMode(type),
+      callback: (type: GameStates) => setModalMode(type),
       colors,
       textures,
       computerDodgeProbability,
@@ -44,9 +45,11 @@ export const GamePage: FC = () => {
       // Pass only the changed parameters
       restartGame({
         computerDodgeProbability:
-          initialGameConfig.computerDodgeProbability + 0.05,
+          (initialGameConfig.computerDodgeProbability ??
+            computerDodgeProbability) + 0.05,
         computerAttackSpeedMultiplier:
-          initialGameConfig.computerAttackSpeedMultiplier + 0.3,
+          (initialGameConfig.computerAttackSpeedMultiplier ??
+            computerAttackSpeedMultiplier) + 0.3,
       })
     }
     setModalMode('closed')

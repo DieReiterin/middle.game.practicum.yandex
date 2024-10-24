@@ -1,7 +1,9 @@
+import { GameStates } from './constants'
+
 export interface GameConfig {
   width?: number
   height?: number
-  callback?: (state: 'win' | 'lose' | 'pause') => void
+  callback?: (state: GameStates) => void
   textures?: {
     ground?: string
     sky?: string
@@ -54,4 +56,9 @@ export interface AirAttackConfig {
   particleCount: number
   particleColor: string
   particleRadius: number
+}
+
+export interface GamepadState {
+  axes: readonly number[]
+  buttons: boolean[]
 }
