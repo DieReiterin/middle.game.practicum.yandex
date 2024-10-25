@@ -10,3 +10,9 @@ export const userURL = '/user'
 export const passwordURL = userURL + '/password'
 export const profileURL = userURL + '/profile'
 export const avatarURL = profileURL + '/avatar'
+export const serviceIdURL = '/oauth/yandex/service-id'
+export const oauthURL = '/oauth/yandex'
+
+//заменить после деплоя
+export const redirectURL = 'http://localhost:3000'
+export const authYandexURL = 'https://oauth.yandex.ru/authorize'
