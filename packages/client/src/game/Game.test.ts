@@ -1,6 +1,13 @@
 import { Game } from './Game'
 import { GameConfig } from './types'
 
+beforeAll(() => {
+  Object.defineProperty(navigator, 'getGamepads', {
+    value: jest.fn().mockReturnValue([]),
+    writable: true,
+  })
+})
+
 describe('Game', () => {
   let game: Game
 

@@ -1,5 +1,5 @@
 // Game.ts
-import { GameConfig } from './types'
+import { GameConfig, GamepadState } from './types'
 import { Player } from './Player'
 import {
   GROUND_HEIGHT,
@@ -33,7 +33,7 @@ export class Game {
   private readonly config: GameConfig
   private player!: Player
   private computer!: Player
-  private isPaused = true
+  public isPaused = true
   private isGameOver = false
   private lastTime = 0
   private animationFrameId: number | null = null
@@ -44,6 +44,7 @@ export class Game {
   private totalImagesToLoad = 0
   private imagesLoadedCount = 0
   private justUnpaused = false
+  private gamepadIndex: number | null = null
 
   private constructor(config: GameConfig = {}) {
     if (Game.instance) {
@@ -66,6 +67,7 @@ export class Game {
     this.initCanvas()
     this.bindEvents()
     this.loadImages()
+    this.checkGamepads()
   }
 
   public static createInstance(config: GameConfig): Game {
@@ -190,6 +192,11 @@ export class Game {
       this.animationFrameId = null
     }
     window.removeEventListener('keydown', this.keydownHandler)
+    window.removeEventListener('gamepadconnected', this.onGamepadConnected)
+    window.removeEventListener(
+      'gamepaddisconnected',
+      this.onGamepadDisconnected
+    )
     this.player?.destroy()
     this.computer?.destroy()
     Game.instance = null
@@ -203,6 +210,35 @@ export class Game {
 
   private bindEvents() {
     window.addEventListener('keydown', this.keydownHandler)
+    window.addEventListener('gamepadconnected', this.onGamepadConnected)
+    window.addEventListener('gamepaddisconnected', this.onGamepadDisconnected)
+  }
+
+  private checkGamepads(): void {
+    const gamepads = navigator.getGamepads()
+    for (let i = 0; i < gamepads.length; i++) {
+      const gp = gamepads[i]
+      if (gp && this.isSuitableGamepad(gp)) {
+        this.onGamepadConnected({ gamepad: gp } as GamepadEvent)
+        break
+      }
+    }
+  }
+
+  private onGamepadConnected = (e: GamepadEvent) => {
+    if (this.isSuitableGamepad(e.gamepad)) {
+      this.gamepadIndex = e.gamepad.index
+    }
+  }
+
+  private onGamepadDisconnected = (e: GamepadEvent) => {
+    if (this.gamepadIndex === e.gamepad.index) {
+      this.gamepadIndex = null
+    }
+  }
+
+  private isSuitableGamepad(gamepad: Gamepad): boolean {
+    return gamepad.mapping === 'standard' && gamepad.buttons.length > 0
   }
 
   private togglePause() {
@@ -251,7 +287,20 @@ export class Game {
       const deltaTime = Math.min(timestamp - this.lastTime, 100)
       this.lastTime = timestamp
 
-      this.update(deltaTime)
+      // Retrieve the state of the gamepad and pass it to the update method
+
+      let gamepadState: GamepadState | null = null
+      if (this.gamepadIndex !== null) {
+        const gamepad = navigator.getGamepads()[this.gamepadIndex]
+        if (gamepad) {
+          gamepadState = {
+            axes: gamepad.axes,
+            buttons: gamepad.buttons.map(button => button.pressed),
+          }
+        }
+      }
+
+      this.update(deltaTime, gamepadState)
       this.draw()
 
       if (!this.isGameOver) {
@@ -263,13 +312,13 @@ export class Game {
     }
   }
 
-  private update(deltaTime: number) {
+  private update(deltaTime: number, gamepadState: GamepadState | null) {
     if (this.isGameOver || !this.player || !this.computer) {
       return
     }
 
     // Update the player
-    this.player.update(deltaTime, this.computer)
+    this.player.update(deltaTime, this.computer, gamepadState)
 
     // If the player health is less than or equal to 0, the player lost
     if (this.player.health <= 0) {
@@ -349,8 +398,8 @@ export class Game {
     }
 
     // Draw the players
-    this.player.draw(this.context)
-    this.computer.draw(this.context)
+    this.player?.draw(this.context)
+    this.computer?.draw(this.context)
 
     // Draw the UI elements (health and mana bars, names)
     this.drawUI()
@@ -367,28 +416,28 @@ export class Game {
 
     // Player health bar
     this.context.fillStyle = 'red'
-    this.context.fillRect(20, HEALTH_BAR_Y, this.player.health * 2, 20)
+    this.context.fillRect(20, HEALTH_BAR_Y, this.player?.health * 2, 20)
     this.context.strokeStyle = 'black'
     this.context.lineWidth = 1
     this.context.strokeRect(20, HEALTH_BAR_Y, 200, 20)
 
     // Player mana bar
     this.context.fillStyle = 'blue'
-    this.context.fillRect(20, MANA_BAR_Y, this.player.mana * 2, 20)
+    this.context.fillRect(20, MANA_BAR_Y, this.player?.mana * 2, 20)
     this.context.strokeStyle = 'black'
     this.context.lineWidth = 1
     this.context.strokeRect(20, MANA_BAR_Y, 200, 20)
 
     // Player name below the mana bar
     this.context.fillStyle = 'black'
-    this.context.fillText(this.player.name, 20, NAME_Y)
+    this.context.fillText(this.player?.name, 20, NAME_Y)
 
     // Computer health bar
     this.context.fillStyle = 'red'
     this.context.fillRect(
       this.canvas.width - 220,
       HEALTH_BAR_Y,
-      this.computer.health * 2,
+      this.computer?.health * 2,
       20
     )
     this.context.strokeStyle = 'black'
@@ -400,7 +449,7 @@ export class Game {
     this.context.fillRect(
       this.canvas.width - 220,
       MANA_BAR_Y,
-      this.computer.mana * 2,
+      this.computer?.mana * 2,
       20
     )
     this.context.strokeStyle = 'black'
@@ -410,7 +459,7 @@ export class Game {
     // Computer name below the mana bar
     this.context.fillStyle = 'black'
     this.context.textAlign = 'right'
-    this.context.fillText(this.computer.name, this.canvas.width - 20, NAME_Y)
+    this.context.fillText(this.computer?.name, this.canvas.width - 20, NAME_Y)
 
     this.context.restore()
   }

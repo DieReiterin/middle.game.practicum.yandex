@@ -1,31 +1,38 @@
 interface IActions {
-  key: string | string[]
+  keyboardKey: string | string[]
+  gamepadKey: string | string[]
   action: string
 }
 
 export const actions: IActions[] = [
   {
-    key: ['A', 'D'],
     action: 'Движение влево-вправо',
+    keyboardKey: ['A', 'D'],
+    gamepadKey: 'Левый стик',
   },
   {
-    key: 'Space',
     action: 'Прыжок',
+    keyboardKey: 'Space',
+    gamepadKey: 'A',
   },
   {
-    key: 'E',
     action: 'Выстрелить файерболом',
+    keyboardKey: 'E',
+    gamepadKey: 'X',
   },
   {
-    key: 'F',
     action: 'Воздушный удар',
+    keyboardKey: 'F',
+    gamepadKey: 'B',
   },
   {
-    key: 'W',
     action: 'Поставить щит',
+    keyboardKey: 'W',
+    gamepadKey: 'Y',
   },
   {
-    key: 'Esc',
     action: 'Пауза',
+    keyboardKey: 'Esc',
+    gamepadKey: 'Esc',
   },
 ]
