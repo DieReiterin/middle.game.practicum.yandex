@@ -3,6 +3,7 @@ export interface UserState {
   avatarUrl: string
   loading: boolean
   error?: string
+  serviceId?: string
 }
 
 export type UserResponse = {
@@ -27,6 +28,10 @@ export type SignupData = {
 
 export type SignupResponse = {
   id: number
+}
+
+export type ServiceIdResponse = {
+  service_id: string
 }
 
 export type SigninData = {
