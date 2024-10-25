@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-// import { Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 import App from './App'
 import './index.css'
 
@@ -17,11 +17,13 @@ import './index.css'
 // const preloadedState = (window as any).__PRELOADED_STATE__
 // const store = createStore(preloadedState)
 
+import { mockStore } from './ducks/mockStore'
+
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  // <Provider store={store}>
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-  // </Provider>
+  <Provider store={mockStore}>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>
 )

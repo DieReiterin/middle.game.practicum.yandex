@@ -15,7 +15,7 @@ async function startServer() {
     res.json('👋 Howdy from the server')
   })
 
-  app.use('*', async (req, res, next) => {
+  app.use('*', async (_, res, next) => {
     const distPath = path.dirname(require.resolve('client/dist/index.html'))
     const ssrClientPath = require.resolve('client/ssr-dist/client.cjs')
 
