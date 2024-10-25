@@ -24,7 +24,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     fetchUserData()
-  }, [])
+  }, [dispatch])
 
   return { user, loader }
 }

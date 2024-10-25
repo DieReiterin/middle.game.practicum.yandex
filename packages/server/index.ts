@@ -15,7 +15,7 @@ async function startServer() {
     res.json('👋 Howdy from the server')
   })
 
-  app.use('*', async (_, res, next) => {
+  app.use('*', async (req, res, next) => {
     const distPath = path.dirname(require.resolve('client/dist/index.html'))
     const ssrClientPath = require.resolve('client/ssr-dist/client.cjs')
 
@@ -27,9 +27,16 @@ async function startServer() {
 
       const { render } = await import(ssrClientPath)
 
-      const appHtml = await render()
+      const { appHtml } = await render()
+      // const { appHtml, preloadedState } = await render(req.originalUrl)
 
       const html = template.replace('<!-- ssr-outlet -->', appHtml)
+      // .replace(
+      //   '<!-- preloaded-state -->',
+      //   `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
+      //     preloadedState
+      //   ).replace(/</g, '\\u003c')}</script>`
+      // )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

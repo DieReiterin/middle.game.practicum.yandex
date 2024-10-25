@@ -4,6 +4,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './assets/theme'
 import { getRoutes } from './router'
 import { BrowserRouter, useRoutes } from 'react-router-dom'
+import { StaticRouter } from 'react-router-dom/server'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Error } from './pages'
 
@@ -14,6 +15,8 @@ import '@fontsource/manrope/700.css'
 import './App.css'
 import { useAuth } from './hooks'
 import { Loader } from './components'
+
+const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter
 
 const Routes: FC = () => {
   const { loader, user } = useAuth()
@@ -44,16 +47,16 @@ function fallbackRender({ error }: TFallbackRenderProps) {
   )
 }
 
-const App = () => {
+const App = ({ location }: { location?: string }) => {
   return (
     <div className="App">
       <ErrorBoundary fallbackRender={fallbackRender}>
-        <BrowserRouter>
+        <Router location={location || '/'}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Routes />
           </ThemeProvider>
-        </BrowserRouter>
+        </Router>
       </ErrorBoundary>
     </div>
   )
