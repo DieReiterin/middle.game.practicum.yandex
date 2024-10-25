@@ -124,6 +124,7 @@ export const logout = createAsyncThunk(
         method: Methods.POST,
       })
       dispatch(actions.reset())
+      dispatch(getUser())
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err
@@ -255,6 +256,7 @@ const userStateSlice = createSlice({
       (state, action: PayloadAction<UserResponse>) => {
         state.user = action.payload
         state.loading = false
+        state.error = undefined
       }
     )
     builder.addCase(getUser.pending, state => {

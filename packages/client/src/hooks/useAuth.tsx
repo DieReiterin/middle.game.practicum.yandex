@@ -7,7 +7,7 @@ import {
   UserResponse,
   userSelector,
 } from '@/ducks/user'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { parseQueryString } from '@/utils'
 
@@ -21,15 +21,15 @@ export const useAuth = () => {
   const user = useSelector(userSelector)
   const loader = useSelector(userLoaderSelector)
   const { search } = useLocation()
+  const { code } = parseQueryString(search)
 
   const fetchUserData = (): void => {
     dispatch(getUser())
   }
 
-  const getOAuthToken = () => {
-    const { code } = parseQueryString(search)
-    code && dispatch(getAccessToken(code))
-  }
+  const getOAuthToken = useCallback(() => {
+    if (code) dispatch(getAccessToken(code))
+  }, [code, dispatch])
 
   useEffect(() => {
     if (search) {

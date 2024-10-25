@@ -1,6 +1,8 @@
 type TParseQueryString = (query: string) => TObject
 
 export const parseQueryString: TParseQueryString = query => {
+  if (!query.startsWith('?')) return {}
+
   const url = query.substring(1)
   const entities = url.split('&')
   const params: TObject = {}
