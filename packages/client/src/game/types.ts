@@ -1,21 +1,18 @@
 import { GameStates } from './constants'
 
+export interface Appearance {
+  textures?: string
+  colors?: string
+}
+
 export interface GameConfig {
   width?: number
   height?: number
   callback?: (state: GameStates) => void
-  textures?: {
-    ground?: string
-    sky?: string
-    player1?: string
-    player2?: string
-  }
-  colors?: {
-    ground?: string
-    sky?: string
-    player1?: string
-    player2?: string
-  }
+  ground?: Appearance
+  sky?: Appearance
+  player1?: Appearance
+  player2?: Appearance
   computerDodgeProbability?: number
   computerAttackSpeedMultiplier?: number
   fireballCooldown?: number
