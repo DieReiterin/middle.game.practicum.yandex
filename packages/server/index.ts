@@ -27,17 +27,13 @@ async function startServer() {
 
       const { render } = await import(ssrClientPath)
 
-      const { appHtml } = await render()
-      // const { appHtml, preloadedState } = await render(req.originalUrl)
+      const { appHtml, emotionCss } = await render()
 
-      const html = template.replace('<!-- ssr-outlet -->', appHtml)
-      // .replace(
-      //   '<!-- preloaded-state -->',
-      //   `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
-      //     preloadedState
-      //   ).replace(/</g, '\\u003c')}</script>`
-      // )
+      const html = template
+        .replace('<!-- ssr-outlet -->', appHtml)
+        .replace('<!-- css-outlet -->', emotionCss)
 
+      // res.send(html);
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       next(e)

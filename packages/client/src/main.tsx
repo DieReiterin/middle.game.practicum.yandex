@@ -1,8 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
+// import { Provider } from 'react-redux'
 import App from './App'
 import './index.css'
+
+// import { mockStore } from './ducks/mockStore'
+
+import createEmotionCache from '../createEmotionCache'
+import { CacheProvider } from '@emotion/react'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { theme } from './assets/theme'
 
 // import { store } from './ducks/store'
 // ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -12,18 +19,25 @@ import './index.css'
 //     </React.StrictMode>
 //   </Provider>
 // )
+const cache = createEmotionCache()
 
-// import { createStore } from './ducks/store'
-// const preloadedState = (window as any).__PRELOADED_STATE__
-// const store = createStore(preloadedState)
+function Main() {
+  return (
+    // <React.StrictMode>
+    <App />
+    // </React.StrictMode>
 
-import { mockStore } from './ducks/mockStore'
+    //   <CacheProvider value={cache}>
+    //   <ThemeProvider theme={theme}>
+    //     <CssBaseline />
+    //     {/* <Provider store={mockStore}> */}
+    //     <React.StrictMode>
+    //       <App />
+    //     </React.StrictMode>
+    //     {/* </Provider> */}
+    //   </ThemeProvider>
+    // </CacheProvider>
+  )
+}
 
-ReactDOM.hydrateRoot(
-  document.getElementById('root') as HTMLElement,
-  <Provider store={mockStore}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>
-)
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, <Main />)
