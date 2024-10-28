@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '@/ducks/store'
 import {
-  getAccessToken,
+  getOauthAccessToken,
   getUser,
   userLoaderSelector,
   UserResponse,
@@ -28,7 +28,7 @@ export const useAuth = () => {
   }
 
   const getOAuthToken = useCallback(() => {
-    if (code) dispatch(getAccessToken(code))
+    if (code) dispatch(getOauthAccessToken(code))
   }, [code, dispatch])
 
   useEffect(() => {

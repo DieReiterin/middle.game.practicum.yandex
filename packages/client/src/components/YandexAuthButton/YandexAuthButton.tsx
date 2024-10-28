@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styles from './YandexAuthButton.module.scss'
-import { getServiceId, userServiceIdSelector } from '@/ducks/user'
+import { getOauthServiceId, userServiceIdSelector } from '@/ducks/user'
 import { useSelector } from 'react-redux'
 import { authYandexURL, redirectURL } from '@/api/constants'
 import { useAppDispatch } from '@/ducks/store'
@@ -24,7 +24,7 @@ export const YandexAuthButton = () => {
   }, [serviceId])
 
   const handleOAuth = () => {
-    dispatch(getServiceId())
+    dispatch(getOauthServiceId())
   }
 
   return (

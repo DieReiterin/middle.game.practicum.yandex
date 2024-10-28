@@ -73,8 +73,8 @@ export const signin = createAsyncThunk(
   }
 )
 
-export const getServiceId = createAsyncThunk(
-  'user/getServiceId',
+export const getOauthServiceId = createAsyncThunk(
+  'user/getOauthServiceId',
   async (_, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<ServiceIdResponse>>({
@@ -95,8 +95,8 @@ export const getServiceId = createAsyncThunk(
   }
 )
 
-export const getAccessToken = createAsyncThunk(
-  'user/getAccessToken',
+export const getOauthAccessToken = createAsyncThunk(
+  'user/getOauthAccessToken',
   async (serviceId: string, { rejectWithValue, dispatch }) => {
     try {
       await api<undefined, AxiosResponse<Blob>>({
@@ -225,28 +225,28 @@ const userStateSlice = createSlice({
       state.error = (error.payload as { reason?: string })?.reason
     })
 
-    builder.addCase(getServiceId.fulfilled, (state, action) => {
+    builder.addCase(getOauthServiceId.fulfilled, (state, action) => {
       state.serviceId = action.payload
       state.loading = false
     })
-    builder.addCase(getServiceId.pending, state => {
+    builder.addCase(getOauthServiceId.pending, state => {
       state.loading = true
       state.error = undefined
     })
-    builder.addCase(getServiceId.rejected, (state, error) => {
+    builder.addCase(getOauthServiceId.rejected, (state, error) => {
       state.loading = false
       state.error = (error.payload as { reason?: string })?.reason
     })
 
-    builder.addCase(getAccessToken.fulfilled, state => {
+    builder.addCase(getOauthAccessToken.fulfilled, state => {
       state.error = undefined
       state.loading = false
     })
-    builder.addCase(getAccessToken.pending, state => {
+    builder.addCase(getOauthAccessToken.pending, state => {
       state.loading = true
       state.error = undefined
     })
-    builder.addCase(getAccessToken.rejected, (state, error) => {
+    builder.addCase(getOauthAccessToken.rejected, (state, error) => {
       state.loading = false
       state.error = (error.payload as { reason?: string })?.reason
     })
