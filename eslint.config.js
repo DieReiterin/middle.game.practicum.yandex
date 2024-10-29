@@ -26,6 +26,7 @@ module.exports = [
     rules: {
       ...typescriptEslint.configs.recommended.rules,
       '@typescript-eslint/ban-ts-comment': 'warn',
+      '@typescript-eslint/no-unused-vars': 'warn',
       'no-useless-catch': 'off',
     },
   },

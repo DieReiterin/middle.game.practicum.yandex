@@ -1,7 +1,7 @@
 // import { FC } from 'react'
 
-// import { CssBaseline, ThemeProvider } from '@mui/material'
-// import { theme } from './assets/theme'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { theme } from './assets/theme'
 // import { getRoutes } from './router'
 // import { BrowserRouter, useRoutes } from 'react-router-dom'
 // import { StaticRouter } from 'react-router-dom/server'
@@ -51,12 +51,17 @@ const App = () => {
   // const App = ({ location }: { location?: string }) => {
   return (
     <div className="App">
-      <h1>HELLO</h1>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <h1>APP-TSX PROVIDER</h1>
+      </ThemeProvider>
+
       {/* <Error
         title="Опаньки..."
         descr="Что-то пошло не так"
         text="Попробуйте перезагрузить страницу"
       /> */}
+
       {/* <ErrorBoundary fallbackRender={fallbackRender}> */}
       {/* <Router location={location || '/'}> */}
       {/* <ThemeProvider theme={theme}>
