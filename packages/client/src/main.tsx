@@ -1,15 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-// import { Provider } from 'react-redux'
-import App from './App'
+// import App from './App'
 import './index.css'
-
+// import { Provider } from 'react-redux'
 // import { mockStore } from './ducks/mockStore'
 
-import createEmotionCache from '../createEmotionCache'
-import { CacheProvider } from '@emotion/react'
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import { theme } from './assets/theme'
+// import createEmotionCache from '../createEmotionCache'
+// import { CacheProvider } from '@emotion/react'
+// import { CssBaseline, ThemeProvider } from '@mui/material'
+// import { theme } from './assets/theme'
 
 // import { store } from './ducks/store'
 // ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -19,12 +18,13 @@ import { theme } from './assets/theme'
 //     </React.StrictMode>
 //   </Provider>
 // )
-const cache = createEmotionCache()
+// const cache = createEmotionCache()
 
 function Main() {
   return (
     // <React.StrictMode>
-    <App />
+    <h1>MAIN-TSX</h1>
+    // <App />
     // </React.StrictMode>
 
     //   <CacheProvider value={cache}>

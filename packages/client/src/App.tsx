@@ -1,4 +1,4 @@
-import { FC } from 'react'
+// import { FC } from 'react'
 
 // import { CssBaseline, ThemeProvider } from '@mui/material'
 // import { theme } from './assets/theme'
@@ -6,7 +6,7 @@ import { FC } from 'react'
 // import { BrowserRouter, useRoutes } from 'react-router-dom'
 // import { StaticRouter } from 'react-router-dom/server'
 // import { ErrorBoundary } from 'react-error-boundary'
-import { Error } from './pages'
+// import { Error } from './pages'
 
 import '@fontsource/manrope/300.css'
 import '@fontsource/manrope/400.css'
@@ -51,11 +51,12 @@ const App = () => {
   // const App = ({ location }: { location?: string }) => {
   return (
     <div className="App">
-      <Error
+      <h1>HELLO</h1>
+      {/* <Error
         title="Опаньки..."
         descr="Что-то пошло не так"
         text="Попробуйте перезагрузить страницу"
-      />
+      /> */}
       {/* <ErrorBoundary fallbackRender={fallbackRender}> */}
       {/* <Router location={location || '/'}> */}
       {/* <ThemeProvider theme={theme}>
