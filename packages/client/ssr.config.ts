@@ -6,6 +6,10 @@ import path from 'path'
 dotenv.config()
 
 export default defineConfig({
+  // mode: 'production',
+  // ssr: {
+  //   noExternal: ['@emotion/react', '@emotion/styled', '@emotion/server'],
+  // },
   resolve: {
     alias: {
       '@styles': path.resolve(__dirname, 'src/assets/styles'),
@@ -19,9 +23,13 @@ export default defineConfig({
       formats: ['cjs'],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', '@vitejs/plugin-react'],
+      // external: ['react', 'react-dom', '@vitejs/plugin-react'],
       output: {
         dir: 'ssr-dist',
+        // globals: {
+        //   react: 'React',
+        //   'react-dom': 'ReactDOM',
+        // },
       },
     },
   },
