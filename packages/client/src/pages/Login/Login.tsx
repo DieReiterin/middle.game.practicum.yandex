@@ -1,13 +1,13 @@
-import { FC, useState } from 'react'
-
-import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
+import { FC } from 'react'
+import { Form, FormFieldProps, FullScreenWrapper } from '@/components'
 import { useNavigate } from 'react-router-dom'
-import { PathsRoutes } from '../../router/types'
+import { PathsRoutes } from '@/router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { getValidationScheme, validationErrorMessage } from '@/constants'
-import { useAppDispatch } from '../../ducks/store'
-import { signin, userErrorSelector } from '../../ducks/user'
+import { useAppDispatch } from '@/ducks/store'
+import { signin, userErrorSelector } from '@/ducks/user'
 import { useSelector } from 'react-redux'
+import { YandexAuthButton } from '@/components/YandexAuthButton'
 
 enum Fields {
   Login = 'login',
@@ -78,6 +78,7 @@ export const Login: FC = () => {
           },
         ]}
       />
+      <YandexAuthButton />
     </FullScreenWrapper>
   )
 }
