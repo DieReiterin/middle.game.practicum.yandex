@@ -9,6 +9,14 @@ export enum Controls {
   Pause = 'Escape',
 }
 
+// xbox gamepad buttons
+export enum GamepadButtons {
+  A = 0,
+  B = 1,
+  X = 2,
+  Y = 3,
+}
+
 // Game states
 export enum GameStates {
   Win = 'win',

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import {
+  ServiceIdResponse,
   SigninData,
   SignupData,
   SignupResponse,
@@ -12,17 +13,21 @@ import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
 import {
   getuserURL,
+  logoutURL,
+  oauthURL,
+  redirectURL,
+  serviceIdURL,
   signinURL,
   signupURL,
   staticURL,
-  logoutURL,
-} from '../../api/constants'
+} from '@/api/constants'
 
 const initialState: UserState = {
   user: null,
   avatarUrl: '',
   loading: false,
   error: undefined,
+  serviceId: '',
 }
 
 export const signup = createAsyncThunk(
@@ -44,7 +49,7 @@ export const signup = createAsyncThunk(
 
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const signin = createAsyncThunk(
@@ -65,7 +70,49 @@ export const signin = createAsyncThunk(
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
+)
+
+export const getOauthServiceId = createAsyncThunk(
+  'user/getOauthServiceId',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<ServiceIdResponse>>({
+        url: serviceIdURL,
+        params: { redirect_uri: redirectURL },
+      })
+
+      const { service_id } = response.data
+
+      return service_id
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+export const getOauthAccessToken = createAsyncThunk(
+  'user/getOauthAccessToken',
+  async (serviceId: string, { rejectWithValue, dispatch }) => {
+    try {
+      await api<undefined, AxiosResponse<Blob>>({
+        url: oauthURL,
+        method: Methods.POST,
+        data: { redirect_uri: redirectURL, code: serviceId },
+      })
+
+      dispatch(getUser())
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  },
 )
 
 export const logout = createAsyncThunk(
@@ -77,13 +124,14 @@ export const logout = createAsyncThunk(
         method: Methods.POST,
       })
       dispatch(actions.reset())
+      dispatch(getUser())
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const getUser = createAsyncThunk(
@@ -108,7 +156,7 @@ export const getUser = createAsyncThunk(
 
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const getUserAvatar = createAsyncThunk(
@@ -121,15 +169,14 @@ export const getUserAvatar = createAsyncThunk(
         responseType: 'blob',
       })
 
-      const fileURL = URL.createObjectURL(response.data)
-      return fileURL
+      return URL.createObjectURL(response.data)
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 const userStateSlice = createSlice({
@@ -178,12 +225,39 @@ const userStateSlice = createSlice({
       state.error = (error.payload as { reason?: string })?.reason
     })
 
+    builder.addCase(getOauthServiceId.fulfilled, (state, action) => {
+      state.serviceId = action.payload
+      state.loading = false
+    })
+    builder.addCase(getOauthServiceId.pending, state => {
+      state.loading = true
+      state.error = undefined
+    })
+    builder.addCase(getOauthServiceId.rejected, (state, error) => {
+      state.loading = false
+      state.error = (error.payload as { reason?: string })?.reason
+    })
+
+    builder.addCase(getOauthAccessToken.fulfilled, state => {
+      state.error = undefined
+      state.loading = false
+    })
+    builder.addCase(getOauthAccessToken.pending, state => {
+      state.loading = true
+      state.error = undefined
+    })
+    builder.addCase(getOauthAccessToken.rejected, (state, error) => {
+      state.loading = false
+      state.error = (error.payload as { reason?: string })?.reason
+    })
+
     builder.addCase(
       getUser.fulfilled,
       (state, action: PayloadAction<UserResponse>) => {
         state.user = action.payload
         state.loading = false
-      }
+        state.error = undefined
+      },
     )
     builder.addCase(getUser.pending, state => {
       state.loading = true
@@ -197,7 +271,7 @@ const userStateSlice = createSlice({
       (state, action: PayloadAction<string>) => {
         state.avatarUrl = action.payload
         state.loading = false
-      }
+      },
     )
     builder.addCase(getUserAvatar.pending, state => {
       state.loading = true

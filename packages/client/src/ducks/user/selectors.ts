@@ -12,3 +12,7 @@ export const userLoaderSelector = (state: RootState): UserState['loading'] =>
 
 export const userErrorSelector = (state: RootState): UserState['error'] =>
   state.userInfo.error
+
+export const userServiceIdSelector = (
+  state: RootState,
+): UserState['serviceId'] => state.userInfo.serviceId
