@@ -6,20 +6,17 @@ import { Provider } from 'react-redux'
 import { mockStore } from './ducks/mockStore'
 
 import { CacheProvider } from '@emotion/react'
-import createEmotionCache from '../createEmotionCache'
+import createCache from '@emotion/cache'
 
-const cache = createEmotionCache()
+const cache = createCache({ key: 'css' })
 
-function Main() {
-  return (
-    <CacheProvider value={cache}>
-      <Provider store={mockStore}>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      </Provider>
-    </CacheProvider>
-  )
-}
-
-ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, <Main />)
+ReactDOM.hydrateRoot(
+  document.getElementById('root') as HTMLElement,
+  <CacheProvider value={cache}>
+    <Provider store={mockStore}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
+  </CacheProvider>,
+)

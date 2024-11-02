@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import path from 'path'
-import { VitePWA } from 'vite-plugin-pwa'
+// import { VitePWA } from 'vite-plugin-pwa'
 
 dotenv.config()
 
@@ -48,12 +48,5 @@ export default defineConfig({
     //       },
     //     ],
     //   },
-
-    //   devOptions: {
-    //     enabled:
-    //       !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
-    //     type: 'module',
-    //   },
-    // }),
   ],
 })
