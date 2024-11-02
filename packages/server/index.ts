@@ -22,17 +22,15 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
 
   let vite: ViteDevServer | undefined
 
-  if (isDev) {
+  if (!isDev) {
+    app.use('/assets', express.static(path.resolve(distPath, 'assets')))
+  } else {
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
       appType: 'custom',
     })
     app.use(vite.middlewares)
-  }
-
-  if (!isDev) {
-    app.use('/assets', express.static(path.resolve(distPath, 'assets')))
   }
 
   app.use('*', async (req, res, next) => {
@@ -44,16 +42,8 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
         template = readFileSync(path.resolve(distPath, 'index.html'), 'utf-8')
       } else {
         template = readFileSync(path.resolve(srcPath, 'index.html'), 'utf-8')
-        console.log('template', template)
         template = await vite!.transformIndexHtml(url, template)
-        console.log('template', template)
       }
-      // Правильный рендер в продакшне
-      // Дев-режим
-      // разобраться с режимами
-      // PWA
-      // Корректность роутов и обработчиков
-      // Чужие ветки и зачёт (авторизация выключена)
 
       let render: (renderCache: EmotionCache) => Promise<string>
       if (!isDev) {
