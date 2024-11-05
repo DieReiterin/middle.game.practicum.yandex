@@ -45,7 +45,10 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
         template = await vite!.transformIndexHtml(url, template)
       }
 
-      let render: (renderCache: EmotionCache) => Promise<string>
+      let render: (
+        renderCache: EmotionCache,
+      ) => Promise<{ appHtml: string; initialState: unknown }>
+
       if (!isDev) {
         render = (await import(ssrClientPath)).render
       } else {
@@ -60,7 +63,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
         createEmotionServer(cache)
 
-      const appHtml = await render(cache)
+      const { appHtml, initialState } = await render(cache)
 
       const emotionChunks = extractCriticalToChunks(appHtml)
       const emotionCss = constructStyleTagsFromChunks(emotionChunks)
@@ -68,6 +71,10 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       const html = template
         .replace('<!-- ssr-outlet -->', appHtml)
         .replace('<!-- css-outlet -->', emotionCss)
+        .replace(
+          `<!--ssr-initial-state-->`,
+          `<script>window.APP_INITIAL_STATE = ${JSON.stringify(initialState)}</script>`,
+        )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

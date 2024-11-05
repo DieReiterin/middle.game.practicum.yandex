@@ -11,20 +11,18 @@ import '@fontsource/manrope/400.css'
 import '@fontsource/manrope/500.css'
 import '@fontsource/manrope/700.css'
 import './App.css'
-// import { useAuth } from './hooks'
-// import { Loader } from './components'
+import { useAuth } from './hooks'
+import { Loader } from './components'
 
 const Router = typeof window === 'undefined' ? StaticRouter : BrowserRouter
 
 const Routes: FC = () => {
-  // const { loader, user } = useAuth()
-  // const isAuthorized = Boolean(user)
+  const { loader, user } = useAuth()
+  const isAuthorized = Boolean(user)
 
-  // const routes = getRoutes(isAuthorized)
+  const routes = getRoutes(isAuthorized)
 
-  // return loader ? <Loader /> : useRoutes(routes)
-  const routes = getRoutes(true)
-  return useRoutes(routes)
+  return loader ? <Loader /> : useRoutes(routes)
 }
 
 type TFallbackRenderProps = {
