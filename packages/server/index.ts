@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
+import serialize from 'serialize-javascript'
+
 dotenv.config()
 
 import express from 'express'
@@ -73,7 +75,9 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
         .replace('<!-- css-outlet -->', emotionCss)
         .replace(
           `<!--ssr-initial-state-->`,
-          `<script>window.APP_INITIAL_STATE = ${JSON.stringify(initialState)}</script>`,
+          `<script>window.APP_INITIAL_STATE = ${serialize(initialState, {
+            isJSON: true,
+          })}</script>`,
         )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)

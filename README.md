@@ -28,6 +28,11 @@
 4. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
 5. Выполните команду `yarn dev --scope=server` чтобы запустить только server
 
+#### Запуск в режиме SSR
+
+1. Билдим клиентскую и серверную часть приложения: в packages/client делаем `yarn build` и `yarn build:ssr`
+2. Билдим и запускаем сервер: в packages/server делаем `yarn build` и `yarn preview`
+
 ### Как добавить зависимости?
 
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
