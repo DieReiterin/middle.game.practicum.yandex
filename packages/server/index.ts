@@ -53,7 +53,10 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
           .render
       }
 
-      const cache: EmotionCache = createCache({ key: 'css' })
+      const cache: EmotionCache = createCache({
+        key: 'mui-style',
+        insertionPoint: undefined,
+      })
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
         createEmotionServer(cache)
 

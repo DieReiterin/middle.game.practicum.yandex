@@ -11,7 +11,19 @@ import createCache from '@emotion/cache'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './assets/theme'
 
-const cache = createCache({ key: 'css' })
+function createClientCache() {
+  const emotionInsertionPoint = document.querySelector(
+    'meta[name="emotion-insertion-point"]',
+  )
+  const insertionPoint =
+    emotionInsertionPoint instanceof HTMLElement
+      ? emotionInsertionPoint
+      : undefined
+
+  return createCache({ key: 'mui-style', insertionPoint })
+}
+
+const cache = createClientCache()
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
