@@ -6,9 +6,6 @@ import { StaticRouter } from 'react-router-dom/server'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Error } from './pages'
 
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import { theme } from './assets/theme'
-
 import '@fontsource/manrope/300.css'
 import '@fontsource/manrope/400.css'
 import '@fontsource/manrope/500.css'
@@ -55,10 +52,7 @@ const App = ({ location }: { location?: string }) => {
     <div className="App">
       <ErrorBoundary fallbackRender={fallbackRender}>
         <Router location={location || '/'}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Routes />
-          </ThemeProvider>
+          <Routes />
         </Router>
       </ErrorBoundary>
     </div>

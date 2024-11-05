@@ -6,16 +6,21 @@ import { mockStore } from './src/ducks/mockStore'
 
 import { CacheProvider } from '@emotion/react'
 import type { EmotionCache } from '@emotion/cache'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { theme } from './src/assets/theme'
 
 export function render(cache: EmotionCache) {
   const appHtml = renderToString(
-    <CacheProvider value={cache}>
-      <Provider store={mockStore}>
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      </Provider>
-    </CacheProvider>,
+    <React.StrictMode>
+      <CacheProvider value={cache}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Provider store={mockStore}>
+            <App />
+          </Provider>
+        </ThemeProvider>
+      </CacheProvider>
+    </React.StrictMode>,
   )
   return appHtml
 }

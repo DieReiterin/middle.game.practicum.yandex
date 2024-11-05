@@ -30,29 +30,29 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    VitePWA({
-      injectRegister: 'auto',
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/ya-praktikum\.tech\/api\/v2\/.*/,
-            handler: 'NetworkFirst',
-            method: 'GET',
-            options: {
-              cacheName: 'ya-praktikum-api-cache',
-              expiration: {
-                maxAgeSeconds: 3600, // cache for 1 hour
-              },
-            },
-          },
-        ],
-      },
-      devOptions: {
-        enabled:
-          !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
-        type: 'module',
-      },
-    }),
+    // VitePWA({
+    //   injectRegister: 'auto',
+    //   workbox: {
+    //     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+    //     runtimeCaching: [
+    //       {
+    //         urlPattern: /^https:\/\/ya-praktikum\.tech\/api\/v2\/.*/,
+    //         handler: 'NetworkFirst',
+    //         method: 'GET',
+    //         options: {
+    //           cacheName: 'ya-praktikum-api-cache',
+    //           expiration: {
+    //             maxAgeSeconds: 3600, // cache for 1 hour
+    //           },
+    //         },
+    //       },
+    //     ],
+    //   },
+    //   devOptions: {
+    //     enabled:
+    //       !process.env.NODE_ENV || process.env.NODE_ENV === 'development',
+    //     type: 'module',
+    //   },
+    // }),
   ],
 })
