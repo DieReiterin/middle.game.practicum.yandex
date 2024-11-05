@@ -49,7 +49,7 @@ export const signup = createAsyncThunk(
 
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const signin = createAsyncThunk(
@@ -70,7 +70,7 @@ export const signin = createAsyncThunk(
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const getOauthServiceId = createAsyncThunk(
@@ -92,7 +92,7 @@ export const getOauthServiceId = createAsyncThunk(
 
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const getOauthAccessToken = createAsyncThunk(
@@ -112,7 +112,7 @@ export const getOauthAccessToken = createAsyncThunk(
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const logout = createAsyncThunk(
@@ -131,7 +131,7 @@ export const logout = createAsyncThunk(
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const getUser = createAsyncThunk(
@@ -156,7 +156,7 @@ export const getUser = createAsyncThunk(
 
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 export const getUserAvatar = createAsyncThunk(
@@ -176,7 +176,7 @@ export const getUserAvatar = createAsyncThunk(
       }
       return rejectWithValue(err?.response?.data)
     }
-  }
+  },
 )
 
 const userStateSlice = createSlice({
@@ -257,7 +257,7 @@ const userStateSlice = createSlice({
         state.user = action.payload
         state.loading = false
         state.error = undefined
-      }
+      },
     )
     builder.addCase(getUser.pending, state => {
       state.loading = true
@@ -271,7 +271,7 @@ const userStateSlice = createSlice({
       (state, action: PayloadAction<string>) => {
         state.avatarUrl = action.payload
         state.loading = false
-      }
+      },
     )
     builder.addCase(getUserAvatar.pending, state => {
       state.loading = true

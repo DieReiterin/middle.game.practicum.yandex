@@ -27,7 +27,7 @@ export const useGamepadStatus = () => {
       window.removeEventListener('gamepadconnected', handleGamepadConnected)
       window.removeEventListener(
         'gamepaddisconnected',
-        handleGamepadDisconnected
+        handleGamepadDisconnected,
       )
     }
   }, [])

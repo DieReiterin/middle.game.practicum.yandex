@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "types": ["jest", "node", "@testing-library/jest-dom"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "createEmotionCache": ["./createEmotionCache"]
     }
   },
   "include": ["src"],

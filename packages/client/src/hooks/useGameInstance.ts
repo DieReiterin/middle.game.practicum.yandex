@@ -4,7 +4,7 @@ import { GameConfig } from '@/game/types'
 
 export const useGameInstance = (
   initialConfig: GameConfig,
-  containerRef: RefObject<HTMLDivElement>
+  containerRef: RefObject<HTMLDivElement>,
 ) => {
   const configRef = useRef<GameConfig>(initialConfig)
 
@@ -28,7 +28,7 @@ export const useGameInstance = (
         containerRef.current.appendChild(newGame.canvas)
       }
     },
-    [containerRef]
+    [containerRef],
   )
 
   useEffect(() => {

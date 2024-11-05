@@ -49,7 +49,7 @@ export class Game {
   private constructor(config: GameConfig = {}) {
     if (Game.instance) {
       throw new Error(
-        'Экземпляр Game уже существует. Используйте Game.getInstance() или Game.createInstance()'
+        'Экземпляр Game уже существует. Используйте Game.getInstance() или Game.createInstance()',
       )
     }
 
@@ -195,7 +195,7 @@ export class Game {
     window.removeEventListener('gamepadconnected', this.onGamepadConnected)
     window.removeEventListener(
       'gamepaddisconnected',
-      this.onGamepadDisconnected
+      this.onGamepadDisconnected,
     )
     this.player?.destroy()
     this.computer?.destroy()
@@ -365,7 +365,7 @@ export class Game {
         0,
         0,
         this.canvas.width,
-        this.canvas.height - GROUND_HEIGHT
+        this.canvas.height - GROUND_HEIGHT,
       )
     } else {
       this.context.fillStyle = this.config.sky?.colors || DEFAULT_SKY_COLOR
@@ -373,7 +373,7 @@ export class Game {
         0,
         0,
         this.canvas.width,
-        this.canvas.height - GROUND_HEIGHT
+        this.canvas.height - GROUND_HEIGHT,
       )
     }
 
@@ -384,7 +384,7 @@ export class Game {
         0,
         this.canvas.height - GROUND_HEIGHT,
         this.canvas.width,
-        GROUND_HEIGHT
+        GROUND_HEIGHT,
       )
     } else {
       this.context.fillStyle =
@@ -393,7 +393,7 @@ export class Game {
         0,
         this.canvas.height - GROUND_HEIGHT,
         this.canvas.width,
-        GROUND_HEIGHT
+        GROUND_HEIGHT,
       )
     }
 
@@ -438,7 +438,7 @@ export class Game {
       this.canvas.width - 220,
       HEALTH_BAR_Y,
       this.computer?.health * 2,
-      20
+      20,
     )
     this.context.strokeStyle = 'black'
     this.context.lineWidth = 1
@@ -450,7 +450,7 @@ export class Game {
       this.canvas.width - 220,
       MANA_BAR_Y,
       this.computer?.mana * 2,
-      20
+      20,
     )
     this.context.strokeStyle = 'black'
     this.context.lineWidth = 1

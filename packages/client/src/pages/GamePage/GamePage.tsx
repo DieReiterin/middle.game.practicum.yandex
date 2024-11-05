@@ -32,7 +32,7 @@ export const GamePage: FC = () => {
       computerDodgeProbability,
       computerAttackSpeedMultiplier,
     }),
-    []
+    [],
   )
   const restartGame = useGameInstance(initialGameConfig, gameContainerRef)
 

@@ -135,7 +135,7 @@ export class Player {
   public update(
     deltaTime: number,
     opponent: Player,
-    gamepadState: GamepadState | null = null
+    gamepadState: GamepadState | null = null,
   ) {
     if (this.isComputer) {
       this.computerAI(deltaTime, opponent)
@@ -205,7 +205,7 @@ export class Player {
   private handleInput(
     deltaTime: number,
     opponent: Player,
-    gamepadState: GamepadState | null
+    gamepadState: GamepadState | null,
   ) {
     if (this.isShieldActive || this.isPerformingAirAttack) {
       return
@@ -243,7 +243,7 @@ export class Player {
   private handleGamepadInput(
     deltaTime: number,
     opponent: Player,
-    gamepadState: GamepadState | null
+    gamepadState: GamepadState | null,
   ) {
     const moveSpeed = MOVE_SPEED * (deltaTime / 1000)
 
@@ -298,8 +298,8 @@ export class Player {
           this.y - this.height / 2, // It's center of the player
           direction,
           FIREBALL_COLOR,
-          fireballSpeed
-        )
+          fireballSpeed,
+        ),
       )
       // Set timer without dividing by attackSpeedMultiplier
       this.fireballCooldownTimer =
@@ -351,7 +351,7 @@ export class Player {
           particleCount: AIR_ATTACK_LINE_WIDTH,
           particleColor: AIR_ATTACK_PARTICLE_COLOR,
           particleRadius: AIR_ATTACK_PARTICLE_RADIUS,
-        }
+        },
       )
       this.airAttack.start()
     }
@@ -620,7 +620,7 @@ export class Player {
         this.x,
         this.y - this.height,
         this.width,
-        this.height
+        this.height,
       )
     } else {
       context.fillStyle =
@@ -643,7 +643,7 @@ export class Player {
         this.y - this.height - 5,
         this.width + 10,
         this.height + 10,
-        SHIELD_RADIUS
+        SHIELD_RADIUS,
       )
 
       context.stroke()

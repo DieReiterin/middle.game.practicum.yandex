@@ -12,17 +12,19 @@ import {
 } from '../pages'
 import { PathsRoutes } from './types'
 
+const isServer = typeof window === 'undefined'
+
 const closePathUnauthorized = (
   isAuthorized: boolean,
   page: JSX.Element
 ): JSX.Element =>
-  isAuthorized ? page : <Navigate to={PathsRoutes.Login} replace />
+  isServer || isAuthorized ? page : <Navigate to={PathsRoutes.Login} replace />
 
 const closePathAuthorized = (
   isAuthorized: boolean,
   page: JSX.Element
 ): JSX.Element =>
-  isAuthorized ? <Navigate to={PathsRoutes.Main} replace /> : page
+  isServer || !isAuthorized ? page : <Navigate to={PathsRoutes.Main} replace />
 
 export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
   {

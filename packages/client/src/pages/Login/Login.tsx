@@ -44,7 +44,7 @@ export const Login: FC = () => {
       error: Boolean(errors?.login),
       ...register(
         'login',
-        getValidationScheme<FormInput, 'login'>('login', true)
+        getValidationScheme<FormInput, 'login'>('login', true),
       ),
     },
     {
@@ -54,7 +54,7 @@ export const Login: FC = () => {
       error: Boolean(errors?.password),
       ...register(
         'password',
-        getValidationScheme<FormInput, 'password'>('password', true)
+        getValidationScheme<FormInput, 'password'>('password', true),
       ),
     },
   ]

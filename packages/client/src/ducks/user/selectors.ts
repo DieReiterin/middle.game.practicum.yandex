@@ -14,5 +14,5 @@ export const userErrorSelector = (state: RootState): UserState['error'] =>
   state.userInfo.error
 
 export const userServiceIdSelector = (
-  state: RootState
+  state: RootState,
 ): UserState['serviceId'] => state.userInfo.serviceId
