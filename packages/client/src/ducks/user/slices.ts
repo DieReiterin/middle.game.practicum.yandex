@@ -179,6 +179,16 @@ export const getUserAvatar = createAsyncThunk(
   },
 )
 
+export const fetchFakeUser = createAsyncThunk(
+  'user/fetchFakeUser',
+  async (_: void) => {
+    const url = `http://localhost:3001/fakeUser`
+    return fetch(url).then(res => {
+      return res.json()
+    })
+  },
+)
+
 const userStateSlice = createSlice({
   name: 'userInfo',
   initialState,
@@ -186,6 +196,21 @@ const userStateSlice = createSlice({
     reset: () => initialState,
   },
   extraReducers: builder => {
+    builder.addCase(
+      fetchFakeUser.fulfilled,
+      (state, action: PayloadAction<UserResponse>) => {
+        state.user = action.payload
+        state.loading = false
+        state.error = undefined
+      },
+    )
+    builder.addCase(fetchFakeUser.pending, state => {
+      state.loading = true
+    })
+    builder.addCase(fetchFakeUser.rejected, (state, action) => {
+      state.loading = false
+    })
+
     builder.addCase(signup.fulfilled, state => {
       state.loading = false
       state.error = undefined

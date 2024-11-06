@@ -35,6 +35,20 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
     app.use(vite.middlewares)
   }
 
+  app.get('/fakeUser', (_, res) => {
+    res.setHeader('Content-Type', 'application/json')
+    res.json({
+      id: 100,
+      first_name: 'Степа',
+      second_name: 'Степанов',
+      display_name: 'display_name',
+      phone: '88888888888',
+      login: 'login',
+      email: 'email@test.ru',
+      avatar: '',
+    })
+  })
+
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
 

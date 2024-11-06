@@ -9,11 +9,14 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { theme } from './src/assets/theme'
 import { configureStore } from '@reduxjs/toolkit'
 import { reducer } from './src/ducks/store'
+import { fetchFakeUser } from './src/ducks/user'
 
 export async function render(cache: EmotionCache) {
   const store = configureStore({
     reducer,
   })
+
+  await store.dispatch(fetchFakeUser())
 
   const appHtml = renderToString(
     <React.StrictMode>

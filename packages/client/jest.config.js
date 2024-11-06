@@ -14,4 +14,3 @@ export default {
     '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/config/jest/fileMock.js',
   },
 }
-
