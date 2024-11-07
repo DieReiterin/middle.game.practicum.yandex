@@ -1,15 +1,15 @@
 import dotenv from 'dotenv'
-import cors from 'cors'
-import { createServer as createViteServer, ViteDevServer } from 'vite'
 dotenv.config()
 
+import cors from 'cors'
+import { createServer as createViteServer, ViteDevServer } from 'vite'
 import express from 'express'
 import { readFileSync } from 'fs'
 import path from 'path'
-
 import createCache from '@emotion/cache'
 import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
+import themeRouter from './src/routes/themeRoutes'
 
 async function startServer(isDev = process.env.NODE_ENV === 'development') {
   const app = express()
@@ -32,6 +32,9 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
     })
     app.use(vite.middlewares)
   }
+
+  app.use(express.json())
+  app.use('/api', themeRouter)
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
