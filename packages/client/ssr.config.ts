@@ -28,7 +28,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/assets/styles/vars.scss";\n@import "@/assets/styles/mixins.scss";\n`,
+        additionalData: `@use "@/assets/styles/vars.scss" as *;\n@use "@/assets/styles/mixins.scss" as *;\n`,
         silenceDeprecations: ['legacy-js-api'],
       },
     },
