@@ -1,4 +1,6 @@
 export const baseURL = 'https://ya-praktikum.tech/api/v2'
+export const addUserToLeaderbordURL = baseURL + '/leaderboard'
+export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
 
 export const oauth = '/oauth'
 export const authURL = '/auth'
