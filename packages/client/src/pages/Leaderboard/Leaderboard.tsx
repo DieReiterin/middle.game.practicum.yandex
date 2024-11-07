@@ -23,8 +23,8 @@ interface leaderboardParamsType {
 
 interface LeaderboardItem {
   data: {
-    myField: string
-    otherField: number
+    name: string
+    result: number
   }
 }
 
@@ -42,7 +42,7 @@ export const Leaderboard: FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardItem[]>([])
 
   const leaderboardParams: leaderboardParamsType = {
-    ratingFieldName: 'otherField',
+    ratingFieldName: 'result',
     cursor: 0,
     limit: 10,
   }
@@ -86,8 +86,8 @@ export const Leaderboard: FC = () => {
                   <TableCell scope="row">
                     <Box className={styles.place}>{index + 1}</Box>
                   </TableCell>
-                  <TableCell>{row.data.myField}</TableCell>
-                  <TableCell>{row.data.otherField}</TableCell>
+                  <TableCell>{row.data.name}</TableCell>
+                  <TableCell>{row.data.result}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

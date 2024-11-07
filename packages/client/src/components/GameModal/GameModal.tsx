@@ -43,10 +43,12 @@ export const GameModal: FC<IGameModalProps> = ({
       setLevel(1)
     }
     if (mode === 'win' || mode === 'lose') {
-      sendGameData({
-        myField: user?.first_name as string,
-        otherField: points,
-      })
+      dispatch(
+        sendGameData({
+          name: user?.first_name as string,
+          result: points,
+        }),
+      )
     }
   }, [mode])
 

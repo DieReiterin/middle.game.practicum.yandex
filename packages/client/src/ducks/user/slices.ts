@@ -7,6 +7,8 @@ import {
   SignupResponse,
   UserResponse,
   UserState,
+  GameDataType,
+  LeaderboardParams,
 } from './types'
 
 import { AxiosResponse, isAxiosError } from 'axios'
@@ -136,30 +138,24 @@ export const logout = createAsyncThunk(
   },
 )
 
-export const sendGameData = async (gameData: {
-  myField: string
-  otherField: number
-}) => {
-  try {
-    const response = await api({
-      url: addUserToLeaderbordURL,
-      method: Methods.POST,
-      data: {
-        data: gameData,
-        ratingFieldName: 'otherField',
-      },
-    })
-    console.log('Данные успешно отправлены:', response.data)
-  } catch (error) {
-    console.error('Ошибка при отправке данных:', error)
-  }
-}
-
-interface LeaderboardParams {
-  ratingFieldName: string
-  cursor: number
-  limit: number
-}
+export const sendGameData = createAsyncThunk(
+  'leaderboard',
+  async (gameData: GameDataType) => {
+    try {
+      const response = await api({
+        url: addUserToLeaderbordURL,
+        method: Methods.POST,
+        data: {
+          data: gameData,
+          ratingFieldName: 'result',
+        },
+      })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
+)
 
 export const getLeaderboard = createAsyncThunk(
   'leaderboard/getData',
