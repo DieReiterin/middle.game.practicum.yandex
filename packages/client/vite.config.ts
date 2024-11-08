@@ -19,6 +19,12 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  optimizeDeps: {
+    include: ['@mui/icons-material'],
+  },
+  ssr: {
+    noExternal: '@mui/icons-material',
+  },
   css: {
     preprocessorOptions: {
       scss: {
