@@ -3,13 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build --config vite.config.ts",
     "build:ssr": "tsc && vite build --config ssr.config.ts",
-    "preview": "vite preview",
+    "test": "jest ./",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "jest ./"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@emotion/server": "^11.11.0",

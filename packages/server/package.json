@@ -4,11 +4,11 @@
   "description": "",
   "scripts": {
     "build": "rimraf dist && tsc --p ./tsconfig.prod.json",
-    "preview": "node ./dist/index.js",
+    "preview": "cross-env NODE_ENV=production node ./dist/index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.ts",
+    "test": "jest .",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "jest ."
+    "format": "prettier --write ."
   },
   "dependencies": {
     "cors": "^2.8.5",
