@@ -5,7 +5,7 @@ import serialize from 'serialize-javascript'
 
 dotenv.config()
 
-import express from 'express'
+import express, { Request as ExpressRequest } from 'express'
 import { readFileSync } from 'fs'
 import path from 'path'
 
@@ -63,6 +63,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
 
       let render: (
         renderCache: EmotionCache,
+        req: ExpressRequest,
       ) => Promise<{ appHtml: string; initialState: unknown }>
 
       if (!isDev) {
@@ -79,7 +80,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
         createEmotionServer(cache)
 
-      const { appHtml, initialState } = await render(cache)
+      const { appHtml, initialState } = await render(cache, req)
 
       const emotionChunks = extractCriticalToChunks(appHtml)
       const emotionCss = constructStyleTagsFromChunks(emotionChunks)

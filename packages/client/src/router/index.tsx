@@ -12,57 +12,43 @@ import {
 } from '../pages'
 import { PathsRoutes } from './types'
 
-const isServer = typeof window === 'undefined'
-
-const closePathUnauthorized = (
-  isAuthorized: boolean,
-  page: JSX.Element
-): JSX.Element =>
-  isServer || isAuthorized ? page : <Navigate to={PathsRoutes.Login} replace />
-
-const closePathAuthorized = (
-  isAuthorized: boolean,
-  page: JSX.Element
-): JSX.Element =>
-  isServer || !isAuthorized ? page : <Navigate to={PathsRoutes.Main} replace />
-
-export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
+export const routes: RouteObject[] = [
   {
     path: PathsRoutes.Registration,
-    element: closePathAuthorized(isAuthorized, <Registration />),
+    Component: Registration,
   },
   {
     path: PathsRoutes.Login,
-    element: closePathAuthorized(isAuthorized, <Login />),
+    Component: Login,
   },
   {
     path: PathsRoutes.Main,
-    element: closePathUnauthorized(isAuthorized, <Main />),
+    Component: Main,
   },
   {
     path: PathsRoutes.GamePage,
-    element: closePathUnauthorized(isAuthorized, <GamePage />),
+    Component: GamePage,
   },
   {
     path: PathsRoutes.Profile,
-    element: closePathUnauthorized(isAuthorized, <ProfilePage />),
+    Component: ProfilePage,
+  },
+  {
+    path: PathsRoutes.Leaderboard,
+    Component: Leaderboard,
+  },
+  {
+    path: PathsRoutes.Forum,
+    Component: Forum,
+  },
+  {
+    path: PathsRoutes.ForumBlockPage,
+    Component: ForumBlockPage,
   },
   {
     path: '*',
     element: (
       <Error title="404" descr="Не туда попали" text="Давайте вернемся назад" />
     ),
-  },
-  {
-    path: PathsRoutes.Leaderboard,
-    element: closePathUnauthorized(isAuthorized, <Leaderboard />),
-  },
-  {
-    path: PathsRoutes.Forum,
-    element: closePathUnauthorized(isAuthorized, <Forum />),
-  },
-  {
-    path: PathsRoutes.ForumBlockPage,
-    element: closePathUnauthorized(isAuthorized, <ForumBlockPage />),
   },
 ]
