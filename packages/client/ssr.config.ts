@@ -25,6 +25,12 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  optimizeDeps: {
+    include: ['@mui/icons-material'],
+  },
+  ssr: {
+    noExternal: '@mui/icons-material',
+  },
   css: {
     preprocessorOptions: {
       scss: {
