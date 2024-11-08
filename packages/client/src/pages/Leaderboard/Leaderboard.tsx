@@ -1,5 +1,4 @@
-import { FC, useMemo } from 'react'
-
+import { FC, useEffect, useState } from 'react'
 import {
   Box,
   Table,
@@ -10,20 +9,57 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-import { data } from './mockData'
 import styles from './Leaderboard.module.scss'
-import { PathsRoutes } from '../../router/types'
-import { ButtonLink } from '../../components/ButtonLink'
-import NoImage from './NoImage.png'
+import { PathsRoutes } from '@/router/types'
+import { ButtonLink } from '@/components/ButtonLink'
+import { getLeaderboard } from '@/ducks/user'
+import { useAppDispatch } from '@/ducks/store'
+
+interface leaderboardParamsType {
+  ratingFieldName: string
+  cursor: number
+  limit: number
+}
+
+interface LeaderboardItem {
+  data: {
+    name: string
+    result: number
+  }
+}
+
+interface Meta {
+  requestStatus: 'pending' | 'fulfilled' | 'rejected'
+}
+
+interface LeaderboardResponse {
+  meta: Meta
+  payload: LeaderboardItem[]
+}
 
 export const Leaderboard: FC = () => {
-  const rows = useMemo(
-    () =>
-      data
-        .sort((a, b) => b.points - a.points)
-        .map((item, idx) => ({ ...item, place: idx + 1 })),
-    [data]
-  )
+  const dispatch = useAppDispatch()
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardItem[]>([])
+
+  const leaderboardParams: leaderboardParamsType = {
+    ratingFieldName: 'result',
+    cursor: 0,
+    limit: 10,
+  }
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const result = (await dispatch(
+        getLeaderboard(leaderboardParams),
+      )) as LeaderboardResponse
+
+      if (result.meta.requestStatus === 'fulfilled') {
+        setLeaderboardData(result.payload)
+      }
+    }
+
+    fetchLeaderboard()
+  }, [dispatch])
 
   return (
     <Box className={styles.wrapper}>
@@ -43,24 +79,15 @@ export const Leaderboard: FC = () => {
               </TableRow>
             </TableHead>
             <TableBody className={styles.tableBody}>
-              {rows.map(row => (
+              {leaderboardData.map((row, index) => (
                 <TableRow
-                  key={`leaderboard-${row.name}`}
+                  key={`leaderboard-${index}`}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell scope="row">
-                    <Box className={styles.place}>{row.place}</Box>
+                    <Box className={styles.place}>{index + 1}</Box>
                   </TableCell>
-                  <TableCell>
-                    <Box className={styles.nameRow}>
-                      <Box
-                        component="img"
-                        className={styles.image}
-                        src={row.avatar ?? NoImage}
-                      />
-                      {row.name}
-                    </Box>
-                  </TableCell>
-                  <TableCell>{row.points} очков</TableCell>
+                  <TableCell>{row.data.name}</TableCell>
+                  <TableCell>{row.data.result}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

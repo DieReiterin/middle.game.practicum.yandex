@@ -7,11 +7,15 @@ import {
   SignupResponse,
   UserResponse,
   UserState,
+  GameDataType,
+  LeaderboardParams,
 } from './types'
 
 import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
 import {
+  addUserToLeaderbordURL,
+  getAllLeaderboardURL,
   getuserURL,
   logoutURL,
   oauthURL,
@@ -125,6 +129,45 @@ export const logout = createAsyncThunk(
       })
       dispatch(actions.reset())
       dispatch(getUser())
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+export const sendGameData = createAsyncThunk(
+  'leaderboard',
+  async (gameData: GameDataType) => {
+    try {
+      const response = await api({
+        url: addUserToLeaderbordURL,
+        method: Methods.POST,
+        data: {
+          data: gameData,
+          ratingFieldName: 'result',
+        },
+      })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
+)
+
+export const getLeaderboard = createAsyncThunk(
+  'leaderboard/getData',
+  async (params: LeaderboardParams, { rejectWithValue }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<LeaderboardParams>>({
+        url: getAllLeaderboardURL,
+        method: Methods.POST,
+        data: params,
+      })
+
+      return response.data
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err

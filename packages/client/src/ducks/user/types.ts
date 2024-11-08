@@ -38,3 +38,14 @@ export type SigninData = {
   login: string
   password: string
 }
+
+export type GameDataType = {
+  name: string
+  result: number
+}
+
+export type LeaderboardParams = {
+  ratingFieldName: string
+  cursor: number
+  limit: number
+}
