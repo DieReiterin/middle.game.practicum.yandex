@@ -1,25 +1,37 @@
 ## Первый запуск и подготовка БД
 1. Установите зависимости командой `yarn install`
-2. Создайте файл `.env` в корне проекта и укажите в нем переменные окружения:
+2. Создайте файл `.env` в корне `packages\server` и укажите в нем переменные окружения:
 ```
 POSTGRES_USER
 POSTGRES_PASSWORD
 POSTGRES_DB
 POSTGRES_PORT
 ```
-3. Запустите контейнер с Postgres командой
+3. Создайте `.env` файл в корне проекта и укажите в нем переменные окружения:
+```
+CLIENT_PORT
+SERVER_PORT
+POSTGRES_USER
+POSTGRES_PASSWORD
+POSTGRES_DB
+POSTGRES_PORT
+PGADMIN_PORT
+PGADMIN_DEFAULT_EMAIL
+PGADMIN_DEFAULT_PASSWORD
+```
+4. Запустите контейнер с Postgres командой
 ```bash
 docker-compose up -d
 ```
-4. Запустите миграции командой 
+5. Запустите миграции командой 
 ```bash
 yarn sequelize db:migrate
 ```
-5. Запустите наполнение таблиц данными командой 
+6. Запустите наполнение таблиц данными командой 
 ```bash
 yarn sequelize db:seed:all
 ```
-6. Запустите сервер командой 
+7. Запустите сервер командой 
 ```bash
 yarn run preview
 ```
