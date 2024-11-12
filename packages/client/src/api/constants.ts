@@ -1,6 +1,8 @@
 export const apiHost = 'http://localhost:3001'
 export const apiPrefix = '/api/v2'
 export const baseURL = `${apiHost}${apiPrefix}`
+export const addUserToLeaderbordURL = baseURL + '/leaderboard'
+export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
 
 export const oauth = '/oauth'
 export const authURL = '/auth'
