@@ -12,7 +12,7 @@ import {
 import { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
 import {
-  getuserURL,
+  getUserURL,
   logoutURL,
   oauthURL,
   redirectURL,
@@ -136,16 +136,19 @@ export const logout = createAsyncThunk(
 
 export const getUser = createAsyncThunk(
   'user/getUser',
-  async (_, { rejectWithValue, dispatch }) => {
+  async (cookies: string | undefined, { rejectWithValue, dispatch }) => {
     try {
       const response = await api<undefined, AxiosResponse<UserResponse>>({
-        url: getuserURL,
+        url: getUserURL,
+        headers: {
+          Cookie: cookies,
+        },
       })
 
       const user = response.data
 
       if (user.avatar && user.avatar !== '') {
-        dispatch(getUserAvatar(user.avatar))
+        dispatch(getUserAvatar({ pathToFile: user.avatar, cookies }))
       }
 
       return user
@@ -161,12 +164,18 @@ export const getUser = createAsyncThunk(
 
 export const getUserAvatar = createAsyncThunk(
   'user/getAvatar',
-  async (pathToFile: string, { rejectWithValue }) => {
+  async (
+    { pathToFile, cookies }: { pathToFile: string; cookies?: string },
+    { rejectWithValue },
+  ) => {
     try {
       const response = await api<undefined, AxiosResponse<Blob>>({
         url: staticURL + pathToFile,
         method: Methods.GET,
         responseType: 'blob',
+        headers: {
+          Cookie: cookies,
+        },
       })
 
       return URL.createObjectURL(response.data)
@@ -179,16 +188,6 @@ export const getUserAvatar = createAsyncThunk(
   },
 )
 
-export const fetchFakeUser = createAsyncThunk(
-  'user/fetchFakeUser',
-  async (_: void) => {
-    const url = `http://localhost:3001/fakeUser`
-    return fetch(url).then(res => {
-      return res.json()
-    })
-  },
-)
-
 const userStateSlice = createSlice({
   name: 'userInfo',
   initialState,
@@ -196,21 +195,6 @@ const userStateSlice = createSlice({
     reset: () => initialState,
   },
   extraReducers: builder => {
-    builder.addCase(
-      fetchFakeUser.fulfilled,
-      (state, action: PayloadAction<UserResponse>) => {
-        state.user = action.payload
-        state.loading = false
-        state.error = undefined
-      },
-    )
-    builder.addCase(fetchFakeUser.pending, state => {
-      state.loading = true
-    })
-    builder.addCase(fetchFakeUser.rejected, (state, action) => {
-      state.loading = false
-    })
-
     builder.addCase(signup.fulfilled, state => {
       state.loading = false
       state.error = undefined

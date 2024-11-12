@@ -6,9 +6,10 @@ import {
   configureStore,
   ThunkDispatch,
 } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useStore as useStoreBase } from 'react-redux'
 
 import { UserState, reducer as userReducer } from './user'
+import { PageCookies } from '@/router'
 
 declare global {
   interface Window {
@@ -36,4 +37,12 @@ export const useAppDispatch = (): ThunkDispatch<
 > &
   Dispatch<AnyAction> => useDispatch<typeof store.dispatch>()
 
+export const useStore: () => typeof store = useStoreBase
+
 export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export type PageInitArgs = {
+  dispatch: AppDispatch
+  state: RootState
+  cookies?: string
+}

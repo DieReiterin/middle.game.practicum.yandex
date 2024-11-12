@@ -1,13 +1,14 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Form, FormFieldProps, FullScreenWrapper } from '@/components'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '@/router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { getValidationScheme, validationErrorMessage } from '@/constants'
-import { useAppDispatch } from '@/ducks/store'
-import { signin, userErrorSelector } from '@/ducks/user'
+import { PageInitArgs, useAppDispatch } from '@/ducks/store'
+import { getUser, signin, userErrorSelector, userSelector } from '@/ducks/user'
 import { useSelector } from 'react-redux'
 import { YandexAuthButton } from '@/components/YandexAuthButton'
+import { usePage } from '@/hooks'
 
 enum Fields {
   Login = 'login',
@@ -25,10 +26,13 @@ export const Login: FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({ mode: 'onBlur' })
+  const user = useSelector(userSelector)
   const error = useSelector(userErrorSelector)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  usePage({ initPage: initLoginPage })
 
   const handleRegistrationButtonClick = (): void =>
     navigate(PathsRoutes.Registration)
@@ -59,6 +63,12 @@ export const Login: FC = () => {
     },
   ]
 
+  useEffect(() => {
+    if (user) {
+      navigate(PathsRoutes.Main)
+    }
+  }, [user])
+
   return (
     <FullScreenWrapper title="Вход">
       <Form
@@ -81,4 +91,18 @@ export const Login: FC = () => {
       <YandexAuthButton />
     </FullScreenWrapper>
   )
+}
+
+export const initLoginPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

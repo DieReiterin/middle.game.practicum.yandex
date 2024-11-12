@@ -2,20 +2,25 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import serialize from 'serialize-javascript'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 
 dotenv.config()
 
 import express, { Request as ExpressRequest } from 'express'
 import { readFileSync } from 'fs'
 import path from 'path'
+import cookieParser from 'cookie-parser'
 
 import createCache from '@emotion/cache'
 import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
 
+export const apiHost = 'https://ya-praktikum.tech'
+export const apiPrefix = '/api/v2'
+
 async function startServer(isDev = process.env.NODE_ENV === 'development') {
   const app = express()
-  app.use(cors())
+  app.use(cors(), cookieParser())
   const port = Number(process.env.SERVER_PORT) || 3001
 
   const distPath = path.dirname(require.resolve('client/dist/index.html'))
@@ -35,19 +40,16 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
     app.use(vite.middlewares)
   }
 
-  app.get('/fakeUser', (_, res) => {
-    res.setHeader('Content-Type', 'application/json')
-    res.json({
-      id: 100,
-      first_name: 'Степа',
-      second_name: 'Степанов',
-      display_name: 'display_name',
-      phone: '88888888888',
-      login: 'login',
-      email: 'email@test.ru',
-      avatar: '',
-    })
-  })
+  app.use(
+    apiPrefix,
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        '*': '',
+      },
+      target: `${apiHost}${apiPrefix}`,
+    }),
+  )
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl

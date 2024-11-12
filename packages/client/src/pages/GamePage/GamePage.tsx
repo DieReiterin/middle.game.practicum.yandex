@@ -6,7 +6,12 @@ import { GameStates } from '@/game/constants'
 import { GameConfig } from '@/game/types'
 import styles from './GamePage.module.scss'
 import { GameModal, TGameModalMode, TGameModalAction } from '@/components'
-import { useFullscreen, useGamepadStatus, useGameInstance } from '@/hooks'
+import {
+  useFullscreen,
+  useGamepadStatus,
+  useGameInstance,
+  usePage,
+} from '@/hooks'
 import {
   colors,
   textures,
@@ -15,6 +20,8 @@ import {
   maxWidth,
   maxHeight,
 } from './constants'
+import { PageInitArgs } from '@/ducks/store'
+import { getUser, userSelector } from '@/ducks/user'
 
 export const GamePage: FC = () => {
   const [modalMode, setModalMode] = useState<TGameModalMode>('start')
@@ -36,6 +43,7 @@ export const GamePage: FC = () => {
   )
   const restartGame = useGameInstance(initialGameConfig, gameContainerRef)
 
+  usePage({ initPage: initGamePage })
   useFullscreen()
 
   const handleModalAction = (action: TGameModalAction) => {
@@ -87,4 +95,18 @@ export const GamePage: FC = () => {
       />
     </Box>
   )
+}
+
+export const initGamePage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

@@ -1,5 +1,7 @@
-import Forum from '../pages/Forum/Forum'
-import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
+import Forum, { initForumPage } from '../pages/Forum/Forum'
+import ForumBlockPage, {
+  initForumBlockPage,
+} from '../pages/ForumBlockPage/ForumBlockPage'
 import { Navigate, RouteObject } from 'react-router-dom'
 import {
   Login,
@@ -9,46 +11,96 @@ import {
   Leaderboard,
   Error,
   ProfilePage,
+  initRegistrationPage,
+  initLoginPage,
+  initMainPage,
+  initGamePage,
+  initLeaderboardPage,
+  initErrorPage,
 } from '../pages'
 import { PathsRoutes } from './types'
+import { initProfilePage } from '@/pages/ProfilePage/components'
+import { PageInitArgs } from '@/ducks/store'
+import { useAuth } from '@/hooks'
+import { FC, PropsWithChildren } from 'react'
+import { Loader } from '@/components'
 
-export const routes: RouteObject[] = [
+type Route = RouteObject & {
+  fetchData: (props: PageInitArgs) => Promise<unknown>
+}
+
+export type PageCookies = { [key: string]: string }
+
+const routesConfig: Route[] = [
   {
     path: PathsRoutes.Registration,
-    Component: Registration,
+    element: <Registration />,
+    fetchData: initRegistrationPage,
   },
   {
     path: PathsRoutes.Login,
-    Component: Login,
+    element: <Login />,
+    fetchData: initLoginPage,
   },
   {
     path: PathsRoutes.Main,
-    Component: Main,
+    element: <Main />,
+    fetchData: initMainPage,
   },
   {
     path: PathsRoutes.GamePage,
-    Component: GamePage,
+    element: <GamePage />,
+    fetchData: initGamePage,
   },
   {
     path: PathsRoutes.Profile,
-    Component: ProfilePage,
+    element: <ProfilePage />,
+    fetchData: initProfilePage,
   },
   {
     path: PathsRoutes.Leaderboard,
-    Component: Leaderboard,
+    element: <Leaderboard />,
+    fetchData: initLeaderboardPage,
   },
   {
     path: PathsRoutes.Forum,
-    Component: Forum,
+    element: <Forum />,
+    fetchData: initForumPage,
   },
   {
     path: PathsRoutes.ForumBlockPage,
-    Component: ForumBlockPage,
+    element: <ForumBlockPage />,
+    fetchData: initForumBlockPage,
   },
   {
     path: '*',
     element: (
       <Error title="404" descr="Не туда попали" text="Давайте вернемся назад" />
     ),
+    fetchData: initErrorPage,
   },
 ]
+
+const Auth: FC<PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
+  const { loader, user } = useAuth()
+  const isAuthorized = Boolean(user)
+
+  if (!isAuthorized && path !== PathsRoutes.Registration) {
+    return (
+      <>
+        {children}
+        <Navigate to={PathsRoutes.Login} replace />
+      </>
+    )
+  }
+
+  return loader ? <Loader /> : children
+}
+
+export const routes: Route[] = routesConfig.map(
+  ({ path, element, ...otherData }) => ({
+    path,
+    element: <Auth path={path}>{element}</Auth>,
+    ...otherData,
+  }),
+)

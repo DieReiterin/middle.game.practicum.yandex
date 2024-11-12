@@ -5,6 +5,9 @@ import { Button, SvgIcon, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import ForumMessage from './components/ForumMessage/ForumMessage'
 import useTopicData from '../../hooks/useTopicData'
+import { usePage } from '@/hooks'
+import { PageInitArgs } from '@/ducks/store'
+import { getUser, userSelector } from '@/ducks/user'
 
 type HomeIconProps = {
   [key: string]: string | number | bigint | boolean
@@ -14,6 +17,8 @@ const ForumBlockPage: React.FC = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const topicData = useTopicData()
+
+  usePage({ initPage: initForumBlockPage })
 
   function HomeIcon(props: HomeIconProps) {
     return (
@@ -81,3 +86,17 @@ const ForumBlockPage: React.FC = () => {
 }
 
 export default ForumBlockPage
+
+export const initForumBlockPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
+}

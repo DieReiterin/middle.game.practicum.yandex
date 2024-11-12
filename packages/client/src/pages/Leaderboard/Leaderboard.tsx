@@ -15,14 +15,19 @@ import styles from './Leaderboard.module.scss'
 import { PathsRoutes } from '../../router/types'
 import { ButtonLink } from '../../components/ButtonLink'
 import NoImage from './NoImage.png'
+import { usePage } from '@/hooks'
+import { PageInitArgs } from '@/ducks/store'
+import { getUser, userSelector } from '@/ducks/user'
 
 export const Leaderboard: FC = () => {
+  usePage({ initPage: initLeaderboardPage })
+
   const rows = useMemo(
     () =>
       data
         .sort((a, b) => b.points - a.points)
         .map((item, idx) => ({ ...item, place: idx + 1 })),
-    [data]
+    [data],
   )
 
   return (
@@ -76,4 +81,18 @@ export const Leaderboard: FC = () => {
       </Box>
     </Box>
   )
+}
+
+export const initLeaderboardPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

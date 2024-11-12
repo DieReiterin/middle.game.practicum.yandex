@@ -7,12 +7,17 @@ import { Button, IconButton, Tooltip } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ForumBlock from './components/ForumBlock/ForumBlock'
 import ForumModal from './components/ForumModal/ForumModal'
+import { usePage } from '@/hooks'
+import { PageInitArgs } from '@/ducks/store'
+import { getUser, userSelector } from '@/ducks/user'
 
 const Forum = () => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  usePage({ initPage: initForumPage })
 
   const [topics, setTopics] = useState<string[]>(() => {
     const savedTopics = localStorage.getItem('topics')
@@ -126,3 +131,17 @@ const Forum = () => {
 }
 
 export default Forum
+
+export const initForumPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
+}
