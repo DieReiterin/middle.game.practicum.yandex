@@ -1,5 +1,7 @@
-import Forum from '../pages/Forum/Forum'
-import ForumBlockPage from '../pages/ForumBlockPage/ForumBlockPage'
+import Forum, { initForumPage } from '../pages/Forum/Forum'
+import ForumBlockPage, {
+  initForumBlockPage,
+} from '../pages/ForumBlockPage/ForumBlockPage'
 import { Navigate, RouteObject } from 'react-router-dom'
 import {
   Login,
@@ -9,60 +11,96 @@ import {
   Leaderboard,
   Error,
   ProfilePage,
+  initRegistrationPage,
+  initLoginPage,
+  initMainPage,
+  initGamePage,
+  initLeaderboardPage,
+  initErrorPage,
 } from '../pages'
 import { PathsRoutes } from './types'
+import { initProfilePage } from '@/pages/ProfilePage/components'
+import { PageInitArgs } from '@/ducks/store'
+import { useAuth } from '@/hooks'
+import { FC, PropsWithChildren } from 'react'
+import { Loader } from '@/components'
 
-const isServer = typeof window === 'undefined'
+type Route = RouteObject & {
+  fetchData: (props: PageInitArgs) => Promise<unknown>
+}
 
-const closePathUnauthorized = (
-  isAuthorized: boolean,
-  page: JSX.Element
-): JSX.Element =>
-  isServer || isAuthorized ? page : <Navigate to={PathsRoutes.Login} replace />
+export type PageCookies = { [key: string]: string }
 
-const closePathAuthorized = (
-  isAuthorized: boolean,
-  page: JSX.Element
-): JSX.Element =>
-  isServer || !isAuthorized ? page : <Navigate to={PathsRoutes.Main} replace />
-
-export const getRoutes = (isAuthorized: boolean): RouteObject[] => [
+const routesConfig: Route[] = [
   {
     path: PathsRoutes.Registration,
-    element: closePathAuthorized(isAuthorized, <Registration />),
+    element: <Registration />,
+    fetchData: initRegistrationPage,
   },
   {
     path: PathsRoutes.Login,
-    element: closePathAuthorized(isAuthorized, <Login />),
+    element: <Login />,
+    fetchData: initLoginPage,
   },
   {
     path: PathsRoutes.Main,
-    element: closePathUnauthorized(isAuthorized, <Main />),
+    element: <Main />,
+    fetchData: initMainPage,
   },
   {
     path: PathsRoutes.GamePage,
-    element: closePathUnauthorized(isAuthorized, <GamePage />),
+    element: <GamePage />,
+    fetchData: initGamePage,
   },
   {
     path: PathsRoutes.Profile,
-    element: closePathUnauthorized(isAuthorized, <ProfilePage />),
+    element: <ProfilePage />,
+    fetchData: initProfilePage,
+  },
+  {
+    path: PathsRoutes.Leaderboard,
+    element: <Leaderboard />,
+    fetchData: initLeaderboardPage,
+  },
+  {
+    path: PathsRoutes.Forum,
+    element: <Forum />,
+    fetchData: initForumPage,
+  },
+  {
+    path: PathsRoutes.ForumBlockPage,
+    element: <ForumBlockPage />,
+    fetchData: initForumBlockPage,
   },
   {
     path: '*',
     element: (
       <Error title="404" descr="Не туда попали" text="Давайте вернемся назад" />
     ),
-  },
-  {
-    path: PathsRoutes.Leaderboard,
-    element: closePathUnauthorized(isAuthorized, <Leaderboard />),
-  },
-  {
-    path: PathsRoutes.Forum,
-    element: closePathUnauthorized(isAuthorized, <Forum />),
-  },
-  {
-    path: PathsRoutes.ForumBlockPage,
-    element: closePathUnauthorized(isAuthorized, <ForumBlockPage />),
+    fetchData: initErrorPage,
   },
 ]
+
+const Auth: FC<PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
+  const { loader, user } = useAuth()
+  const isAuthorized = Boolean(user)
+
+  if (!isAuthorized && path !== PathsRoutes.Registration) {
+    return (
+      <>
+        {children}
+        <Navigate to={PathsRoutes.Login} replace />
+      </>
+    )
+  }
+
+  return loader ? <Loader /> : children
+}
+
+export const routes: Route[] = routesConfig.map(
+  ({ path, element, ...otherData }) => ({
+    path,
+    element: <Auth path={path}>{element}</Auth>,
+    ...otherData,
+  }),
+)

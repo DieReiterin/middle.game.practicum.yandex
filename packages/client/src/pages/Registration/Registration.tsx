@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { Form, FormFieldProps, FullScreenWrapper } from '../../components'
 import { useNavigate } from 'react-router-dom'
@@ -6,9 +6,15 @@ import { PathsRoutes } from '../../router/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { getValidationScheme, validationErrorMessage } from '../../constants'
 import { isAxiosError } from 'axios'
-import { useAppDispatch } from '../../ducks/store'
-import { signup, userErrorSelector } from '../../ducks/user'
+import { PageInitArgs, useAppDispatch } from '../../ducks/store'
+import {
+  getUser,
+  signup,
+  userErrorSelector,
+  userSelector,
+} from '../../ducks/user'
 import { useSelector } from 'react-redux'
+import { usePage } from '@/hooks'
 
 enum Fields {
   Email = 'email',
@@ -36,10 +42,13 @@ export const Registration: FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({ mode: 'onBlur' })
+  const user = useSelector(userSelector)
   const error = useSelector(userErrorSelector)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  usePage({ initPage: initRegistrationPage })
 
   const handleLoginButtonClick = (): void => navigate(PathsRoutes.Login)
 
@@ -52,9 +61,15 @@ export const Registration: FC = () => {
         password: data.password,
         phone: data.phone,
         second_name: data.secondName,
-      })
+      }),
     )
   }
+
+  useEffect(() => {
+    if (user) {
+      navigate(PathsRoutes.Main)
+    }
+  }, [user])
 
   const formItems: FormFieldProps[] = [
     {
@@ -63,7 +78,7 @@ export const Registration: FC = () => {
       error: Boolean(errors?.email),
       ...register(
         'email',
-        getValidationScheme<FormInput, 'email'>('email', true)
+        getValidationScheme<FormInput, 'email'>('email', true),
       ),
     },
     {
@@ -72,7 +87,7 @@ export const Registration: FC = () => {
       error: Boolean(errors?.login),
       ...register(
         'login',
-        getValidationScheme<FormInput, 'login'>('login', true)
+        getValidationScheme<FormInput, 'login'>('login', true),
       ),
     },
     {
@@ -81,7 +96,7 @@ export const Registration: FC = () => {
       error: Boolean(errors?.firstName),
       ...register(
         'firstName',
-        getValidationScheme<FormInput, 'firstName'>('firstName', true)
+        getValidationScheme<FormInput, 'firstName'>('firstName', true),
       ),
     },
     {
@@ -90,7 +105,7 @@ export const Registration: FC = () => {
       error: Boolean(errors?.secondName),
       ...register(
         'secondName',
-        getValidationScheme<FormInput, 'secondName'>('secondName', true)
+        getValidationScheme<FormInput, 'secondName'>('secondName', true),
       ),
     },
     {
@@ -99,7 +114,7 @@ export const Registration: FC = () => {
       error: Boolean(errors?.phone),
       ...register(
         'phone',
-        getValidationScheme<FormInput, 'phone'>('phone', true)
+        getValidationScheme<FormInput, 'phone'>('phone', true),
       ),
     },
     {
@@ -109,7 +124,7 @@ export const Registration: FC = () => {
       error: Boolean(errors?.password),
       ...register(
         'password',
-        getValidationScheme<FormInput, 'password'>('password', true)
+        getValidationScheme<FormInput, 'password'>('password', true),
       ),
     },
     {
@@ -146,4 +161,18 @@ export const Registration: FC = () => {
       />
     </FullScreenWrapper>
   )
+}
+
+export const initRegistrationPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

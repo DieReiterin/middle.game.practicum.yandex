@@ -4,6 +4,9 @@ import { PathsRoutes } from '../../router/types'
 import { FC } from 'react'
 import styles from './Main.module.scss'
 import logo from '../../assets/images/logo.png'
+import { usePage } from '@/hooks'
+import { PageInitArgs } from '@/ducks/store'
+import { getUser, userSelector } from '@/ducks/user'
 
 const buttons: NavigationProps['buttons'] = [
   { title: 'Начать игру', to: PathsRoutes.GamePage },
@@ -13,6 +16,8 @@ const buttons: NavigationProps['buttons'] = [
 ]
 
 export const Main: FC = () => {
+  usePage({ initPage: initMainPage })
+
   return (
     <Box className={styles.wrapper}>
       <Box className={styles.main}>
@@ -23,4 +28,18 @@ export const Main: FC = () => {
       </Box>
     </Box>
   )
+}
+
+export const initMainPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

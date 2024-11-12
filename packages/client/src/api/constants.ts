@@ -1,4 +1,6 @@
-export const baseURL = 'https://ya-praktikum.tech/api/v2'
+export const apiHost = 'http://localhost:3001'
+export const apiPrefix = '/api/v2'
+export const baseURL = `${apiHost}${apiPrefix}`
 export const addUserToLeaderbordURL = baseURL + '/leaderboard'
 export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
 
@@ -6,7 +8,7 @@ export const oauth = '/oauth'
 export const authURL = '/auth'
 export const signinURL = authURL + '/signin'
 export const signupURL = authURL + '/signup'
-export const getuserURL = authURL + '/user'
+export const getUserURL = authURL + '/user'
 export const logoutURL = authURL + '/logout'
 export const staticURL = '/resources'
 export const userURL = '/user'

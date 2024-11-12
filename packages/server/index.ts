@@ -1,19 +1,29 @@
 import dotenv from 'dotenv'
-dotenv.config()
-
 import cors from 'cors'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
-import express from 'express'
+import serialize from 'serialize-javascript'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+
+dotenv.config()
+
+import express, { Request as ExpressRequest } from 'express'
 import { readFileSync } from 'fs'
 import path from 'path'
+import cookieParser from 'cookie-parser'
+
+dotenv.config()
+
 import createCache from '@emotion/cache'
 import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
 import themeRouter from './src/routes/themeRoutes'
 
+export const apiHost = 'https://ya-praktikum.tech'
+export const apiPrefix = '/api/v2'
+
 async function startServer(isDev = process.env.NODE_ENV === 'development') {
   const app = express()
-  app.use(cors())
+  app.use(cors(), cookieParser())
   const port = Number(process.env.SERVER_PORT) || 3001
 
   const distPath = path.dirname(require.resolve('client/dist/index.html'))
@@ -33,6 +43,16 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
     app.use(vite.middlewares)
   }
 
+  app.use(
+    apiPrefix,
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        '*': '',
+      },
+      target: `${apiHost}${apiPrefix}`,
+    }),
+  )
   app.use(express.json())
   app.use('/api', themeRouter)
 
@@ -48,7 +68,11 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
         template = await vite!.transformIndexHtml(url, template)
       }
 
-      let render: (renderCache: EmotionCache) => Promise<string>
+      let render: (
+        renderCache: EmotionCache,
+        req: ExpressRequest,
+      ) => Promise<{ appHtml: string; initialState: unknown }>
+
       if (!isDev) {
         render = (await import(ssrClientPath)).render
       } else {
@@ -63,7 +87,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
         createEmotionServer(cache)
 
-      const appHtml = await render(cache)
+      const { appHtml, initialState } = await render(cache, req)
 
       const emotionChunks = extractCriticalToChunks(appHtml)
       const emotionCss = constructStyleTagsFromChunks(emotionChunks)
@@ -71,6 +95,12 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       const html = template
         .replace('<!-- ssr-outlet -->', appHtml)
         .replace('<!-- css-outlet -->', emotionCss)
+        .replace(
+          `<!--ssr-initial-state-->`,
+          `<script>window.APP_INITIAL_STATE = ${serialize(initialState, {
+            isJSON: true,
+          })}</script>`,
+        )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {

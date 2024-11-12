@@ -16,7 +16,7 @@ import api, { Methods } from '../../api'
 import {
   addUserToLeaderbordURL,
   getAllLeaderboardURL,
-  getuserURL,
+  getUserURL,
   logoutURL,
   oauthURL,
   redirectURL,
@@ -179,16 +179,19 @@ export const getLeaderboard = createAsyncThunk(
 
 export const getUser = createAsyncThunk(
   'user/getUser',
-  async (_, { rejectWithValue, dispatch }) => {
+  async (cookies: string | undefined, { rejectWithValue, dispatch }) => {
     try {
       const response = await api<undefined, AxiosResponse<UserResponse>>({
-        url: getuserURL,
+        url: getUserURL,
+        headers: {
+          Cookie: cookies,
+        },
       })
 
       const user = response.data
 
       if (user.avatar && user.avatar !== '') {
-        dispatch(getUserAvatar(user.avatar))
+        dispatch(getUserAvatar({ pathToFile: user.avatar, cookies }))
       }
 
       return user
@@ -204,12 +207,18 @@ export const getUser = createAsyncThunk(
 
 export const getUserAvatar = createAsyncThunk(
   'user/getAvatar',
-  async (pathToFile: string, { rejectWithValue }) => {
+  async (
+    { pathToFile, cookies }: { pathToFile: string; cookies?: string },
+    { rejectWithValue },
+  ) => {
     try {
       const response = await api<undefined, AxiosResponse<Blob>>({
         url: staticURL + pathToFile,
         method: Methods.GET,
         responseType: 'blob',
+        headers: {
+          Cookie: cookies,
+        },
       })
 
       return URL.createObjectURL(response.data)

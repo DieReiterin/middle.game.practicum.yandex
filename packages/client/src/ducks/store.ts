@@ -1,14 +1,30 @@
 import { Dispatch } from 'react'
 
-import { AnyAction, configureStore, ThunkDispatch } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
+import {
+  AnyAction,
+  combineReducers,
+  configureStore,
+  ThunkDispatch,
+} from '@reduxjs/toolkit'
+import { useDispatch, useStore as useStoreBase } from 'react-redux'
 
 import { UserState, reducer as userReducer } from './user'
+import { PageCookies } from '@/router'
+
+declare global {
+  interface Window {
+    APP_INITIAL_STATE: Partial<{ userInfo: UserState | undefined }>
+  }
+}
+
+export const reducer = combineReducers({
+  userInfo: userReducer,
+})
 
 export const store = configureStore({
-  reducer: {
-    userInfo: userReducer,
-  },
+  reducer,
+  preloadedState:
+    typeof window === 'undefined' ? undefined : window.APP_INITIAL_STATE,
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
 })
 
@@ -21,4 +37,12 @@ export const useAppDispatch = (): ThunkDispatch<
 > &
   Dispatch<AnyAction> => useDispatch<typeof store.dispatch>()
 
+export const useStore: () => typeof store = useStoreBase
+
 export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export type PageInitArgs = {
+  dispatch: AppDispatch
+  state: RootState
+  cookies?: string
+}

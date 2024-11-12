@@ -12,8 +12,9 @@ import {
 import styles from './Leaderboard.module.scss'
 import { PathsRoutes } from '@/router/types'
 import { ButtonLink } from '@/components/ButtonLink'
-import { getLeaderboard } from '@/ducks/user'
-import { useAppDispatch } from '@/ducks/store'
+import { getLeaderboard, getUser, userSelector } from '@/ducks/user'
+import { PageInitArgs, useAppDispatch } from '@/ducks/store'
+import { usePage } from '@/hooks'
 
 interface leaderboardParamsType {
   ratingFieldName: string
@@ -40,6 +41,8 @@ interface LeaderboardResponse {
 export const Leaderboard: FC = () => {
   const dispatch = useAppDispatch()
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardItem[]>([])
+
+  usePage({ initPage: initLeaderboardPage })
 
   const leaderboardParams: leaderboardParamsType = {
     ratingFieldName: 'result',
@@ -103,4 +106,18 @@ export const Leaderboard: FC = () => {
       </Box>
     </Box>
   )
+}
+
+export const initLeaderboardPage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

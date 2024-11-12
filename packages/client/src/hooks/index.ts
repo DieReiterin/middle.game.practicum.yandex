@@ -1,4 +1,5 @@
-export * from './useAuth'
 export * from './useFullscreen'
 export * from './useGamepadStatus'
 export * from './useGameInstance'
+export * from './usePage'
+export * from './useAuth'

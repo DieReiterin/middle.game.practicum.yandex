@@ -15,7 +15,7 @@ import { PathsRoutes } from '@/router/types'
 import api, { Methods } from '@/api'
 import { avatarURL, passwordURL, profileURL } from '@/api/constants'
 import { AxiosResponse, isAxiosError } from 'axios'
-import { useAppDispatch } from '@/ducks/store'
+import { PageInitArgs, useAppDispatch } from '@/ducks/store'
 import {
   getUser,
   logout,
@@ -27,6 +27,7 @@ import {
 import { useSelector } from 'react-redux'
 
 import { TLocalUser } from '../types'
+import { usePage } from '@/hooks'
 
 type TEditMode = 'default' | 'editAvatar' | 'editProfile' | 'editPassword'
 type MatchingKeys = Extract<keyof TLocalUser, keyof TUser>
@@ -38,6 +39,8 @@ export const Profile: FC = () => {
   const serverError = useSelector(userErrorSelector)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  usePage({ initPage: initProfilePage })
 
   const [localUser, setLocalUser] = useState<TLocalUser>({
     email: '',
@@ -332,4 +335,18 @@ export const Profile: FC = () => {
       {renderFooter(editMode === 'editPassword' || editMode === 'editProfile')}
     </div>
   )
+}
+
+export const initProfilePage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }
