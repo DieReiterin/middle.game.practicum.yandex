@@ -29,8 +29,9 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         api: 'modern-compiler',
-        additionalData: `@import "@/assets/styles/vars.scss";\n@import "@/assets/styles/mixins.scss";\n`,
+        additionalData: `@use "@/assets/styles/vars.scss" as *;\n@use "@/assets/styles/mixins.scss" as *;\n`,
         silenceDeprecations: ['legacy-js-api'],
+        quietDeps: true,
       },
     },
   },

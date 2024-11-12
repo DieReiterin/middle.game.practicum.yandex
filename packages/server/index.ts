@@ -11,9 +11,12 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 
+dotenv.config()
+
 import createCache from '@emotion/cache'
 import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
+import themeRouter from './src/routes/themeRoutes'
 
 export const apiHost = 'https://ya-praktikum.tech'
 export const apiPrefix = '/api/v2'
@@ -50,6 +53,8 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       target: `${apiHost}${apiPrefix}`,
     }),
   )
+  app.use(express.json())
+  app.use('/api', themeRouter)
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
