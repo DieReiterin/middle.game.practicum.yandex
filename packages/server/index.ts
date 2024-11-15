@@ -29,7 +29,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
   let srcPath = ''
   const distPath = path.resolve(__dirname, 'client', 'dist')
   if (isDev) {
-    srcPath = path.dirname(require.resolve('client'))
+    srcPath = path.resolve(__dirname, 'client')
   }
   const ssrClientPath = path.resolve(
     __dirname,

@@ -8,7 +8,6 @@ POSTGRES_DB
 POSTGRES_PORT
 POSTGRES_HOST
 ```
-Для локальной разработки используйте ```POSTGRES_HOST=localhost```
 
 3. Создайте `.env` файл в корне проекта и укажите в нем переменные окружения:
 ```
