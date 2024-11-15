@@ -26,9 +26,17 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
   app.use(cors(), cookieParser())
   const port = Number(process.env.SERVER_PORT) || 3001
 
-  const distPath = path.dirname(require.resolve('client/dist/index.html'))
-  const srcPath = path.dirname(require.resolve('client'))
-  const ssrClientPath = require.resolve('client/ssr-dist/client.cjs')
+  let srcPath = ''
+  const distPath = path.resolve(__dirname, 'client', 'dist')
+  if (isDev) {
+    srcPath = path.dirname(require.resolve('client'))
+  }
+  const ssrClientPath = path.resolve(
+    __dirname,
+    'client',
+    'ssr-dist',
+    'client.cjs',
+  )
 
   let vite: ViteDevServer | undefined
 

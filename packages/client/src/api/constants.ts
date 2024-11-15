@@ -1,4 +1,4 @@
-export const apiHost = 'http://localhost:3001'
+export const apiHost = `http://localhost:${process.env.SERVER_PORT}`
 export const apiPrefix = '/api/v2'
 export const baseURL = `${apiHost}${apiPrefix}`
 export const addUserToLeaderbordURL = baseURL + '/leaderboard'
@@ -19,5 +19,5 @@ export const serviceIdURL = oauth + '/yandex/service-id'
 export const oauthURL = oauth + '/yandex'
 
 //заменить после деплоя
-export const redirectURL = 'http://localhost:3000'
+export const redirectURL = apiHost
 export const authYandexURL = 'https://oauth.yandex.ru/authorize'
