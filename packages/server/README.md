@@ -6,7 +6,9 @@ POSTGRES_USER
 POSTGRES_PASSWORD
 POSTGRES_DB
 POSTGRES_PORT
+POSTGRES_HOST
 ```
+
 3. Создайте `.env` файл в корне проекта и укажите в нем переменные окружения:
 ```
 CLIENT_PORT
@@ -14,11 +16,15 @@ SERVER_PORT
 POSTGRES_USER
 POSTGRES_PASSWORD
 POSTGRES_DB
+POSTGRES_HOST
 POSTGRES_PORT
 PGADMIN_PORT
 PGADMIN_DEFAULT_EMAIL
 PGADMIN_DEFAULT_PASSWORD
 ```
+
+Для продовой сборки используйте ```POSTGRES_HOST = postgres``` (имя контейнера в docker-compose)
+
 4. Запустите контейнер с Postgres командой
 ```bash
 docker-compose up -d
