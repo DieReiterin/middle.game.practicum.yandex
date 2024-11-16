@@ -9,7 +9,6 @@ export const getAllTopics = async (
   res: Response,
 ): Promise<void> => {
   try {
-    // const topics = await Topic.findAll()
     const topics = await Topic.findAll({
       attributes: ['topic_id', 'topic_name', 'topic_descr', 'messages_count'],
     })
