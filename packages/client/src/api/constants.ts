@@ -1,4 +1,4 @@
-export const apiHost = 'http://localhost:3000'
+export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL}`
 export const apiPrefix = '/api/v2'
 export const baseURL = `${apiHost}${apiPrefix}`
 export const addUserToLeaderbordURL = baseURL + '/leaderboard'
@@ -25,5 +25,5 @@ export const getUserThemeUrl = (userId: string) =>
 export const setUserThemeUrl = `${apiHost}/theme-api/theme`
 
 //заменить после деплоя
-export const redirectURL = 'http://localhost:3000'
+export const redirectURL = apiHost
 export const authYandexURL = 'https://oauth.yandex.ru/authorize'

@@ -15,4 +15,3 @@ lerna-debug.log*
 dist
 tmp
 package-lock.json
-yarn.lock
