@@ -28,6 +28,7 @@ module.exports = [
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'off',
       'no-useless-catch': 'off',
     },
   },

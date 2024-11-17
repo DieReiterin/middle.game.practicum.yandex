@@ -10,11 +10,11 @@ const db = new Sequelize(
   process.env.POSTGRES_PASSWORD as string,
   {
     host: process.env.POSTGRES_HOST || 'localhost',
-    port: Number(process.env.POSTGRES_PORT) || 5432,
+    port: Number(process.env.POSTGRES_PORT_INTERNAL) || 5433,
     dialect: 'postgres',
-    logging: false, // Disable logging
+    logging: false,
     define: {
-      timestamps: false, // Disable timestamps by default
+      timestamps: false,
     },
     pool: {
       max: 10, // Maximal count of connections in pool
