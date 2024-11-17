@@ -35,7 +35,7 @@ Message.init(
   },
   {
     sequelize,
-    tableName: 'topics',
+    tableName: 'messages',
     timestamps: false,
     hooks: {
       async afterCreate(message) {

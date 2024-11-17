@@ -1,4 +1,4 @@
-export const apiHost = `http://localhost:${process.env.SERVER_PORT}`
+export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL}`
 export const apiPrefix = '/api/v2'
 export const baseURL = `${apiHost}${apiPrefix}`
 export const addUserToLeaderbordURL = baseURL + '/leaderboard'

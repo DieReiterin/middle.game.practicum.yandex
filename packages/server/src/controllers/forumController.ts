@@ -12,7 +12,11 @@ export const getAllTopics = async (
     const topics = await Topic.findAll({
       attributes: ['topic_id', 'topic_name', 'topic_descr', 'messages_count'],
     })
-    res.status(200).json(topics)
+    if (topics.length === 0) {
+      res.status(200).json({ message: 'No topics found' })
+    } else {
+      res.status(200).json(topics)
+    }
   } catch (error) {
     handleError(res, error)
   }
@@ -20,6 +24,13 @@ export const getAllTopics = async (
 
 export const addTopic = async (req: Request, res: Response): Promise<void> => {
   const { topic_name, topic_descr } = req.body
+
+  if (!topic_name || !topic_descr) {
+    res
+      .status(400)
+      .json({ message: 'Both topic_name and topic_descr are required.' })
+    return
+  }
 
   try {
     const newTopic = await Topic.create({
@@ -42,6 +53,7 @@ export const getTopic = async (req: Request, res: Response): Promise<void> => {
       include: [
         {
           model: Message,
+          as: 'messages',
           attributes: ['user_name', 'message_text'],
         },
       ],
