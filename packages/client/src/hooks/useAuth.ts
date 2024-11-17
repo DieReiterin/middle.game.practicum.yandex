@@ -23,9 +23,9 @@ export const useAuth = () => {
   const { search } = useLocation()
   const { code } = parseQueryString(search)
 
-  const fetchUserData = (): void => {
+  const fetchUserData = useCallback((): void => {
     dispatch(getUser())
-  }
+  }, [dispatch])
 
   const getOAuthToken = useCallback(() => {
     if (code) dispatch(getOauthAccessToken(code))
@@ -35,7 +35,7 @@ export const useAuth = () => {
     if (search) {
       getOAuthToken()
     } else fetchUserData()
-  }, [search])
+  }, [search, getOAuthToken, fetchUserData])
 
   return { user, loader }
 }

@@ -39,3 +39,89 @@ $box-shadow: 0 0 4px 4px rgb(0 0 0 / 14.1%);
 
 // text-shadow
 $text-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+
+
+:root {
+  /* Colors */
+  --bunker: #0d1117;
+  --dusty-gray: #999999;
+  --alabaster: #fbfbfb;
+  --gallery: #efefef;
+  --red-orange: #ff2f2f;
+  --hawkes-blue: #e4edfd;
+  --moon-raker: #e7daf8;
+  --tropical-blue: #c0c6fb;
+  --melrose: #b0abfe;
+
+  /* Text */
+  --color-text: var(--bunker);
+  --color-text2: var(--alabaster);
+  --color-accent-soft: var(--dusty-gray);
+  --color-error: var(--red-orange);
+  --font-family: 'Manrope', sans-serif;
+  --font-size: 13px;
+
+  /* Border */
+  --color-border: var(--alabaster);
+  --color-border2: var(--bunker);
+  --color-border3: var(--gallery);
+
+  /* Button */
+  --color-btn: var(--melrose);
+  --color-btn-hover: var(--tropical-blue);
+  --color-btn-active: var(--moon-raker);
+
+  /* Background */
+  --color-bg-primary: var(--moon-raker);
+  --color-bg-secondary: var(--alabaster);
+  --color-bg-tertiary: var(--tropical-blue);
+
+  /* Box Shadow */
+  --box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.141);
+
+  /* Text Shadow */
+  --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.dark-theme {
+  /* Base Colors */
+  --navy-blue: #121721; /* navyBlue */
+  --light-gray: #d3d3d3; /* lightGray */
+  --dark-gray: #2e2e2e; /* darkGray */
+  --steel-gray: #434b54; /* steelGray */
+  --neon-red: #ff3b3b; /* neonRed */
+  --soft-blue: #748cab; /* softBlue */
+  --royal-blue: #3a4f74; /* royalBlue */
+  --deep-purple: #2a273d; /* deepPurple */
+  --soft-purple: #83769c; /* softPurple */
+
+  /* Text */
+  --color-text: var(--light-gray); /* colorTextDark */
+  --color-text2: var(--dark-gray); /* colorTextDisabledDark */
+  --color-accent-soft: var(--steel-gray); /* colorAccentSoftDark */
+  --color-error: var(--neon-red); /* colorErrorDark */
+  --font-family: Manrope, sans-serif;
+  --font-size: 13px;
+
+  /* Borders */
+  --color-border: var(--dark-gray); /* colorBorderDark */
+  --color-border2: var(--steel-gray); /* colorBorderSecondaryDark */
+  --color-border3: var(--soft-blue); /* colorBorderTertiaryDark */
+
+  /* Buttons */
+  --color-btn: var(--royal-blue); /* colorBtnDark */
+  --color-btn-hover: var(--soft-purple); /* colorBtnHoverDark */
+  --color-btn-active: var(--deep-purple); /* colorBtnActiveDark */
+
+  /* Backgrounds */
+  --color-bg-primary: var(--navy-blue); /* colorBgPrimaryDark */
+  --color-bg-secondary: var(--steel-gray); /* colorBgSecondaryDark */
+  --color-bg-tertiary: var(--dark-gray); /* colorBgTertiaryDark */
+
+  /* Box Shadow */
+  --box-shadow: 0 0 4px 4px rgba(255, 255, 255, 0.1);
+
+  /* Text Shadow */
+  --text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+

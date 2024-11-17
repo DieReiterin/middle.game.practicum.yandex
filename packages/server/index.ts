@@ -24,7 +24,8 @@ export const apiPrefix = '/api/v2'
 async function startServer(isDev = process.env.NODE_ENV === 'development') {
   const app = express()
   app.use(cors(), cookieParser())
-  const port = Number(process.env.SERVER_PORT) || 3001
+
+  const port = Number(process.env.SERVER_PORT) || 3000
 
   const distPath = path.dirname(require.resolve('client/dist/index.html'))
   const srcPath = path.dirname(require.resolve('client'))
@@ -53,8 +54,9 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       target: `${apiHost}${apiPrefix}`,
     }),
   )
+
   app.use(express.json())
-  app.use('/api', themeRouter)
+  app.use('/theme-api', themeRouter)
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl

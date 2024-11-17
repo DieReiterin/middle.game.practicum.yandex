@@ -3,20 +3,20 @@
   width: 100%;
   height: 40px;
 
-  color: $color-text2;
+  color: var(--color-text2);
   font-size: 13px;
   font-weight: 500;
   text-align: center;
-  background-color: $color-btn;
+  background-color: var(--color-btn);
   border-radius: 8px;
 
   &:hover {
     cursor: pointer;
-    background-color: $color-btn-hover;
+    background-color: var(--color-btn-hover);
   }
 
   &:active {
-    border-color: $color-btn-active;
+    border-color: var(--color-btn-active);
   }
 
   &_hidden {

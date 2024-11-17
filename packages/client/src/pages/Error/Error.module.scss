@@ -1,7 +1,7 @@
 .wrapper {
   @include center-flex;
   height: 100vh;
-  background-color: $color-bg-primary;
+  background-color: var(--color-bg-primary);
 
   & .container {
     margin: 0 auto;
