@@ -1,72 +1,34 @@
-## Первый запуск и подготовка БД
+## Подготовка и запуск проекта
 
-1. Установите зависимости командой `yarn install`
-2. Создайте файл `.env` в корне `packages\server` и укажите в нем переменные окружения:
+1. Установите зависимости командой `yarn bootstrap`
 
-```
-POSTGRES_USER
-POSTGRES_PASSWORD
-POSTGRES_DB
-POSTGRES_PORT
-POSTGRES_HOST
-```
+2. Создайте файлы `.env` и настройте их для продакшна или локального запуска
 
-3. Создайте `.env` файл в корне проекта и укажите в нем переменные окружения:
+- должны быть 3 файла `.env` по образцам `.env.sample`: в корне проекта, packages/client и packages/server
 
-```
-CLIENT_PORT
-SERVER_PORT
-POSTGRES_USER
-POSTGRES_PASSWORD
-POSTGRES_DB
-POSTGRES_HOST
-POSTGRES_PORT
-PGADMIN_PORT
-PGADMIN_DEFAULT_EMAIL
-PGADMIN_DEFAULT_PASSWORD
-```
+- для продакшна переменные POSTGRES_HOST и POSTGRES_PORT_INTERNAL должны быть как в `.env.sample`
 
-Для продовой сборки используйте `POSTGRES_HOST = postgres` (имя контейнера в docker-compose)
+- локальный запуск ПОКА НЕ ОТДЕБАЖЕН (но вообще для локального запуска POSTGRES_HOST=localhost, POSTGRES_PORT_INTERNAL=5433)
 
-4. Запустите контейнер с Postgres командой
+3. Соберите контейнеры командой `docker-compose build --no-cache` и запустите через `docker-compose up -d`
 
-```bash
-docker-compose up -d
-```
+4. Проект доступен на http://localhost:3001/
 
-5. Запустите миграции командой
+## Подготовка базы данных
 
-```bash
-yarn sequelize db:migrate
-```
+1. (Если вы в продакшне: переходим в контейнер через `docker exec -it postgres sh`, далее все команды в нём)
 
-6. Запустите наполнение таблиц данными командой
+2. Запуск миграций (сейчас это 4 миграции создания таблиц) - `yarn sequelize db:migrate`
 
-```bash
-yarn sequelize db:seed:all
-```
+- `yarn sequelize db:migrate`
 
-7. Запустите сервер командой
+3. Наполнение таблиц данными - `yarn sequelize db:seed:all`
 
-```bash
-yarn run preview
-```
+## Откат изменений в базе данных, удаление таблиц
 
-## Откат изменений или удаление таблиц
+1. Откат миграций - `yarn sequelize db:migrate:undo:all`
 
-1. Откат миграций командой
-
-```bash
-yarn sequelize db:migrate:undo:all
-```
-
-2. Удаление таблиц командой
-
-```bash
-yarn sequelize db:seed:undo:all
-```
-
----
+2. Удаление таблиц - `yarn sequelize db:seed:undo:all`
 
 ## Апи форума
 

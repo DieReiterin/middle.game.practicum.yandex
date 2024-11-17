@@ -22,9 +22,12 @@ WORKDIR /app
 COPY packages/server/package.json /app/package.json
 RUN yarn install --production=true
 
-COPY --from=builder /app/packages/server/dist/ /app/
 COPY --from=builder /app/packages/client/dist/ /app/client/dist
 COPY --from=builder /app/packages/client/ssr-dist/ /app/client/ssr-dist
+
+COPY --from=builder /app/packages/server/dist/ /app/
+COPY --from=builder /app/packages/server/src/sequelize/ /app/src/sequelize
+COPY --from=builder /app/packages/server/.sequelizerc /app/.sequelizerc
 
 EXPOSE $SERVER_PORT
 
