@@ -28,7 +28,7 @@
 
 2. Удаление таблиц - `yarn sequelize db:seed:undo:all`
 
-## Апи форума
+## Апи форума (пример адреса - `http://localhost:3001/api/forum/topic/1`)
 
 1. Получение списка топиков:
 
