@@ -30,6 +30,7 @@ module.exports = [
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-expressions': 'off',
       'no-useless-catch': 'off',
+      "@typescript-eslint/no-empty-object-type": "off"
     },
   },
 

@@ -10,7 +10,7 @@
   padding: 24px;
   padding-bottom: 0;
 
-  background-color: $color-bg-secondary;
+  background-color: var(--color-bg-secondary);
   border-radius: 12px;
   outline: none;
 }
@@ -20,7 +20,7 @@
 }
 
 .actionsWrapper {
-  background-color: $color-bg-tertiary;
+  background-color: var(--color-bg-tertiary);
   border-radius: 8px;
   margin-bottom: 20px;
   padding: 16px;

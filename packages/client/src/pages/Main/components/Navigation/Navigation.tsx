@@ -20,10 +20,10 @@ export const Navigation: FC<NavigationProps> = ({ buttons }) => {
           key={title}
           to={to}
           sx={{
-            backgroundColor: colorBtn,
-            color: alabaster,
+            backgroundColor: theme => theme.palette.button.active,
+            color: theme => theme.palette.text.primary,
             '&:hover': {
-              backgroundColor: colorBtnHover,
+              backgroundColor: theme => theme.palette.button.hover,
             },
           }}
           className={styles.button}

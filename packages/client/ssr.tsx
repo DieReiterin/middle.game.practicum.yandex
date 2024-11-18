@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { CacheProvider } from '@emotion/react'
 import type { EmotionCache } from '@emotion/cache'
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { theme } from './src/assets/theme'
+import { lightTheme } from './src/assets/themes'
 import { configureStore } from '@reduxjs/toolkit'
 import { reducer } from './src/ducks/store'
 import { Request as ExpressRequest } from 'express'
@@ -60,7 +60,7 @@ export async function render(cache: EmotionCache, req: ExpressRequest) {
   const appHtml = renderToString(
     <React.StrictMode>
       <CacheProvider value={cache}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={lightTheme}>
           <CssBaseline />
           <Provider store={store}>
             <StaticRouterProvider router={router} context={context} />

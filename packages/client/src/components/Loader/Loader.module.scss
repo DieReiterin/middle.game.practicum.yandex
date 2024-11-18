@@ -1,6 +1,6 @@
 .loader {
   @include center-flex;
   height: 100vh;
-
+  background-color: var(--color-bg-primary);
   cursor: progress;
 }
