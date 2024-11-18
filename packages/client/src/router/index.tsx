@@ -85,13 +85,22 @@ const Auth: FC<PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
   const { loader, user } = useAuth()
   const isAuthorized = Boolean(user)
 
-  if (!isAuthorized && path !== PathsRoutes.Registration) {
-    return (
-      <>
-        {children}
-        <Navigate to={PathsRoutes.Login} replace />
-      </>
-    )
+  if (!isAuthorized) {
+    if (path === PathsRoutes.Registration) {
+      return (
+        <>
+          {children}
+          <Navigate to={PathsRoutes.Registration} replace />
+        </>
+      )
+    } else {
+      return (
+        <>
+          {children}
+          <Navigate to={PathsRoutes.Login} replace />
+        </>
+      )
+    }
   }
 
   return loader ? <Loader /> : children
