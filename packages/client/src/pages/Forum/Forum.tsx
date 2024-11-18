@@ -11,7 +11,7 @@ import { usePage } from '@/hooks'
 import { PageInitArgs } from '@/ducks/store'
 import { fetchTopics, getUser, userSelector } from '@/ducks/user'
 
-interface Topics {
+interface Topic {
   topic_id: number
   topic_name: string
   messages_count: number
@@ -75,7 +75,7 @@ const Forum = () => {
 
   const parsedTopics = topics.map(t => JSON.parse(t))
 
-  const [topicsData, setTopicsData] = useState<Topics[]>([])
+  const [topicsData, setTopicsData] = useState<Topic[]>([])
   const getTopics = async () => {
     const data = await fetchTopics()
     setTopicsData(data)

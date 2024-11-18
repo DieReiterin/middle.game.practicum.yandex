@@ -10,7 +10,7 @@ interface ForumModalProps {
   getTopics: () => void
 }
 
-interface FddorumModalProps {
+interface ForumProps {
   topic_name: string
   topic_descr: string
 }
@@ -33,7 +33,7 @@ const ForumModal: React.FC<ForumModalProps> = ({
   }
 
   const handleAddTopic = async () => {
-    const params: FddorumModalProps = {
+    const params: ForumProps = {
       topic_name: newTopic,
       topic_descr: newDescription,
     }

@@ -29,7 +29,7 @@ interface Topic {
 const ForumBlockPage: React.FC = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const TopicData = useTopicData()
+  const ForumTopicData = useTopicData()
   const dispatch = useDispatch()
   const [topicData, setTopicData] = useState<TopicResponse[]>([])
   const topicId = Number(id)
@@ -82,8 +82,10 @@ const ForumBlockPage: React.FC = () => {
         <HomeIcon />
       </div>
       <div className={styles.pageForumBlock}>
-        <h2 className={styles.pageForumBlockTitle}>{TopicData.name}</h2>
-        <p className={styles.pageForumBlockDesc}>{TopicData.description}</p>
+        <h2 className={styles.pageForumBlockTitle}>{ForumTopicData.name}</h2>
+        <p className={styles.pageForumBlockDesc}>
+          {ForumTopicData.description}
+        </p>
       </div>
       <div className={styles.pageForumInput}>
         <TextField
