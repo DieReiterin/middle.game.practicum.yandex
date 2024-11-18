@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import styles from './ForumBlockPage.module.scss'
 import { Button, SvgIcon, TextField } from '@mui/material'
@@ -7,16 +7,32 @@ import ForumMessage from './components/ForumMessage/ForumMessage'
 import useTopicData from '../../hooks/useTopicData'
 import { usePage } from '@/hooks'
 import { PageInitArgs } from '@/ducks/store'
-import { getUser, userSelector } from '@/ducks/user'
+import {
+  addMessageToTopic,
+  getTopic,
+  getUser,
+  TopicResponse,
+  userSelector,
+} from '@/ducks/user'
+import { useDispatch } from 'react-redux'
 
 type HomeIconProps = {
   [key: string]: string | number | bigint | boolean
 }
 
+interface Topic {
+  topic_id: number
+  topic_name: string
+  messages_count: number
+}
+
 const ForumBlockPage: React.FC = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const topicData = useTopicData()
+  const TopicData = useTopicData()
+  const dispatch = useDispatch()
+  const [topicData, setTopicData] = useState<TopicResponse[]>([])
+  const topicId = Number(id)
 
   usePage({ initPage: initForumBlockPage })
 
@@ -38,17 +54,27 @@ const ForumBlockPage: React.FC = () => {
   })
 
   const [inputValue, setInputValue] = useState('')
+  const [message, setMessage] = useState({})
 
-  const handleAddMessage = () => {
-    if (inputValue.trim()) {
-      const updatedComments = [...comments, inputValue]
-      setComments(updatedComments)
-
-      localStorage.setItem(`comments_${id}`, JSON.stringify(updatedComments))
-
-      setInputValue('')
+  const handleAddMessage = async () => {
+    const params = {
+      user_name: 'Name',
+      message_text: inputValue,
     }
+
+    addMessageToTopic({ topicId, params })
   }
+
+  const getTopics = async () => {
+    const data = await getTopic(topicId)
+    setTopicData(data)
+  }
+
+  useEffect(() => {
+    getTopics()
+  }, [])
+
+  console.log(topicData, 'topicData')
 
   return (
     <div className={styles.pageForum}>
@@ -56,8 +82,8 @@ const ForumBlockPage: React.FC = () => {
         <HomeIcon />
       </div>
       <div className={styles.pageForumBlock}>
-        <h2 className={styles.pageForumBlockTitle}>{topicData.name}</h2>
-        <p className={styles.pageForumBlockDesc}>{topicData.description}</p>
+        <h2 className={styles.pageForumBlockTitle}>{TopicData.name}</h2>
+        <p className={styles.pageForumBlockDesc}>{TopicData.description}</p>
       </div>
       <div className={styles.pageForumInput}>
         <TextField
