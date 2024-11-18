@@ -72,14 +72,13 @@ const Forum = () => {
   return (
     <div className={styles.forum}>
       <div className={styles.forumBlock}>
-        <h3 className={styles.forumBlockTitle}>Форумы</h3>
+        <h3 className={styles.forumBlockTitle}>Форум</h3>
         <div className={styles.forumBlockHeader}>
           <div className={styles.forumBlockHeaderBlock}>
             <div>
-              <p className={styles.forumBlockHeaderBlockText}>Тема</p>
+              <p className={styles.forumBlockHeaderBlockText}>Название темы</p>
             </div>
             <div className={styles.forumBlockHeaderBlockDesc}>
-              <p className={styles.forumBlockHeaderBlockText}>Треды</p>
               <p className={styles.forumBlockHeaderBlockText}>Сообщения</p>
             </div>
           </div>
@@ -94,7 +93,6 @@ const Forum = () => {
             <div key={topic.id} className={styles.forumBlockContentBlock}>
               <ForumBlock
                 name={topic.name}
-                threads={index + 1}
                 messages={0}
                 onClick={() => handleBlockClick(topic.id)}
               />
