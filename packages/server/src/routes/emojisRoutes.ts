@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { getEmojis } from '../controllers/emojisController'
 
-const router = Router()
+const emojisRouter = Router()
 
-router.get('/emojis', getEmojis)
+emojisRouter.get('/getEmojis', getEmojis)
 
-export default router
+export default emojisRouter
