@@ -15,10 +15,16 @@ export const ThemeSwitcher: React.FC = () => {
   const themes = useSelector(themesSelector)
   const currentTheme = useSelector(currentThemeSelector)
   const user = useSelector(userSelector)
-  const isDarkTheme = currentTheme?.id === 2
+
+  enum ThemeType {
+    LIGHT = 1,
+    DARK = 2,
+  }
+
+  const isDarkTheme = currentTheme?.id === ThemeType.DARK
 
   const handleThemeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newThemeId = isDarkTheme ? 1 : 2 // Переключение между ID тем
+    const newThemeId = isDarkTheme ? ThemeType.LIGHT : ThemeType.DARK
     const selectedTheme = themes.find(t => t.id === newThemeId)
     if (selectedTheme) {
       if (user) {

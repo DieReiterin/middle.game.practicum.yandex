@@ -1,5 +1,4 @@
-// ThemeProvider.tsx
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { ThemeProvider as MuiThemeProvider, Theme } from '@mui/material'
 import { themesMap, lightTheme } from '@/assets/themes'
