@@ -21,8 +21,6 @@ interface CustomPalette {
 }
 
 declare module '@mui/material/styles' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Palette extends CustomPalette {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface PaletteOptions extends Partial<CustomPalette> {}
 }
