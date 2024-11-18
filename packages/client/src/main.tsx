@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 import { Provider } from 'react-redux'
-
+import { ThemeProvider } from './context/ThemeProvider'
 import { CacheProvider } from '@emotion/react'
 import createCache from '@emotion/cache'
 import { store } from './ducks/store'
 
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import { theme } from './assets/theme'
+import { CssBaseline } from '@mui/material'
 
 function createClientCache() {
   const emotionInsertionPoint = document.querySelector(
@@ -29,12 +28,12 @@ ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <React.StrictMode>
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Provider store={store}>
+      <Provider store={store}>
+        <ThemeProvider>
+          <CssBaseline />
           <App />
-        </Provider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </Provider>
     </CacheProvider>
   </React.StrictMode>,
 )

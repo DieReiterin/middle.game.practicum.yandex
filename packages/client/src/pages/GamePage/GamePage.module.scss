@@ -23,7 +23,7 @@
   height: 50px;
   padding: 0 20px;
 
-  background: $color-bg-tertiary;
+  background: var(--color-bg-tertiary);
   border-bottom-right-radius: 30px;
   border-bottom-left-radius: 30px;
 }

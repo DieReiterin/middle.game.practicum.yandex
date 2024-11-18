@@ -14,7 +14,7 @@
   &:hover {
     svg {
       transition: 0.5s;
-      color: $melrose;
+      color: var(--color-text);
     }
   }
 }
@@ -34,7 +34,7 @@
 
 .pageForumBlockDesc {
   margin-top: 20px;
-  color: $melrose;
+  color: var(--color-text2);
 }
 
 .pageForumInput {

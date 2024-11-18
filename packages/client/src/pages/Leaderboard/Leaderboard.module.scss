@@ -2,6 +2,7 @@
   @include center-flex;
   width: 100vw;
   height: 100vh;
+  background-color: var(--color-bg-primary);
 }
 
 .main {
@@ -10,7 +11,7 @@
   height: 80%;
   max-width: 915px;
   padding: 24px 72px;
-  background-color: $color-bg-secondary;
+  background-color: var(--color-bg-secondary);
   border-radius: 12px;
   overflow: hidden;
   align-items: center;
@@ -25,8 +26,8 @@
 }
 
 .tableHead th {
-  background-color: $color-border3;
-  color: $color-accent-soft;
+  background-color: var(--border3);
+  color: var(--color-accent-soft);
 }
 .tableHead th:first-child,
 .tableBody td:first-child {
@@ -39,19 +40,19 @@
 }
 
 .tableBody tr {
-  background-color: $color-border3;
+  background-color: var(--color-border3);
   border-radius: 8px;
   height: 70px;
 }
 
 .tableBody td {
-  color: $color-accent-soft;
+  color: var(--color-accent-soft);
 }
 
 .nameRow {
   @include vertical-flex;
   gap: 16px;
-  color: $color-text;
+  color: var(--color-text);
 }
 
 .image {
@@ -65,8 +66,8 @@
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background-color: $color-error;
+  background-color: var(--color-error);
   @include center-flex;
-  color: $color-text2;
+  color: var(--color-text2);
   padding: 4px;
 }

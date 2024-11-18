@@ -25,7 +25,8 @@ export const apiPrefix = '/api/v2'
 async function startServer(isDev = process.env.NODE_ENV === 'development') {
   const app = express()
   app.use(cors(), cookieParser())
-  const port = Number(process.env.SERVER_PORT) || 3001
+
+  const port = Number(process.env.SERVER_PORT) || 3000
 
   let srcPath = ''
   const distPath = path.resolve(__dirname, 'client', 'dist')
@@ -62,7 +63,10 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
       target: `${apiHost}${apiPrefix}`,
     }),
   )
+
   app.use(express.json())
+
+  app.use('/theme-api', themeRouter)
   app.use('/api', router)
   app.use('/api/forum', forumRouter)
 

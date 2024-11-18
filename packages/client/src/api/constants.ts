@@ -18,6 +18,12 @@ export const avatarURL = profileURL + '/avatar'
 export const serviceIdURL = oauth + '/yandex/service-id'
 export const oauthURL = oauth + '/yandex'
 
+// theme api
+export const getThemesUrl = `${apiHost}/theme-api/themes`
+export const getUserThemeUrl = (userId: string) =>
+  `${apiHost}/theme-api/theme/${userId}`
+export const setUserThemeUrl = `${apiHost}/theme-api/theme`
+
 //заменить после деплоя
 export const redirectURL = apiHost
 export const authYandexURL = 'https://oauth.yandex.ru/authorize'

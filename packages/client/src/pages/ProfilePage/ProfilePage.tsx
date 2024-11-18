@@ -24,9 +24,9 @@ export const ProfilePage: FC = () => {
               padding: '5px',
               marginBottom: '20px',
               borderRadius: '50%',
-              backgroundColor: colorBtn,
+              backgroundColor: theme => theme.palette.button.default,
               '&:hover': {
-                backgroundColor: colorBtnHover,
+                backgroundColor: theme => theme.palette.button.hover,
               },
             }}
             className={styles.btn}

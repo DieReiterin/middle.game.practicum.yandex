@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Forum, { initForumPage } from '../pages/Forum/Forum'
 import ForumBlockPage, {
   initForumBlockPage,
@@ -21,6 +22,15 @@ import {
 import { PathsRoutes } from './types'
 import { initProfilePage } from '@/pages/ProfilePage/components'
 import { PageInitArgs } from '@/ducks/store'
+import { useSelector } from 'react-redux'
+import {
+  fetchThemes,
+  getUserTheme,
+  setUserTheme,
+  setCurrentTheme,
+  currentThemeSelector,
+} from '@/ducks/theme'
+import { useAppDispatch } from '@/ducks/store'
 import { useAuth } from '@/hooks'
 import { FC, PropsWithChildren } from 'react'
 import { Loader } from '@/components'
@@ -83,7 +93,32 @@ const routesConfig: Route[] = [
 
 const Auth: FC<PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
   const { loader, user } = useAuth()
+  const dispatch = useAppDispatch()
+  const currentTheme = useSelector(currentThemeSelector)
   const isAuthorized = Boolean(user)
+
+  useEffect(() => {
+    if (user && localStorage.getItem('themeId')) {
+      const themeId = parseInt(localStorage.getItem('themeId')!, 10)
+      dispatch(setUserTheme({ userId: user.id.toString(), themeId }))
+      dispatch(setCurrentTheme({ id: themeId, name: '' }))
+      localStorage.removeItem('themeId')
+    }
+  }, [user])
+
+  useEffect(() => {
+    dispatch(fetchThemes())
+
+    if (user) {
+      dispatch(getUserTheme(user.id.toString()))
+    } else {
+      const storedThemeId = localStorage.getItem('themeId')
+      if (storedThemeId && storedThemeId !== currentTheme?.id.toString()) {
+        const themeId = parseInt(storedThemeId, 10)
+        dispatch(setCurrentTheme({ id: themeId, name: '' }))
+      }
+    }
+  }, [dispatch, user])
 
   if (!isAuthorized && path !== PathsRoutes.Registration) {
     return (
