@@ -9,9 +9,15 @@ import {
   UserState,
   GameDataType,
   LeaderboardParams,
+  Topic,
+  CreateTopicParams,
+  CreateTopicResponse,
+  TopicResponse,
+  AddMessageParams,
+  AddMessageResponse,
 } from './types'
 
-import { AxiosResponse, isAxiosError } from 'axios'
+import axios, { AxiosResponse, isAxiosError } from 'axios'
 import api, { Methods } from '../../api'
 import {
   addUserToLeaderbordURL,
@@ -25,6 +31,8 @@ import {
   signupURL,
   staticURL,
   apiPrefix,
+  AllTopicsURL,
+  topicURL,
 } from '@/api/constants'
 
 const initialState: UserState = {
@@ -171,6 +179,79 @@ export const getLeaderboard = createAsyncThunk(
       const response = await api<undefined, AxiosResponse<LeaderboardParams>>({
         baseURL: apiPrefix,
         url: getAllLeaderboardURL,
+        method: Methods.POST,
+        data: params,
+      })
+
+      return response.data
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+//Получение списка топиков: Метод запроса - GET Адрес - /topics
+export const fetchTopics = async () => {
+  try {
+    const response = await axios.get(AllTopicsURL)
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при загрузке тем')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
+
+//Создать новый топик: Метод запроса - POST Адрес - /topics
+export const createTopic = createAsyncThunk(
+  'topics/createData',
+  async (params: CreateTopicParams, { rejectWithValue }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<CreateTopicResponse>>(
+        {
+          url: AllTopicsURL,
+          method: Methods.POST,
+          data: params,
+        },
+      )
+
+      return response.data
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+//Получить один топик и его сообщения: Метод запроса - GET Адрес - /topic/:topic_id
+export const getTopic = async (topicId: number) => {
+  try {
+    const response = await axios.get(topicURL(topicId))
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при загрузке тем')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
+
+//Добавить сообщение в топик: Метод запроса - POST Адрес - /topic/:topic_id
+export const addMessageToTopic = createAsyncThunk(
+  'topics/addMessage',
+  async (
+    { topicId, params }: { topicId: number; params: AddMessageParams },
+    { rejectWithValue },
+  ) => {
+    try {
+      const response = await api<undefined, AxiosResponse<AddMessageResponse>>({
+        url: topicURL(topicId),
         method: Methods.POST,
         data: params,
       })

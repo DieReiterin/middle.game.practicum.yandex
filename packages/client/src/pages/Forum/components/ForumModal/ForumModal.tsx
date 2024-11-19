@@ -1,32 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Modal, TextField } from '@mui/material'
 import styles from './ForumModal.module.scss'
+import { useDispatch } from 'react-redux'
+import { createTopic } from '@/ducks/user' // Импортируйте ваш createTopic
 
 interface ForumModalProps {
   open: boolean
   handleClose: () => void
-  newTopic: string
-  setNewTopic: (value: string) => void
-  newDescription: string
-  setNewDescription: (value: string) => void
-  addTopic: () => void
+  getTopics: () => void
+}
+
+interface ForumProps {
+  topic_name: string
+  topic_descr: string
 }
 
 const ForumModal: React.FC<ForumModalProps> = ({
   open,
   handleClose,
-  newTopic,
-  setNewTopic,
-  newDescription,
-  setNewDescription,
-  addTopic,
+  getTopics,
 }) => {
+  const dispatch = useDispatch() // Получаем доступ к dispatch
+  const [newTopic, setNewTopic] = useState('')
+  const [newDescription, setNewDescription] = useState('')
+
   const isButtonDisabled = !newTopic.trim() || !newDescription.trim()
 
   const handleModalClose = () => {
     handleClose()
     setNewTopic('')
     setNewDescription('')
+  }
+
+  const handleAddTopic = async () => {
+    const params: ForumProps = {
+      topic_name: newTopic,
+      topic_descr: newDescription,
+    }
+    createTopic(params)
+    getTopics()
   }
 
   return (
@@ -56,7 +68,7 @@ const ForumModal: React.FC<ForumModalProps> = ({
         />
         <Button
           variant="contained"
-          onClick={addTopic}
+          onClick={handleAddTopic}
           disabled={isButtonDisabled}>
           Добавить новую тему
         </Button>

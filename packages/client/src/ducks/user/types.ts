@@ -49,3 +49,47 @@ export type LeaderboardParams = {
   cursor: number
   limit: number
 }
+
+export type Topic = {
+  topic_id: number
+  topic_name: string
+  topic_descr: string
+  messages_count: number
+}
+
+export type CreateTopicParams = {
+  topic_name: string
+  topic_descr: string
+}
+
+export type CreateTopicResponse = {
+  message: string
+  data: CreateTopicParams
+}
+
+export type Message = {
+  user_name: string
+  message_text: string
+}
+
+export type TopicResponse = {
+  topic_id: number
+  topic_name: string
+  messages_count: number
+  messages: Message[]
+}
+
+export type AddMessageParams = {
+  user_name: string
+  message_text: string
+}
+
+export type AddMessageResponse = {
+  message: string
+  data: {
+    message_id: number
+    topic_id: number
+    user_name: string
+    message_text: string
+  }
+}
