@@ -9,6 +9,7 @@ export const fetchEmojis = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<Emoji[]>>({
+        baseURL: '/',
         url: getEmojisUrl,
         method: Methods.GET,
       })
@@ -21,7 +22,7 @@ export const fetchEmojis = createAsyncThunk(
 )
 
 const initialState: EmojiState = {
-  emoji: [],
+  emojis: [],
   loading: false,
   error: null,
 }
@@ -40,7 +41,7 @@ const emojisSlice = createSlice({
       })
       .addCase(fetchEmojis.fulfilled, (state, action) => {
         state.loading = false
-        state.emoji = action.payload
+        state.emojis = action.payload
       })
       .addCase(fetchEmojis.rejected, (state, action) => {
         state.loading = false

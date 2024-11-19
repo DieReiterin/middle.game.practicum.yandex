@@ -30,7 +30,7 @@ export const getUserThemeUrl = (userId: number) =>
 export const setUserThemeUrl = `${themePrefix}/theme`
 
 // emojis
-export const getEmojisUrl = `${apiHost}/api/emojis/getEmojis`
+export const getEmojisUrl = `/api/emojis/getEmojis`
 
 //заменить после деплоя
 export const redirectURL = apiHost

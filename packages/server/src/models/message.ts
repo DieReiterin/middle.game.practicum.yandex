@@ -1,4 +1,4 @@
-import { Model, DataTypes, Association } from 'sequelize'
+import { Model, DataTypes } from 'sequelize'
 import sequelize from '../db/db'
 import Topic from './topic'
 import Emojis from './emojis'
@@ -8,10 +8,7 @@ class Message extends Model {
   public topic_id!: number
   public user_name!: string
   public message_text!: string
-
-  public static override associations: {
-    emoji: Association<Topic, Emojis>
-  }
+  public emoji_id?: number
 }
 
 Message.init(
@@ -37,6 +34,14 @@ Message.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    emoji_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'emojis',
+        key: 'emoji_id',
+      },
+      allowNull: true,
+    },
   },
   {
     sequelize,
@@ -57,7 +62,7 @@ Message.init(
   },
 )
 
-Message.hasOne(Emojis, { foreignKey: 'emoji_id', as: 'emojis' })
-Emojis.belongsTo(Message, { foreignKey: 'message_id', as: 'message' })
+Message.belongsTo(Emojis, { foreignKey: 'emoji_id' })
+Emojis.hasMany(Message, { foreignKey: 'emoji_id' })
 
 export default Message
