@@ -5,10 +5,10 @@ import {
   getThemes,
 } from '../controllers/themeController'
 
-const router = Router()
+const themeRouter = Router()
 
-router.post('/theme', setUserTheme)
-router.get('/theme/:user_id', getUserTheme)
-router.get('/themes', getThemes)
+themeRouter.post('/theme', setUserTheme)
+themeRouter.get('/theme/:user_id', getUserTheme)
+themeRouter.get('/themes', getThemes)
 
-export default router
+export default themeRouter

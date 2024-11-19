@@ -24,6 +24,9 @@ export const getUserThemeUrl = (userId: string) =>
   `${apiHost}/theme-api/theme/${userId}`
 export const setUserThemeUrl = `${apiHost}/theme-api/theme`
 
+// emojis
+export const getEmojisUrl = `${apiHost}/api/emojis/getEmojis`
+
 //заменить после деплоя
 export const redirectURL = apiHost
 export const authYandexURL = 'https://oauth.yandex.ru/authorize'

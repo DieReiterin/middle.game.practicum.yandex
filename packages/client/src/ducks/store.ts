@@ -10,6 +10,7 @@ import { useDispatch, useStore as useStoreBase } from 'react-redux'
 
 import { UserState, reducer as userReducer } from './user'
 import { themeReducer, getInitialTheme } from './theme'
+import { reducer as emojisReducer } from './emojis'
 
 declare global {
   interface Window {
@@ -20,6 +21,7 @@ declare global {
 export const reducer = combineReducers({
   userInfo: userReducer,
   theme: themeReducer,
+  emojis: emojisReducer,
 })
 
 export const store = configureStore({
