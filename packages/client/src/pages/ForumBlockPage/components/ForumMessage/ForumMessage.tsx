@@ -3,37 +3,35 @@ import { useParams } from 'react-router-dom'
 import styles from './ForumMessage.module.scss'
 import { Button, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
-import avatar from '../../../../assets/images/photo-1-720.jpg'
-import useTopicData from '../../../../hooks/useTopicData'
+import avatar from '@/assets/images/photo-1-720.jpg'
 
 type ForumMessageProps = {
   message: string
 }
 const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
-  const { id } = useParams()
-  useTopicData()
+  // const { id } = useParams()
 
-  const [comments, setComments] = useState<string[]>(() => {
-    const savedComments = localStorage.getItem(`comments_${id}`)
-    return savedComments ? JSON.parse(savedComments) : []
-  })
+  // const [comments, setComments] = useState<string[]>(() => {
+  //   const savedComments = localStorage.getItem(`comments_${id}`)
+  //   return savedComments ? JSON.parse(savedComments) : []
+  // })
 
-  const [comment, setComment] = useState('')
+  // const [comment, setComment] = useState('')
 
-  const addComment = () => {
-    const updatedComments = [...comments, comment]
-    setComments(updatedComments)
-    setComment('')
+  // const addComment = () => {
+  //   const updatedComments = [...comments, comment]
+  //   setComments(updatedComments)
+  //   setComment('')
 
-    localStorage.setItem(`comments_${id}`, JSON.stringify(updatedComments))
-  }
+  //   localStorage.setItem(`comments_${id}`, JSON.stringify(updatedComments))
+  // }
 
-  useEffect(() => {
-    const savedComments = localStorage.getItem(`comments_${id}`)
-    if (savedComments) {
-      setComments(JSON.parse(savedComments))
-    }
-  }, [id])
+  // useEffect(() => {
+  //   const savedComments = localStorage.getItem(`comments_${id}`)
+  //   if (savedComments) {
+  //     setComments(JSON.parse(savedComments))
+  //   }
+  // }, [id])
 
   return (
     <div className={styles.forumMessage}>
@@ -55,7 +53,7 @@ const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
           <div>
             <h2>{message}</h2>
           </div>
-          <div className={styles.forumMessageBlockContentComments}>
+          {/* <div className={styles.forumMessageBlockContentComments}>
             {comments.map((comment, index) => (
               <p
                 key={index}
@@ -80,7 +78,7 @@ const ForumMessage: React.FC<ForumMessageProps> = ({ message }) => {
               disabled={!comment.trim()}>
               Добавить
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

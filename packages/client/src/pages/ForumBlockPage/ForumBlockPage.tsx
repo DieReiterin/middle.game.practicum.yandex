@@ -4,88 +4,74 @@ import styles from './ForumBlockPage.module.scss'
 import { Button, SvgIcon, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import ForumMessage from './components/ForumMessage/ForumMessage'
-import useTopicData from '../../hooks/useTopicData'
 import { usePage } from '@/hooks'
 import { PageInitArgs } from '@/ducks/store'
 import {
   addMessageToTopic,
   getTopic,
   getUser,
-  TopicResponse,
+  GetTopicResponse,
   userSelector,
 } from '@/ducks/user'
-import { useDispatch } from 'react-redux'
-
-type HomeIconProps = {
-  [key: string]: string | number | bigint | boolean
-}
-
-interface Topic {
-  topic_id: number
-  topic_name: string
-  messages_count: number
-}
+// import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const ForumBlockPage: React.FC = () => {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const ForumTopicData = useTopicData()
-  const dispatch = useDispatch()
-  const [topicData, setTopicData] = useState<TopicResponse[]>([])
-  const topicId = Number(id)
-
   usePage({ initPage: initForumBlockPage })
-
-  function HomeIcon(props: HomeIconProps) {
-    return (
-      <SvgIcon {...props}>
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </SvgIcon>
-    )
-  }
-
+  // const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleHomeClick = () => {
     navigate('/forum')
   }
-
-  const [comments, setComments] = useState<string[]>(() => {
-    const savedComments = localStorage.getItem(`comments_${id}`)
-    return savedComments ? JSON.parse(savedComments) : []
+  const { id } = useParams()
+  const topicId = Number(id)
+  const user = useSelector(userSelector) || { display_name: 'Anonymous' }
+  const [topicData, setTopicData] = useState<GetTopicResponse>({
+    topic_id: -1,
+    topic_name: '',
+    topic_descr: '',
+    messages_count: -1,
+    messages: [],
   })
+  const [message, setMessage] = useState('')
 
-  const [inputValue, setInputValue] = useState('')
-  const [message, setMessage] = useState({})
+  const fetchTopic = async () => {
+    try {
+      const data = await getTopic(topicId)
 
-  const handleAddMessage = async () => {
-    const params = {
-      user_name: 'Name',
-      message_text: inputValue,
+      console.log('getTopic ForumBlockPage DATA')
+      console.log(data)
+
+      // dispatch(getTopic(topicId))
+      setTopicData(data)
+    } catch (e) {
+      console.error('getTopic error:', e)
     }
-
-    addMessageToTopic({ topicId, params })
-  }
-
-  const getTopics = async () => {
-    const data = await getTopic(topicId)
-    setTopicData(data)
   }
 
   useEffect(() => {
-    getTopics()
+    fetchTopic()
   }, [])
 
-  console.log(topicData, 'topicData')
+  const handleAddMessage = async () => {
+    const params = {
+      user_name: user.display_name,
+      message_text: message,
+    }
+
+    addMessageToTopic({ topicId: topicId, params })
+  }
 
   return (
     <div className={styles.pageForum}>
       <div className={styles.pageForumButtonHome} onClick={handleHomeClick}>
-        <HomeIcon />
+        <SvgIcon>
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </SvgIcon>
       </div>
       <div className={styles.pageForumBlock}>
-        <h2 className={styles.pageForumBlockTitle}>{ForumTopicData.name}</h2>
-        <p className={styles.pageForumBlockDesc}>
-          {ForumTopicData.description}
-        </p>
+        <h2 className={styles.pageForumBlockTitle}>{topicData.topic_name}</h2>
+        <p className={styles.pageForumBlockDesc}>{topicData.topic_descr}</p>
       </div>
       <div className={styles.pageForumInput}>
         <TextField
@@ -93,20 +79,20 @@ const ForumBlockPage: React.FC = () => {
           id="standard-basic"
           label="Добавить сообщение"
           variant="standard"
-          value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
+          value={message}
+          onChange={e => setMessage(e.target.value)}
         />
         <Button
           variant="contained"
           endIcon={<SendIcon />}
           onClick={handleAddMessage}
-          disabled={!inputValue.trim()}>
+          disabled={!message.trim()}>
           Добавить
         </Button>
       </div>
       <div className={styles.pageForumMessage}>
-        {comments.map((msg, index) => (
-          <ForumMessage key={index} message={msg} />
+        {topicData.messages.map((msg, index) => (
+          <ForumMessage key={index} message={msg.message_text} />
         ))}
       </div>
     </div>

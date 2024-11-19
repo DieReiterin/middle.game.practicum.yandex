@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Button, Modal, TextField } from '@mui/material'
 import styles from './ForumModal.module.scss'
-import { useDispatch } from 'react-redux'
-import { createTopic } from '@/ducks/user' // Импортируйте ваш createTopic
+import { addTopic } from '@/ducks/user'
 
 interface ForumModalProps {
   open: boolean
@@ -20,7 +19,6 @@ const ForumModal: React.FC<ForumModalProps> = ({
   handleClose,
   getTopics,
 }) => {
-  const dispatch = useDispatch() // Получаем доступ к dispatch
   const [newTopic, setNewTopic] = useState('')
   const [newDescription, setNewDescription] = useState('')
 
@@ -37,7 +35,7 @@ const ForumModal: React.FC<ForumModalProps> = ({
       topic_name: newTopic,
       topic_descr: newDescription,
     }
-    createTopic(params)
+    addTopic(params)
     getTopics()
   }
 

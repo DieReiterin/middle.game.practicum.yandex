@@ -60,23 +60,14 @@ export const getTopic = async (req: Request, res: Response): Promise<void> => {
     if (!topic) {
       res.status(404).json({ message: 'Topic not found' })
     } else {
-      console.log('LOADED TOPIC:', topic)
-      console.log('LOADED TOPIC END')
-
-      console.log('topic.Messages MESSAGES:', topic.Messages)
-      console.log('topic.Messages MESSAGES END')
-
       const topicMessages = topic.Messages?.map(message => ({
         user_name: message.user_name,
         message_text: message.message_text,
       }))
-
-      console.log('MAPPED MESSAGES:', topicMessages)
-      console.log('MAPPED MESSAGES END')
-
       const response = {
         topic_id: topic.topic_id,
         topic_name: topic.topic_name,
+        topic_descr: topic.topic_descr,
         messages_count: topic.messages_count,
         messages: topicMessages,
       }
