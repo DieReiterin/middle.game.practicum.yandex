@@ -30,6 +30,15 @@ const ForumModal: React.FC<ForumModalProps> = ({
     setNewDescription('')
   }
 
+  // const getTopics = async () => {
+  //   try {
+  //     const data = await getAllTopics()
+  //     setTopicsData(data)
+  //   } catch (e) {
+  //     console.error('fetchTopics error:', e)
+  //   }
+  // }
+
   const handleAddTopic = async () => {
     const params: ForumProps = {
       topic_name: newTopic,
