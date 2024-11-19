@@ -1,5 +1,3 @@
-// ThemeSwitcher.tsx
-
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { themesSelector, currentThemeSelector } from '@/ducks/theme/selectors'
@@ -27,10 +25,8 @@ export const ThemeSwitcher: React.FC = () => {
     const newThemeId = isDarkTheme ? ThemeType.LIGHT : ThemeType.DARK
     const selectedTheme = themes.find(t => t.id === newThemeId)
     if (selectedTheme) {
-      if (user) {
-        dispatch(
-          setUserTheme({ userId: user.id.toString(), themeId: newThemeId }),
-        )
+      if (user && user.id) {
+        dispatch(setUserTheme({ userId: user.id, themeId: newThemeId }))
         localStorage.setItem('themeId', newThemeId.toString())
       } else {
         dispatch(setCurrentTheme(selectedTheme))
@@ -38,10 +34,6 @@ export const ThemeSwitcher: React.FC = () => {
       }
     }
   }
-
-  useEffect(() => {
-    console.log('currentTheme', currentTheme)
-  }, [currentTheme])
 
   useEffect(() => {
     if (isDarkTheme) {

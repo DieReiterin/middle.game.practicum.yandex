@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Forum.module.scss'
 import { ButtonLink } from '../../components/ButtonLink'
@@ -9,7 +9,13 @@ import ForumBlock from './components/ForumBlock/ForumBlock'
 import ForumModal from './components/ForumModal/ForumModal'
 import { usePage } from '@/hooks'
 import { PageInitArgs } from '@/ducks/store'
-import { getUser, userSelector } from '@/ducks/user'
+import { fetchTopics, getUser, userSelector } from '@/ducks/user'
+
+interface Topic {
+  topic_id: number
+  topic_name: string
+  messages_count: number
+}
 
 const Forum = () => {
   const navigate = useNavigate()
@@ -69,6 +75,16 @@ const Forum = () => {
 
   const parsedTopics = topics.map(t => JSON.parse(t))
 
+  const [topicsData, setTopicsData] = useState<Topic[]>([])
+  const getTopics = async () => {
+    const data = await fetchTopics()
+    setTopicsData(data)
+  }
+
+  useEffect(() => {
+    getTopics()
+  }, [])
+
   return (
     <div className={styles.forum}>
       <div className={styles.forumBlock}>
@@ -89,16 +105,16 @@ const Forum = () => {
           </Tooltip>
         </div>
         <div className={styles.forumBlockContent}>
-          {parsedTopics.map((topic, index) => (
-            <div key={topic.id} className={styles.forumBlockContentBlock}>
+          {topicsData.map(topic => (
+            <div key={topic.topic_id} className={styles.forumBlockContentBlock}>
               <ForumBlock
-                name={topic.name}
-                messages={0}
-                onClick={() => handleBlockClick(topic.id)}
+                name={topic.topic_name}
+                messages={topic.messages_count}
+                onClick={() => handleBlockClick(topic.topic_id)}
               />
               <IconButton
                 aria-label="delete"
-                onClick={() => deleteTopic(topic.id)}>
+                onClick={() => deleteTopic(topic.topic_id)}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -117,11 +133,7 @@ const Forum = () => {
         <ForumModal
           open={open}
           handleClose={handleClose}
-          newTopic={newTopic}
-          setNewTopic={setNewTopic}
-          newDescription={newDescription}
-          setNewDescription={setNewDescription}
-          addTopic={addTopic}
+          getTopics={getTopics}
         />
       </div>
     </div>

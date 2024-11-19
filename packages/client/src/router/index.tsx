@@ -98,9 +98,9 @@ const Auth: FC<PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
   const isAuthorized = Boolean(user)
 
   useEffect(() => {
-    if (user && localStorage.getItem('themeId')) {
+    if (user && user.id && localStorage.getItem('themeId')) {
       const themeId = parseInt(localStorage.getItem('themeId')!, 10)
-      dispatch(setUserTheme({ userId: user.id.toString(), themeId }))
+      dispatch(setUserTheme({ userId: user.id, themeId }))
       dispatch(setCurrentTheme({ id: themeId, name: '' }))
       localStorage.removeItem('themeId')
     }
@@ -109,11 +109,15 @@ const Auth: FC<PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
   useEffect(() => {
     dispatch(fetchThemes())
 
-    if (user) {
-      dispatch(getUserTheme(user.id.toString()))
+    if (user && user.id) {
+      dispatch(getUserTheme(user.id))
     } else {
       const storedThemeId = localStorage.getItem('themeId')
-      if (storedThemeId && storedThemeId !== currentTheme?.id.toString()) {
+      if (
+        storedThemeId &&
+        currentTheme?.id &&
+        storedThemeId !== currentTheme.id.toString()
+      ) {
         const themeId = parseInt(storedThemeId, 10)
         dispatch(setCurrentTheme({ id: themeId, name: '' }))
       }

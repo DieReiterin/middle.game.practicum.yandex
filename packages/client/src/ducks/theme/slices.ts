@@ -9,6 +9,7 @@ export const fetchThemes = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<ThemeData[]>>({
+        baseURL: '/',
         url: getThemesUrl,
         method: Methods.GET,
       })
@@ -22,9 +23,10 @@ export const fetchThemes = createAsyncThunk(
 
 export const getUserTheme = createAsyncThunk(
   'theme/getUserTheme',
-  async (userId: string, { rejectWithValue }) => {
+  async (userId: number, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<ThemeData>>({
+        baseURL: '/',
         url: getUserThemeUrl(userId),
         method: Methods.GET,
       })
@@ -39,11 +41,12 @@ export const getUserTheme = createAsyncThunk(
 export const setUserTheme = createAsyncThunk(
   'theme/setUserTheme',
   async (
-    { userId, themeId }: { userId: string; themeId: number },
+    { userId, themeId }: { userId: number; themeId: number },
     { rejectWithValue },
   ) => {
     try {
       await api<undefined, AxiosResponse<void>>({
+        baseURL: '/',
         url: setUserThemeUrl,
         method: Methods.POST,
         data: { user_id: userId, theme_id: themeId },

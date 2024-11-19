@@ -7,8 +7,8 @@ import {
 
 const themeRouter = Router()
 
-themeRouter.post('/theme', setUserTheme)
-themeRouter.get('/theme/:user_id', getUserTheme)
-themeRouter.get('/themes', getThemes)
+router.post('/theme', setUserTheme)
+router.get('/theme/:user_id', getUserTheme)
+router.get('/', getThemes)
 
 export default themeRouter

@@ -1,8 +1,12 @@
 export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL}`
 export const apiPrefix = '/api/v2'
+export const apiForum = '/api/forum'
 export const baseURL = `${apiHost}${apiPrefix}`
 export const addUserToLeaderbordURL = baseURL + '/leaderboard'
 export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
+export const AllTopicsURL = baseURL + apiForum + '/topics'
+export const topicURL = (topicId: number) =>
+  `${baseURL}${apiForum}/topic/${topicId}`
 
 export const oauth = '/oauth'
 export const authURL = '/auth'
@@ -19,10 +23,11 @@ export const serviceIdURL = oauth + '/yandex/service-id'
 export const oauthURL = oauth + '/yandex'
 
 // theme api
-export const getThemesUrl = `${apiHost}/theme-api/themes`
-export const getUserThemeUrl = (userId: string) =>
-  `${apiHost}/theme-api/theme/${userId}`
-export const setUserThemeUrl = `${apiHost}/theme-api/theme`
+const themePrefix = '/api/themes'
+export const getThemesUrl = themePrefix
+export const getUserThemeUrl = (userId: number) =>
+  `${themePrefix}/theme/${userId.toString()}`
+export const setUserThemeUrl = `${themePrefix}/theme`
 
 // emojis
 export const getEmojisUrl = `${apiHost}/api/emojis/getEmojis`
