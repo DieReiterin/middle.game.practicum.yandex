@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import styles from './ForumBlockPage.module.scss'
 import { Button, SvgIcon, TextField } from '@mui/material'
@@ -6,8 +6,9 @@ import SendIcon from '@mui/icons-material/Send'
 import ForumMessage from './components/ForumMessage/ForumMessage'
 import useTopicData from '../../hooks/useTopicData'
 import { usePage } from '@/hooks'
-import { PageInitArgs } from '@/ducks/store'
+import { PageInitArgs, useAppDispatch } from '@/ducks/store'
 import { getUser, userSelector } from '@/ducks/user'
+import { fetchEmojis } from '@/ducks/emojis'
 
 type HomeIconProps = {
   [key: string]: string | number | bigint | boolean
@@ -17,6 +18,11 @@ const ForumBlockPage: React.FC = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const topicData = useTopicData()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchEmojis())
+  }, [])
 
   usePage({ initPage: initForumBlockPage })
 
