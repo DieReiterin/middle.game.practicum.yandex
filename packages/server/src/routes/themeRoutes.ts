@@ -9,6 +9,6 @@ const router = Router()
 
 router.post('/theme', setUserTheme)
 router.get('/theme/:user_id', getUserTheme)
-router.get('/themes', getThemes)
+router.get('/', getThemes)
 
 export default router

@@ -16,7 +16,7 @@ dotenv.config()
 import createCache from '@emotion/cache'
 import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
-import router from './src/routes/themeRoutes'
+import themeRouter from './src/routes/themeRoutes'
 import forumRouter from './src/routes/forumRoutes'
 
 export const apiHost = 'https://ya-praktikum.tech'
@@ -65,9 +65,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
   )
 
   app.use(express.json())
-
-  app.use('/theme-api', themeRouter)
-  app.use('/api', router)
+  app.use('/api/themes', themeRouter)
   app.use('/api/forum', forumRouter)
 
   app.use('*', async (req, res, next) => {
