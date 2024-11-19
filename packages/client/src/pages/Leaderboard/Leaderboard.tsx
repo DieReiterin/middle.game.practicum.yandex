@@ -71,7 +71,7 @@ export const Leaderboard: FC = () => {
           Лидерборд
         </Typography>
         <TableContainer
-          sx={{ color: 'text.secondary' }}
+          sx={{ color: theme => theme.palette.text.secondary }}
           className={styles.tableContainer}>
           <Table stickyHeader className={styles.table}>
             <TableHead className={styles.tableHead}>

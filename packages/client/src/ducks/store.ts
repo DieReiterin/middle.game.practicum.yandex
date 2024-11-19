@@ -9,7 +9,8 @@ import {
 import { useDispatch, useStore as useStoreBase } from 'react-redux'
 
 import { UserState, reducer as userReducer } from './user'
-import { PageCookies } from '@/router'
+import { themeReducer, getInitialTheme } from './theme'
+import { reducer as emojisReducer } from './emojis'
 
 declare global {
   interface Window {
@@ -19,12 +20,21 @@ declare global {
 
 export const reducer = combineReducers({
   userInfo: userReducer,
+  theme: themeReducer,
+  emojis: emojisReducer,
 })
 
 export const store = configureStore({
   reducer,
   preloadedState:
-    typeof window === 'undefined' ? undefined : window.APP_INITIAL_STATE,
+    typeof window === 'undefined'
+      ? {
+          theme: getInitialTheme(),
+        }
+      : {
+          ...window.APP_INITIAL_STATE,
+          theme: getInitialTheme(),
+        },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
 })
 

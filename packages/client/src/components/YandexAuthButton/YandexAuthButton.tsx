@@ -30,7 +30,9 @@ export const YandexAuthButton = () => {
   return (
     <Button
       onClick={handleOAuth}
-      sx={{ bgcolor: 'text.primary', marginTop: '24px' }}
+      sx={{
+        marginTop: '24px',
+      }}
       variant="contained"
       fullWidth
       type="button">

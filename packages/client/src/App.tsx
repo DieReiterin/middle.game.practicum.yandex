@@ -2,12 +2,12 @@ import { routes } from './router'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Error } from './pages'
-
 import '@fontsource/manrope/300.css'
 import '@fontsource/manrope/400.css'
 import '@fontsource/manrope/500.css'
 import '@fontsource/manrope/700.css'
 import './App.css'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 
 type TFallbackRenderProps = {
   error: {
@@ -36,6 +36,7 @@ const App = () => {
   return (
     <ErrorBoundary fallbackRender={fallbackRender}>
       <RouterProvider router={router} />
+      <ThemeSwitcher />
     </ErrorBoundary>
   )
 }

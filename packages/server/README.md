@@ -16,11 +16,9 @@
 
 ## Подготовка базы данных
 
-1. (Если вы в продакшне: переходим в контейнер через `docker exec -it postgres sh`, далее все команды в нём)
+1. (Если вы в продакшне: переходим в контейнер через `docker exec -it prakticum-server sh`, далее все команды в нём, выход - `exit`)
 
 2. Запуск миграций (сейчас это 4 миграции создания таблиц) - `yarn sequelize db:migrate`
-
-- `yarn sequelize db:migrate`
 
 3. Наполнение таблиц данными - `yarn sequelize db:seed:all`
 
@@ -30,17 +28,17 @@
 
 2. Удаление таблиц - `yarn sequelize db:seed:undo:all`
 
-## Апи форума
+## Апи форума (пример адреса - `http://localhost:3001/api/forum/topic/1`)
 
 1. Получение списка топиков:
-   Метод запроса - GET
-   Адрес - /topics
-   Тело запроса пустое
-   Тело ответа:
+
+- Метод запроса - GET
+- Адрес - /topics
+- Тело запроса пустое
+- Тело ответа:
 
 ```javascript
 {
-   data: [
      {
         topic_id: 1234
         topic_name: 'forum1'
@@ -53,14 +51,14 @@
         topic_descr: 'descr2'
         messages_count: 234
      }
-    ]
 }
 ```
 
 2.  Создать новый топик:
-    Метод запроса - POST
-    Адрес - /topics
-    Тело запроса:
+
+- Метод запроса - POST
+- Адрес - /topics
+- Тело запроса:
 
 ```javascript
 {
@@ -69,7 +67,7 @@
 }
 ```
 
-Тело ответа:
+- Тело ответа:
 
 ```javascript
 {
@@ -82,10 +80,11 @@
 ```
 
 3. Получить один топик и его сообщения:
-   Метод запроса - GET
-   Адрес - /topic/:topic_id
-   Тело запроса пустое
-   Тело ответа:
+
+- Метод запроса - GET
+- Адрес - /topic/:topic_id
+- Тело запроса пустое
+- Тело ответа:
 
 ```javascript
 {
@@ -106,23 +105,23 @@
 ```
 
 4. Добавить сообщение в топик:
-   Метод запроса - POST
-   Адрес - /topic/:topic_id
-   Тело запроса:
+
+- Метод запроса - POST
+- Адрес - /topic/:topic_id
+- Тело запроса:
 
 ```javascript
 {
-   user_name: Max,
-   message_text: 'Some text',
+   user_name: 'Max',
+   message_text: 'Some message text',
 }
-
 ```
 
-Тело ответа:
+- Тело ответа:
 
 ```javascript
 {
-   message: 'Message added',
+   message: 'Message added successfully',
    data:
       {
         message_id: 123,
