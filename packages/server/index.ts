@@ -18,6 +18,8 @@ import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
 import themeRouter from './src/routes/themeRoutes'
 import forumRouter from './src/routes/forumRoutes'
+import themeRouter from './src/routes/themeRoutes'
+import emojisRouter from './src/routes/emojisRoutes'
 
 export const apiHost = 'https://ya-praktikum.tech'
 export const apiPrefix = '/api/v2'
@@ -68,6 +70,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
 
   app.use('/theme-api', themeRouter)
   app.use('/api/forum', forumRouter)
+  app.use('/api/emojis', emojisRouter)
 
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl
