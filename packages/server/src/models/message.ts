@@ -52,4 +52,7 @@ Message.init(
   },
 )
 
+Topic.hasMany(Message, { foreignKey: 'topic_id' })
+Message.belongsTo(Topic, { foreignKey: 'topic_id' })
+
 export default Message
