@@ -24,6 +24,7 @@ import {
   signinURL,
   signupURL,
   staticURL,
+  apiPrefix,
 } from '@/api/constants'
 
 const initialState: UserState = {
@@ -39,6 +40,7 @@ export const signup = createAsyncThunk(
   async (data: SignupData, { dispatch, rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<SignupResponse>>({
+        baseURL: apiPrefix,
         url: signupURL,
         method: Methods.POST,
         data: data,
@@ -61,6 +63,7 @@ export const signin = createAsyncThunk(
   async (data: SigninData, { rejectWithValue, dispatch }) => {
     try {
       const response = await api<undefined, AxiosResponse<UserResponse>>({
+        baseURL: apiPrefix,
         url: signinURL,
         method: Methods.POST,
         data: data,
@@ -82,6 +85,7 @@ export const getOauthServiceId = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<ServiceIdResponse>>({
+        baseURL: apiPrefix,
         url: serviceIdURL,
         params: { redirect_uri: redirectURL },
       })
@@ -104,6 +108,7 @@ export const getOauthAccessToken = createAsyncThunk(
   async (serviceId: string, { rejectWithValue, dispatch }) => {
     try {
       await api<undefined, AxiosResponse<Blob>>({
+        baseURL: apiPrefix,
         url: oauthURL,
         method: Methods.POST,
         data: { redirect_uri: redirectURL, code: serviceId },
@@ -124,6 +129,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       await api<undefined, AxiosResponse<string>>({
+        baseURL: apiPrefix,
         url: logoutURL,
         method: Methods.POST,
       })
@@ -143,6 +149,7 @@ export const sendGameData = createAsyncThunk(
   async (gameData: GameDataType) => {
     try {
       const response = await api({
+        baseURL: apiPrefix,
         url: addUserToLeaderbordURL,
         method: Methods.POST,
         data: {
@@ -162,6 +169,7 @@ export const getLeaderboard = createAsyncThunk(
   async (params: LeaderboardParams, { rejectWithValue }) => {
     try {
       const response = await api<undefined, AxiosResponse<LeaderboardParams>>({
+        baseURL: apiPrefix,
         url: getAllLeaderboardURL,
         method: Methods.POST,
         data: params,
@@ -182,6 +190,7 @@ export const getUser = createAsyncThunk(
   async (cookies: string | undefined, { rejectWithValue, dispatch }) => {
     try {
       const response = await api<undefined, AxiosResponse<UserResponse>>({
+        baseURL: apiPrefix,
         url: getUserURL,
         headers: {
           Cookie: cookies,
@@ -213,6 +222,7 @@ export const getUserAvatar = createAsyncThunk(
   ) => {
     try {
       const response = await api<undefined, AxiosResponse<Blob>>({
+        baseURL: apiPrefix,
         url: staticURL + pathToFile,
         method: Methods.GET,
         responseType: 'blob',

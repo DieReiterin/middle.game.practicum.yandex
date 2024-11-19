@@ -19,10 +19,11 @@ export const serviceIdURL = oauth + '/yandex/service-id'
 export const oauthURL = oauth + '/yandex'
 
 // theme api
-export const getThemesUrl = `${apiHost}/theme-api/themes`
-export const getUserThemeUrl = (userId: string) =>
-  `${apiHost}/theme-api/theme/${userId}`
-export const setUserThemeUrl = `${apiHost}/theme-api/theme`
+const themePrefix = '/api/themes'
+export const getThemesUrl = themePrefix
+export const getUserThemeUrl = (userId: number) =>
+  `${themePrefix}/theme/${userId.toString()}`
+export const setUserThemeUrl = `${themePrefix}/theme`
 
 //заменить после деплоя
 export const redirectURL = apiHost
