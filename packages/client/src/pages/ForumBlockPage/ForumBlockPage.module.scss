@@ -6,9 +6,6 @@
 }
 
 .pageForumButtonHome {
-  width: 100%;
-  margin-top: -20px;
-  margin-left: 40px;
   cursor: pointer;
 
   &:hover {
@@ -21,20 +18,20 @@
 
 .pageForumBlock {
   width: 90%;
-  padding: 30px;
+  padding: 20px;
   background: #fff;
   border-radius: 15px;
 }
 
 .pageForumBlockTitle {
-  font-size: 18px;
-  text-decoration: underline;
+  font-size: 24px;
   text-align: center;
 }
 
 .pageForumBlockDesc {
   margin-top: 20px;
   color: var(--color-text2);
+  text-align: center;
 }
 
 .pageForumInput {

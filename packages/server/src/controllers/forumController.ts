@@ -53,8 +53,6 @@ export const getTopic = async (req: Request, res: Response): Promise<void> => {
       include: [
         {
           model: Message,
-          as: 'messages',
-          attributes: ['user_name', 'message_text'],
         },
       ],
     })
@@ -62,16 +60,16 @@ export const getTopic = async (req: Request, res: Response): Promise<void> => {
     if (!topic) {
       res.status(404).json({ message: 'Topic not found' })
     } else {
-      const messages = topic.messages.map(message => ({
+      const topicMessages = topic.Messages?.map(message => ({
         user_name: message.user_name,
         message_text: message.message_text,
       }))
-
       const response = {
         topic_id: topic.topic_id,
         topic_name: topic.topic_name,
+        topic_descr: topic.topic_descr,
         messages_count: topic.messages_count,
-        messages: messages,
+        messages: topicMessages,
       }
       res.status(200).json(response)
     }

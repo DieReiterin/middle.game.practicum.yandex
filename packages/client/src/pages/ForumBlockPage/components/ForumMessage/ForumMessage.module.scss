@@ -16,7 +16,6 @@
 
 .forumMessageBlockUserData {
   width: 191px;
-  height: 240px;
   border-radius: 10px;
   border: 1px solid $dusty-gray;
 }
@@ -39,21 +38,7 @@
   font-size: 15px;
 }
 
-.forumMessageBlockContentComments {
-  margin-top: 20px;
-}
-
-.forumMessageBlockContentCommentsDesc {
-  margin-top: 5px;
-}
-
-.forumMessageBlockContentInput {
-  margin-top: 10px;
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-}
-
-.forumMessageBlockContentButton {
-  height: 30px;
+.forumMessageText {
+  padding: 30px;
+  font-size: 18px;
 }

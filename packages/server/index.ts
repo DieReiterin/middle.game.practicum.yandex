@@ -16,6 +16,7 @@ dotenv.config()
 import createCache from '@emotion/cache'
 import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
+
 import themeRouter from './src/routes/themeRoutes'
 import forumRouter from './src/routes/forumRoutes'
 import emojisRouter from './src/routes/emojisRoutes'

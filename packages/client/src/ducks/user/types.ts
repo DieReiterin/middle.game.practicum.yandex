@@ -57,14 +57,14 @@ export type Topic = {
   messages_count: number
 }
 
-export type CreateTopicParams = {
+export type AddTopicParams = {
   topic_name: string
   topic_descr: string
 }
 
 export type CreateTopicResponse = {
   message: string
-  data: CreateTopicParams
+  data: AddTopicParams
 }
 
 export type Message = {
@@ -72,9 +72,10 @@ export type Message = {
   message_text: string
 }
 
-export type TopicResponse = {
+export type GetTopicResponse = {
   topic_id: number
   topic_name: string
+  topic_descr: string
   messages_count: number
   messages: Message[]
 }

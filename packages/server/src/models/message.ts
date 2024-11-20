@@ -57,6 +57,9 @@ Message.init(
   },
 )
 
+Topic.hasMany(Message, { foreignKey: 'topic_id' })
+Message.belongsTo(Topic, { foreignKey: 'topic_id' })
+
 Message.hasOne(Emojis, { foreignKey: 'emoji_id', as: 'emojis' })
 Emojis.belongsTo(Message, { foreignKey: 'message_id', as: 'message' })
 
