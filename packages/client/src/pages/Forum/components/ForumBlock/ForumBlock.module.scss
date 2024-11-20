@@ -1,11 +1,8 @@
-@import '@styles/vars.scss';
-@import '@styles/mixins.scss';
-
 .forumBlockElem {
   width: 512px;
   height: 40px;
   @include space-between-flex;
-  background: $gallery;
+  background: var(--color-border3);
   border-radius: 8px;
   padding: 0 20px;
   cursor: pointer;
@@ -13,7 +10,7 @@
   border: none;
 
   &:hover {
-    background: $tropical-blue;
+    background: var(--color-bg-tertiary);
   }
 
   &:not(:first-child) {

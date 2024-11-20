@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import { Box, Grid2, Typography } from '@mui/material'
 import styles from './Error.module.scss'
+import { usePage } from '@/hooks'
 export type ErrorProps = {
   title: string
   descr: string
@@ -9,6 +10,8 @@ export type ErrorProps = {
 }
 
 export const Error: FC<ErrorProps> = ({ text, descr, title }) => {
+  usePage({ initPage: initErrorPage })
+
   return (
     <Box className={styles.wrapper}>
       <Grid2
@@ -41,3 +44,5 @@ export const Error: FC<ErrorProps> = ({ text, descr, title }) => {
     </Box>
   )
 }
+
+export const initErrorPage = async () => Promise.resolve()

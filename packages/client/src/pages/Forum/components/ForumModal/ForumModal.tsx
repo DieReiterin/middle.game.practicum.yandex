@@ -1,32 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Modal, TextField } from '@mui/material'
 import styles from './ForumModal.module.scss'
+import { addTopic } from '@/ducks/user'
 
 interface ForumModalProps {
   open: boolean
   handleClose: () => void
-  newTopic: string
-  setNewTopic: (value: string) => void
-  newDescription: string
-  setNewDescription: (value: string) => void
-  addTopic: () => void
+  getTopics: () => void
+}
+
+interface ForumProps {
+  topic_name: string
+  topic_descr: string
 }
 
 const ForumModal: React.FC<ForumModalProps> = ({
   open,
   handleClose,
-  newTopic,
-  setNewTopic,
-  newDescription,
-  setNewDescription,
-  addTopic,
+  getTopics,
 }) => {
+  const [newTopic, setNewTopic] = useState('')
+  const [newDescription, setNewDescription] = useState('')
+
   const isButtonDisabled = !newTopic.trim() || !newDescription.trim()
 
   const handleModalClose = () => {
     handleClose()
     setNewTopic('')
     setNewDescription('')
+  }
+
+  const createTopic = async () => {
+    try {
+      const params: ForumProps = {
+        topic_name: newTopic,
+        topic_descr: newDescription,
+      }
+      const data = await addTopic(params)
+
+      if (data && 'message' in data && data.message !== 'Topic created') {
+        throw new Error('server error')
+      }
+      handleModalClose()
+      getTopics()
+    } catch (e) {
+      console.error('createTopic error:', e)
+    }
   }
 
   return (
@@ -56,7 +75,7 @@ const ForumModal: React.FC<ForumModalProps> = ({
         />
         <Button
           variant="contained"
-          onClick={addTopic}
+          onClick={createTopic}
           disabled={isButtonDisabled}>
           Добавить новую тему
         </Button>

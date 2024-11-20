@@ -16,9 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "types": ["jest", "@testing-library/jest-dom"],
+    "types": ["jest", "node", "@testing-library/jest-dom"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "createEmotionCache": ["./createEmotionCache"]
     }
   },
   "include": ["src"],

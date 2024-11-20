@@ -1,6 +1,13 @@
 import { Game } from './Game'
 import { GameConfig } from './types'
 
+beforeAll(() => {
+  Object.defineProperty(navigator, 'getGamepads', {
+    value: jest.fn().mockReturnValue([]),
+    writable: true,
+  })
+})
+
 describe('Game', () => {
   let game: Game
 
@@ -8,17 +15,21 @@ describe('Game', () => {
     const config: GameConfig = {
       width: 800,
       height: 600,
-      textures: {
-        sky: 'path/to/sky.png',
-        ground: 'path/to/ground.png',
-        player1: 'path/to/player1.png',
-        player2: 'path/to/player2.png',
+      sky: {
+        textures: 'path/to/sky.png',
+        colors: 'lightblue',
       },
-      colors: {
-        player1: 'red',
-        player2: 'blue',
-        sky: 'lightblue',
-        ground: 'green',
+      ground: {
+        textures: 'path/to/ground.png',
+        colors: 'green',
+      },
+      player1: {
+        textures: 'path/to/player1.png',
+        colors: 'red',
+      },
+      player2: {
+        textures: 'path/to/player2.png',
+        colors: 'blue',
       },
       callback: jest.fn(),
     }

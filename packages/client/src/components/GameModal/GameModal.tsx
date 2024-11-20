@@ -1,17 +1,49 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Box, Button, Grid2, Modal, Typography } from '@mui/material'
 import { ButtonLink } from '@/components/ButtonLink'
 import { PathsRoutes } from '@/router/types'
 import styles from './GameModal.module.scss'
 import { actions } from './const'
 import { TGameModalMode, TGameModalAction } from './types'
+import { useAppDispatch } from '@/ducks/store'
+import { useSelector } from 'react-redux'
+import { userSelector, sendGameData } from '@/ducks/user'
 
 interface IGameModalProps {
   mode: TGameModalMode
   modalAction: (action: TGameModalAction) => void
+  isGamepadOn: boolean
 }
 
-export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
+export const GameModal: FC<IGameModalProps> = ({
+  mode,
+  modalAction,
+  isGamepadOn,
+}) => {
+  const dispatch = useAppDispatch()
+  const user = useSelector(userSelector)
+  const [points, setPoints] = useState(0)
+  const [level, setLevel] = useState(1)
+
+  useEffect(() => {
+    if (mode === 'win') {
+      setLevel(level + 1)
+      setPoints(level * 100)
+    }
+    if (mode === 'lose') {
+      setPoints(0)
+      setLevel(1)
+    }
+    if (mode === 'win' || mode === 'lose') {
+      dispatch(
+        sendGameData({
+          name: user?.first_name as string,
+          result: points,
+        }),
+      )
+    }
+  }, [mode, level, points, user])
+
   const renderTitle = (text: string) => (
     <Typography
       sx={{ marginBottom: theme => theme.spacing(2) }}
@@ -20,6 +52,7 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
       {text}
     </Typography>
   )
+
   const renderBtn = (text: string, onClick: () => void) => (
     <Button
       sx={{ marginBottom: theme => theme.spacing(2) }}
@@ -31,29 +64,35 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
     </Button>
   )
 
+  const controlType = isGamepadOn ? 'геймпада 🎮' : 'клавиатуры ⌨️'
+
   const contentElems = {
     gameTips: (
-      <>
-        <Box className={styles.actionsWrapper}>
-          <Grid2 container spacing={1} direction="column">
-            {actions.map(({ key, action }) => {
-              const keyCode = Array.isArray(key)
-                ? '- ' + key.join('/') + ' -'
-                : '- ' + key + ' -'
-              return (
-                <Grid2 container size={12} key={action}>
-                  <Grid2 size={4}>
-                    <Typography variant="subtitle1">{keyCode}</Typography>
-                  </Grid2>
-                  <Grid2 size={8}>
-                    <Typography variant="subtitle1">{action}</Typography>
-                  </Grid2>
-                </Grid2>
-              )
-            })}
+      <Box className={styles.actionsWrapper}>
+        <Grid2 container spacing={1} direction="column">
+          <Grid2 container size={12}>
+            <Typography variant="subtitle1">
+              Управление игрой для {controlType}
+            </Typography>
           </Grid2>
-        </Box>
-      </>
+          {actions.map(({ keyboardKey, gamepadKey, action }) => {
+            const key = isGamepadOn ? gamepadKey : keyboardKey
+            const keyCode = Array.isArray(key)
+              ? '- ' + key.join('/') + ' -'
+              : '- ' + key + ' -'
+            return (
+              <Grid2 container size={12} key={action}>
+                <Grid2 size={4}>
+                  <Typography variant="subtitle1">{keyCode}</Typography>
+                </Grid2>
+                <Grid2 size={8}>
+                  <Typography variant="subtitle1">{action}</Typography>
+                </Grid2>
+              </Grid2>
+            )
+          })}
+        </Grid2>
+      </Box>
     ),
     navLinks: (
       <>
@@ -110,10 +149,8 @@ export const GameModal: FC<IGameModalProps> = ({ mode, modalAction }) => {
   }
 
   return (
-    <>
-      <Modal open={mode !== 'closed'} className={styles.wrapper}>
-        <Box className={styles.modal}>{contentVariants[mode] || null}</Box>
-      </Modal>
-    </>
+    <Modal open={mode !== 'closed'} className={styles.wrapper}>
+      <Box className={styles.modal}>{contentVariants[mode] || null}</Box>
+    </Modal>
   )
 }

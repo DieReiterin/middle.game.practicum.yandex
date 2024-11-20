@@ -1,15 +1,13 @@
-@import '@styles/vars.scss';
-@import '@styles/mixins.scss';
-
 .forum {
   @include center-flex;
   height: 100vh;
+  background: var(--color-bg-primary);
 }
 
 .forumBlock {
   @include column-flex;
   align-items: center;
-  background: $alabaster;
+  background: var(--color-bg-secondary);
   border-radius: 12px;
   width: 680px;
   height: 460px;
@@ -31,13 +29,13 @@
   width: 512px;
   min-height: 40px;
   @include space-between-flex;
-  background: $gallery;
+  background: var(--color-border3);
   border-radius: 8px;
   padding: 0 20px;
 }
 
 .forumBlockHeaderBlockText {
-  color: $dusty-gray;
+  color: var(--color-accent-soft);
 }
 
 .forumBlockHeaderBlockDesc {
@@ -69,7 +67,7 @@
 
 .forumBlockFooterButton {
   margin: 10px !important;
-  background-color: $melrose !important;
-  color: $alabaster !important;
+  background-color: var(--color-btn) !important;
+  color: var(--color-text) !important;
   width: 100px;
 }

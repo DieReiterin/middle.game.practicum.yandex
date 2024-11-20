@@ -1,19 +1,18 @@
+import { GameStates } from './constants'
+
+export interface Appearance {
+  textures?: string
+  colors?: string
+}
+
 export interface GameConfig {
   width?: number
   height?: number
-  callback?: (state: 'win' | 'lose' | 'pause') => void
-  textures?: {
-    ground?: string
-    sky?: string
-    player1?: string
-    player2?: string
-  }
-  colors?: {
-    ground?: string
-    sky?: string
-    player1?: string
-    player2?: string
-  }
+  callback?: (state: GameStates) => void
+  ground?: Appearance
+  sky?: Appearance
+  player1?: Appearance
+  player2?: Appearance
   computerDodgeProbability?: number
   computerAttackSpeedMultiplier?: number
   fireballCooldown?: number
@@ -54,4 +53,9 @@ export interface AirAttackConfig {
   particleCount: number
   particleColor: string
   particleRadius: number
+}
+
+export interface GamepadState {
+  axes: readonly number[]
+  buttons: boolean[]
 }

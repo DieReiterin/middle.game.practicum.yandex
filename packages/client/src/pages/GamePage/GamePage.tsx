@@ -1,103 +1,79 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useRef, useState, useMemo } from 'react'
 import { Box } from '@mui/material'
 import PauseIcon from '@mui/icons-material/Pause'
 import { Game } from '@/game/Game'
-import sky1 from '@/game/textures/a-blue-sky.jpg'
-import ground1 from '@/game/textures/ground1.jpg'
-import player1 from '@/game/textures/player1.png'
-import player2 from '@/game/textures/player2.png'
+import { GameStates } from '@/game/constants'
+import { GameConfig } from '@/game/types'
 import styles from './GamePage.module.scss'
 import { GameModal, TGameModalMode, TGameModalAction } from '@/components'
-import { useFullscreen } from '@/hooks'
+import {
+  useFullscreen,
+  useGamepadStatus,
+  useGameInstance,
+  usePage,
+} from '@/hooks'
+import {
+  colors,
+  textures,
+  computerDodgeProbability,
+  computerAttackSpeedMultiplier,
+  maxWidth,
+  maxHeight,
+} from './constants'
+import { PageInitArgs } from '@/ducks/store'
+import { getUser, userSelector } from '@/ducks/user'
 
 export const GamePage: FC = () => {
+  if (typeof window === 'undefined') return null
   const [modalMode, setModalMode] = useState<TGameModalMode>('start')
-
   const gameContainerRef = useRef<HTMLDivElement>(null)
+  const isGamepadOn = useGamepadStatus()
+  const gameWidth = Math.min(window.innerWidth, maxWidth)
+  const gameHeight = Math.min(window.innerHeight, maxHeight)
+  const initialGameConfig = useMemo<GameConfig>(
+    () => ({
+      width: gameWidth,
+      height: gameHeight,
+      callback: (type: GameStates) => setModalMode(type),
+      colors,
+      textures,
+      computerDodgeProbability,
+      computerAttackSpeedMultiplier,
+    }),
+    [],
+  )
+  const restartGame = useGameInstance(initialGameConfig, gameContainerRef)
 
+  usePage({ initPage: initGamePage })
   useFullscreen()
 
-  const [gameConfig, setGameConfig] = useState(() => ({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    callback: handleGameInnerEvent,
-    colors: {
-      ground: '#654321',
-      sky: '#87CEEB',
-      player1: '#0000FF',
-      player2: '#FF0000',
-    },
-    textures: {
-      ground: ground1,
-      sky: sky1,
-      player1: player1,
-      player2: player2,
-    },
-    computerDodgeProbability: 0.2,
-    computerAttackSpeedMultiplier: 0.5,
-  }))
-
-  // Function opens modal when game instance is aborted from inside (by win, lose, or keyboard pause)
-  function handleGameInnerEvent(type: 'win' | 'lose' | 'pause') {
-    setModalMode(type)
-  }
-
-  // Function to restart game instance with a new config
-  const restartGame = (config: typeof gameConfig) => {
-    // Get the current game instance and destroy it
-    const currentGame = Game.getInstance()
-    if (currentGame) {
-      if (gameContainerRef.current && currentGame.canvas) {
-        gameContainerRef.current.innerHTML = '' // Clear the previous Canvas
-      }
-      currentGame.destroy()
-    }
-
-    const newGame = Game.createInstance(config)
-
-    if (gameContainerRef.current && newGame) {
-      gameContainerRef.current.innerHTML = ''
-      gameContainerRef.current.appendChild(newGame.canvas)
-    }
-  }
-
-  // Hook starts game instance on mount and destroys it on unmount
-  useEffect(() => {
-    restartGame(gameConfig)
-
-    return () => {
-      const currentGame = Game.getInstance()
-      if (gameContainerRef.current && currentGame?.canvas) {
-        gameContainerRef.current.removeChild(currentGame.canvas)
-      }
-      currentGame?.destroy()
-    }
-  }, [])
-
-  const pauseGameInstance = () => {
-    const currentGame = Game.getInstance()
-    currentGame?.pauseGame()
-  }
-  const resumeGameInstance = () => {
-    const currentGame = Game.getInstance()
-    currentGame?.resumeGame()
-  }
-
-  const modalAction = (action: TGameModalAction) => {
+  const handleModalAction = (action: TGameModalAction) => {
     if (action === 'restart') {
-      restartGame(gameConfig)
+      restartGame()
     } else if (action === 'nextLevel') {
-      const newConfig = {
-        ...gameConfig,
-        computerDodgeProbability: gameConfig.computerDodgeProbability! + 0.05,
+      // Pass only the changed parameters
+      restartGame({
+        computerDodgeProbability:
+          (initialGameConfig.computerDodgeProbability ??
+            computerDodgeProbability) + 0.05,
         computerAttackSpeedMultiplier:
-          gameConfig.computerAttackSpeedMultiplier! + 0.3,
-      }
-      restartGame(newConfig)
+          (initialGameConfig.computerAttackSpeedMultiplier ??
+            computerAttackSpeedMultiplier) + 0.3,
+      })
     }
-
     setModalMode('closed')
-    resumeGameInstance()
+    Game.getInstance()?.resumeGame()
+  }
+
+  const togglePause = () => {
+    const currentGame = Game.getInstance()
+    if (currentGame?.isPaused) {
+      currentGame.resumeGame()
+      setModalMode('closed')
+    } else {
+      currentGame?.pauseGame()
+      setModalMode('pause')
+    }
   }
 
   return (
@@ -107,16 +83,31 @@ export const GamePage: FC = () => {
           <PauseIcon
             className={styles.btn}
             fontSize="large"
-            onClick={() => {
-              pauseGameInstance()
-              setModalMode('pause')
-            }}
+            onClick={togglePause}
           />
         </Box>
       </Box>
       <div className={styles.gameContainer} ref={gameContainerRef}></div>
 
-      <GameModal mode={modalMode} modalAction={modalAction} />
+      <GameModal
+        mode={modalMode}
+        modalAction={handleModalAction}
+        isGamepadOn={isGamepadOn}
+      />
     </Box>
   )
+}
+
+export const initGamePage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

@@ -1,11 +1,8 @@
-@import '@styles/vars.scss';
-@import '@styles/mixins.scss';
-
 .wrapper {
   @include center-flex;
   width: 100vw;
   height: 100vh;
-  background-color: $color-bg-primary;
+  background-color: var(--color-bg-primary);
 }
 
 .main {
@@ -14,7 +11,7 @@
   max-width: 915px;
   gap: 33px;
   padding: 47px 47px 72px;
-  background-color: $color-bg-tertiary;
+  background-color: var(--color-bg-tertiary);
   border-radius: 12px;
 }
 

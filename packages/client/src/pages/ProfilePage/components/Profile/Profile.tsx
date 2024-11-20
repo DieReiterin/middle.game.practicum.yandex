@@ -1,32 +1,34 @@
 import { FC, useEffect, useState } from 'react'
 import {
-  Subtitle,
+  Button,
+  Image,
   InputField,
   InputFile,
   Link,
-  Button,
-  Image,
   PageTitle,
+  Subtitle,
 } from '../UI/index'
 import { UserFields } from '../UserFields'
 import styles from './Profile.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { PathsRoutes } from '@/router/types'
 import api, { Methods } from '@/api'
-import { passwordURL, avatarURL, profileURL } from '@/api/constants'
+import { avatarURL, passwordURL, profileURL } from '@/api/constants'
 import { AxiosResponse, isAxiosError } from 'axios'
-import { useAppDispatch } from '@/ducks/store'
+import { PageInitArgs, useAppDispatch } from '@/ducks/store'
 import {
-  userSelector,
+  getUser,
+  logout,
   userAvatarSelector,
   userErrorSelector,
   UserResponse as TUser,
-  getUser,
-  logout,
+  userSelector,
 } from '@/ducks/user'
 import { useSelector } from 'react-redux'
 
 import { TLocalUser } from '../types'
+import { usePage } from '@/hooks'
+
 type TEditMode = 'default' | 'editAvatar' | 'editProfile' | 'editPassword'
 type MatchingKeys = Extract<keyof TLocalUser, keyof TUser>
 type MatchingFields = Pick<TLocalUser, MatchingKeys>
@@ -37,6 +39,8 @@ export const Profile: FC = () => {
   const serverError = useSelector(userErrorSelector)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  usePage({ initPage: initProfilePage })
 
   const [localUser, setLocalUser] = useState<TLocalUser>({
     email: '',
@@ -57,11 +61,11 @@ export const Profile: FC = () => {
 
   useEffect(() => {
     if (user) {
-      mapUserToLocal()
+      updateLocalUser()
     }
   }, [user])
 
-  const mapUserToLocal = () => {
+  const updateLocalUser = () => {
     if (!user) {
       return
     }
@@ -73,12 +77,11 @@ export const Profile: FC = () => {
         return acc
       }, {} as MatchingFields)
 
-      const newLocalUser = { ...prevLocalUser, ...updatedFields }
-      return newLocalUser
+      return { ...prevLocalUser, ...updatedFields }
     })
   }
 
-  const clickSaveBtn = () => {
+  const handleChange = () => {
     if (editMode === 'editProfile') {
       requestChangeUserFields()
     } else if (editMode === 'editPassword') {
@@ -108,19 +111,28 @@ export const Profile: FC = () => {
       }
     }
   }
-  const requestChangePassword = async () => {
+
+  const isPasswordValid = () => {
     if (
       !passwordFields.old_password ||
       !passwordFields.new_password ||
       !passwordFields.repeat_password
     ) {
       setAlertText('Заполните все поля')
-      return
+      return false
     }
+
     if (passwordFields.new_password !== passwordFields.repeat_password) {
       setAlertText('Пароли не совпадают')
-      return
+      return false
     }
+
+    return true
+  }
+
+  const requestChangePassword = async () => {
+    if (!isPasswordValid()) return
+
     const dataToSend = {
       oldPassword: passwordFields.old_password,
       newPassword: passwordFields.new_password,
@@ -288,7 +300,7 @@ export const Profile: FC = () => {
         <div className={styles.profileRow}>
           <Button
             text="Сохранить"
-            onClick={() => clickSaveBtn()}
+            onClick={() => handleChange()}
             className={styles.footerBtn}
           />
         </div>
@@ -323,4 +335,18 @@ export const Profile: FC = () => {
       {renderFooter(editMode === 'editPassword' || editMode === 'editProfile')}
     </div>
   )
+}
+
+export const initProfilePage = async ({
+  dispatch,
+  state,
+  cookies,
+}: PageInitArgs) => {
+  const queue: Array<Promise<unknown>> = []
+
+  if (!userSelector(state)) {
+    queue.push(dispatch(getUser(cookies)))
+  }
+
+  return Promise.all(queue)
 }

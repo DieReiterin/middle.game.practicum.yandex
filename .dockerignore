@@ -1,0 +1,9 @@
+node_modules
+tmp
+packages/*/dist
+packages/client/ssr-dist
+packages/client/dev-dist
+packages/*/node_modules
+docs
+.idea
+.github
