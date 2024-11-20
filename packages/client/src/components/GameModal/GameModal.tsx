@@ -5,8 +5,9 @@ import { PathsRoutes } from '@/router/types'
 import styles from './GameModal.module.scss'
 import { actions } from './const'
 import { TGameModalMode, TGameModalAction } from './types'
-import { getUser, sendGameData } from '@/ducks/user'
 import { useAppDispatch } from '@/ducks/store'
+import { useSelector } from 'react-redux'
+import { userSelector, sendGameData } from '@/ducks/user'
 
 interface IGameModalProps {
   mode: TGameModalMode
@@ -20,18 +21,9 @@ export const GameModal: FC<IGameModalProps> = ({
   isGamepadOn,
 }) => {
   const dispatch = useAppDispatch()
-  const [user, setUser] = useState<{ first_name: string } | null>(null)
+  const user = useSelector(userSelector)
   const [points, setPoints] = useState(0)
   const [level, setLevel] = useState(1)
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const userData = await dispatch(getUser()).unwrap()
-      setUser(userData)
-    }
-
-    fetchUser()
-  }, [dispatch])
 
   useEffect(() => {
     if (mode === 'win') {
@@ -50,7 +42,7 @@ export const GameModal: FC<IGameModalProps> = ({
         }),
       )
     }
-  }, [mode])
+  }, [mode, level, points, user])
 
   const renderTitle = (text: string) => (
     <Typography
