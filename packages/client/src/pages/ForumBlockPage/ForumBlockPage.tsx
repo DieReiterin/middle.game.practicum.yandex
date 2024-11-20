@@ -12,13 +12,12 @@ import {
   getUser,
   GetTopicResponse,
   userSelector,
+  AddMessageParams,
 } from '@/ducks/user'
-// import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 
 const ForumBlockPage: React.FC = () => {
   usePage({ initPage: initForumBlockPage })
-  // const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleHomeClick = () => {
     navigate('/forum')
@@ -38,11 +37,6 @@ const ForumBlockPage: React.FC = () => {
   const fetchTopic = async () => {
     try {
       const data = await getTopic(topicId)
-
-      console.log('getTopic ForumBlockPage DATA')
-      console.log(data)
-
-      // dispatch(getTopic(topicId))
       setTopicData(data)
     } catch (e) {
       console.error('getTopic error:', e)
@@ -53,13 +47,28 @@ const ForumBlockPage: React.FC = () => {
     fetchTopic()
   }, [])
 
-  const handleAddMessage = async () => {
-    const params = {
-      user_name: user.display_name,
-      message_text: message,
-    }
+  const sendMessage = async () => {
+    try {
+      const params: AddMessageParams = {
+        user_name: user.display_name,
+        message_text: message,
+      }
 
-    addMessageToTopic({ topicId: topicId, params })
+      const data = await addMessageToTopic(topicId, params)
+
+      if (
+        data &&
+        'message' in data &&
+        data.message !== 'Message added successfully'
+      ) {
+        throw new Error('server error')
+      }
+
+      await fetchTopic()
+      setMessage('')
+    } catch (e) {
+      console.error('sendMessage error:', e)
+    }
   }
 
   return (
@@ -85,7 +94,7 @@ const ForumBlockPage: React.FC = () => {
         <Button
           variant="contained"
           endIcon={<SendIcon />}
-          onClick={handleAddMessage}
+          onClick={sendMessage}
           disabled={!message.trim()}>
           Добавить
         </Button>

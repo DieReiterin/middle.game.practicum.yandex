@@ -265,27 +265,24 @@ export const getAllTopics = async () => {
   }
 }
 
-export const addTopic = createAsyncThunk(
-  'topics/createData',
-  async (params: AddTopicParams, { rejectWithValue }) => {
-    try {
-      const response = await api<undefined, AxiosResponse<CreateTopicResponse>>(
-        {
-          url: allTopicsURL,
-          method: Methods.POST,
-          data: params,
-        },
-      )
+export const addTopic = async (
+  params: AddTopicParams,
+): Promise<CreateTopicResponse> => {
+  try {
+    const response: AxiosResponse<CreateTopicResponse> = await axios({
+      url: allTopicsURL,
+      method: Methods.POST,
+      data: params,
+    })
 
-      return response.data
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-      return rejectWithValue(err?.response?.data)
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при создании темы')
     }
-  },
-)
+    throw new Error('Неизвестная ошибка')
+  }
+}
 
 export const getTopic = async (topicId: number) => {
   try {
@@ -299,28 +296,25 @@ export const getTopic = async (topicId: number) => {
   }
 }
 
-export const addMessageToTopic = createAsyncThunk(
-  'topics/addMessage',
-  async (
-    { topicId, params }: { topicId: number; params: AddMessageParams },
-    { rejectWithValue },
-  ) => {
-    try {
-      const response = await api<undefined, AxiosResponse<AddMessageResponse>>({
-        url: getOneTopicURL(topicId),
-        method: Methods.POST,
-        data: params,
-      })
+export const addMessageToTopic = async (
+  topicId: number,
+  params: AddMessageParams,
+): Promise<AddMessageResponse> => {
+  try {
+    const response: AxiosResponse<AddMessageResponse> = await axios({
+      url: getOneTopicURL(topicId),
+      method: Methods.POST,
+      data: params,
+    })
 
-      return response.data
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-      return rejectWithValue(err?.response?.data)
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при добавлении сообщения')
     }
-  },
-)
+    throw new Error('Неизвестная ошибка')
+  }
+}
 
 const userStateSlice = createSlice({
   name: 'userInfo',

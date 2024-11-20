@@ -30,22 +30,22 @@ const ForumModal: React.FC<ForumModalProps> = ({
     setNewDescription('')
   }
 
-  // const getTopics = async () => {
-  //   try {
-  //     const data = await getAllTopics()
-  //     setTopicsData(data)
-  //   } catch (e) {
-  //     console.error('fetchTopics error:', e)
-  //   }
-  // }
+  const createTopic = async () => {
+    try {
+      const params: ForumProps = {
+        topic_name: newTopic,
+        topic_descr: newDescription,
+      }
+      const data = await addTopic(params)
 
-  const handleAddTopic = async () => {
-    const params: ForumProps = {
-      topic_name: newTopic,
-      topic_descr: newDescription,
+      if (data && 'message' in data && data.message !== 'Topic created') {
+        throw new Error('server error')
+      }
+      handleModalClose()
+      getTopics()
+    } catch (e) {
+      console.error('createTopic error:', e)
     }
-    addTopic(params)
-    getTopics()
   }
 
   return (
@@ -75,7 +75,7 @@ const ForumModal: React.FC<ForumModalProps> = ({
         />
         <Button
           variant="contained"
-          onClick={handleAddTopic}
+          onClick={createTopic}
           disabled={isButtonDisabled}>
           Добавить новую тему
         </Button>
