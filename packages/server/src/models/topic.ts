@@ -7,7 +7,7 @@ class Topic extends Model {
   public topic_name!: string
   public topic_descr!: string
   public messages_count!: number
-  public messages: Message[] = []
+  public Messages?: Message[]
 
   public static override associations: {
     messages: Association<Topic, Message>
@@ -40,8 +40,5 @@ Topic.init(
     timestamps: false,
   },
 )
-
-Topic.hasMany(Message, { foreignKey: 'topic_id', as: 'messages' })
-Message.belongsTo(Topic, { foreignKey: 'topic_id', as: 'topic' })
 
 export default Topic

@@ -65,4 +65,7 @@ Message.init(
 Message.belongsTo(Emojis, { foreignKey: 'emoji_id' })
 Emojis.hasMany(Message, { foreignKey: 'emoji_id' })
 
+Topic.hasMany(Message, { foreignKey: 'topic_id' })
+Message.belongsTo(Topic, { foreignKey: 'topic_id' })
+
 export default Message

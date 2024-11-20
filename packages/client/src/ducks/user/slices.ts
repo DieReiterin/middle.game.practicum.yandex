@@ -10,9 +10,9 @@ import {
   GameDataType,
   LeaderboardParams,
   Topic,
-  CreateTopicParams,
+  AddTopicParams,
   CreateTopicResponse,
-  TopicResponse,
+  GetTopicResponse,
   AddMessageParams,
   AddMessageResponse,
 } from './types'
@@ -31,8 +31,8 @@ import {
   signupURL,
   staticURL,
   apiPrefix,
-  AllTopicsURL,
-  topicURL,
+  allTopicsURL,
+  getOneTopicURL,
 } from '@/api/constants'
 
 const initialState: UserState = {
@@ -43,6 +43,7 @@ const initialState: UserState = {
   serviceId: '',
 }
 
+// User API
 export const signup = createAsyncThunk(
   'user/signup',
   async (data: SignupData, { dispatch, rejectWithValue }) => {
@@ -88,50 +89,6 @@ export const signin = createAsyncThunk(
   },
 )
 
-export const getOauthServiceId = createAsyncThunk(
-  'user/getOauthServiceId',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await api<undefined, AxiosResponse<ServiceIdResponse>>({
-        baseURL: apiPrefix,
-        url: serviceIdURL,
-        params: { redirect_uri: redirectURL },
-      })
-
-      const { service_id } = response.data
-
-      return service_id
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
-
-export const getOauthAccessToken = createAsyncThunk(
-  'user/getOauthAccessToken',
-  async (serviceId: string, { rejectWithValue, dispatch }) => {
-    try {
-      await api<undefined, AxiosResponse<Blob>>({
-        baseURL: apiPrefix,
-        url: oauthURL,
-        method: Methods.POST,
-        data: { redirect_uri: redirectURL, code: serviceId },
-      })
-
-      dispatch(getUser())
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
-
 export const logout = createAsyncThunk(
   'user/logout',
   async (_, { rejectWithValue, dispatch }) => {
@@ -143,120 +100,6 @@ export const logout = createAsyncThunk(
       })
       dispatch(actions.reset())
       dispatch(getUser())
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
-
-export const sendGameData = createAsyncThunk(
-  'leaderboard',
-  async (gameData: GameDataType) => {
-    try {
-      const response = await api({
-        baseURL: apiPrefix,
-        url: addUserToLeaderbordURL,
-        method: Methods.POST,
-        data: {
-          data: gameData,
-          ratingFieldName: 'result',
-        },
-      })
-      return response.data
-    } catch (error) {
-      throw error
-    }
-  },
-)
-
-export const getLeaderboard = createAsyncThunk(
-  'leaderboard/getData',
-  async (params: LeaderboardParams, { rejectWithValue }) => {
-    try {
-      const response = await api<undefined, AxiosResponse<LeaderboardParams>>({
-        baseURL: apiPrefix,
-        url: getAllLeaderboardURL,
-        method: Methods.POST,
-        data: params,
-      })
-
-      return response.data
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
-
-//Получение списка топиков: Метод запроса - GET Адрес - /topics
-export const fetchTopics = async () => {
-  try {
-    const response = await axios.get(AllTopicsURL)
-    return response.data
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
-      throw new Error(err.response?.data || 'Ошибка при загрузке тем')
-    }
-    throw new Error('Неизвестная ошибка')
-  }
-}
-
-//Создать новый топик: Метод запроса - POST Адрес - /topics
-export const createTopic = createAsyncThunk(
-  'topics/createData',
-  async (params: CreateTopicParams, { rejectWithValue }) => {
-    try {
-      const response = await api<undefined, AxiosResponse<CreateTopicResponse>>(
-        {
-          url: AllTopicsURL,
-          method: Methods.POST,
-          data: params,
-        },
-      )
-
-      return response.data
-    } catch (err) {
-      if (!isAxiosError(err)) {
-        throw err
-      }
-      return rejectWithValue(err?.response?.data)
-    }
-  },
-)
-
-//Получить один топик и его сообщения: Метод запроса - GET Адрес - /topic/:topic_id
-export const getTopic = async (topicId: number) => {
-  try {
-    const response = await axios.get(topicURL(topicId))
-    return response.data
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
-      throw new Error(err.response?.data || 'Ошибка при загрузке тем')
-    }
-    throw new Error('Неизвестная ошибка')
-  }
-}
-
-//Добавить сообщение в топик: Метод запроса - POST Адрес - /topic/:topic_id
-export const addMessageToTopic = createAsyncThunk(
-  'topics/addMessage',
-  async (
-    { topicId, params }: { topicId: number; params: AddMessageParams },
-    { rejectWithValue },
-  ) => {
-    try {
-      const response = await api<undefined, AxiosResponse<AddMessageResponse>>({
-        url: topicURL(topicId),
-        method: Methods.POST,
-        data: params,
-      })
-
-      return response.data
     } catch (err) {
       if (!isAxiosError(err)) {
         throw err
@@ -321,6 +164,157 @@ export const getUserAvatar = createAsyncThunk(
     }
   },
 )
+
+// Oauth API
+export const getOauthServiceId = createAsyncThunk(
+  'user/getOauthServiceId',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<ServiceIdResponse>>({
+        baseURL: apiPrefix,
+        url: serviceIdURL,
+        params: { redirect_uri: redirectURL },
+      })
+
+      const { service_id } = response.data
+
+      return service_id
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+export const getOauthAccessToken = createAsyncThunk(
+  'user/getOauthAccessToken',
+  async (serviceId: string, { rejectWithValue, dispatch }) => {
+    try {
+      await api<undefined, AxiosResponse<Blob>>({
+        baseURL: apiPrefix,
+        url: oauthURL,
+        method: Methods.POST,
+        data: { redirect_uri: redirectURL, code: serviceId },
+      })
+
+      dispatch(getUser())
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+// Leaderboard API
+export const sendGameData = createAsyncThunk(
+  'leaderboard',
+  async (gameData: GameDataType) => {
+    try {
+      const response = await api({
+        baseURL: apiPrefix,
+        url: addUserToLeaderbordURL,
+        method: Methods.POST,
+        data: {
+          data: gameData,
+          ratingFieldName: 'result',
+        },
+      })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  },
+)
+
+export const getLeaderboard = createAsyncThunk(
+  'leaderboard/getData',
+  async (params: LeaderboardParams, { rejectWithValue }) => {
+    try {
+      const response = await api<undefined, AxiosResponse<LeaderboardParams>>({
+        baseURL: apiPrefix,
+        url: getAllLeaderboardURL,
+        method: Methods.POST,
+        data: params,
+      })
+
+      return response.data
+    } catch (err) {
+      if (!isAxiosError(err)) {
+        throw err
+      }
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
+
+// Forum API
+export const getAllTopics = async () => {
+  try {
+    const response = await axios.get(allTopicsURL)
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'getAllTopics error')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
+
+export const addTopic = async (
+  params: AddTopicParams,
+): Promise<CreateTopicResponse> => {
+  try {
+    const response: AxiosResponse<CreateTopicResponse> = await axios({
+      url: allTopicsURL,
+      method: Methods.POST,
+      data: params,
+    })
+
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при создании темы')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
+
+export const getTopic = async (topicId: number) => {
+  try {
+    const response = await axios.get(getOneTopicURL(topicId))
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'getTopic error')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
+
+export const addMessageToTopic = async (
+  topicId: number,
+  params: AddMessageParams,
+): Promise<AddMessageResponse> => {
+  try {
+    const response: AxiosResponse<AddMessageResponse> = await axios({
+      url: getOneTopicURL(topicId),
+      method: Methods.POST,
+      data: params,
+    })
+
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при добавлении сообщения')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
 
 const userStateSlice = createSlice({
   name: 'userInfo',

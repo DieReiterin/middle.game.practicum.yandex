@@ -2,11 +2,6 @@ export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL}`
 export const apiPrefix = '/api/v2'
 export const apiForum = '/api/forum'
 export const baseURL = `${apiHost}${apiPrefix}`
-export const addUserToLeaderbordURL = baseURL + '/leaderboard'
-export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
-export const AllTopicsURL = baseURL + apiForum + '/topics'
-export const topicURL = (topicId: number) =>
-  `${baseURL}${apiForum}/topic/${topicId}`
 
 export const oauth = '/oauth'
 export const authURL = '/auth'
@@ -21,6 +16,14 @@ export const profileURL = userURL + '/profile'
 export const avatarURL = profileURL + '/avatar'
 export const serviceIdURL = oauth + '/yandex/service-id'
 export const oauthURL = oauth + '/yandex'
+
+export const addUserToLeaderbordURL = baseURL + '/leaderboard'
+export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
+
+// forum api
+export const allTopicsURL = apiHost + apiForum + '/topics'
+export const getOneTopicURL = (topicId: number) =>
+  `${apiHost}${apiForum}/topic/${topicId}`
 
 // theme api
 const themePrefix = '/api/themes'
