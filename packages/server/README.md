@@ -8,7 +8,7 @@
 
 - для продакшна переменные POSTGRES_HOST и POSTGRES_PORT_INTERNAL должны быть как в `.env.sample`
 
-- локальный запуск ПОКА НЕ ОТДЕБАЖЕН (но вообще для локального запуска POSTGRES_HOST=localhost, POSTGRES_PORT_INTERNAL=5433)
+- локальный запуск ПОКА НЕ ОТДЕБАЖЕН (но вообще для локального запуска POSTGRES_HOST=localhost, POSTGRES_PORT_CONNECTION=5422, детали в корневом README)
 
 3. Соберите контейнеры командой `docker-compose build --no-cache` и запустите через `docker-compose up -d`
 
