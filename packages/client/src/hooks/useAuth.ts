@@ -23,19 +23,15 @@ export const useAuth = () => {
   const { search } = useLocation()
   const { code } = parseQueryString(search)
 
-  const fetchUserData = useCallback((): void => {
-    dispatch(getUser())
-  }, [dispatch])
-
-  const getOAuthToken = useCallback(() => {
-    if (code) dispatch(getOauthAccessToken(code))
-  }, [code, dispatch])
-
   useEffect(() => {
-    if (search) {
-      getOAuthToken()
-    } else fetchUserData()
-  }, [search, getOAuthToken, fetchUserData])
+    if (typeof window !== 'undefined') {
+      if (search && code) {
+        dispatch(getOauthAccessToken(code))
+      } else if (!user) {
+        dispatch(getUser())
+      }
+    }
+  }, [search, code, dispatch])
 
   return { user, loader }
 }

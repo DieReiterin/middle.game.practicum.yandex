@@ -24,6 +24,7 @@ import { PageInitArgs } from '@/ducks/store'
 import { getUser, userSelector } from '@/ducks/user'
 
 export const GamePage: FC = () => {
+  if (typeof window === 'undefined') return null
   const [modalMode, setModalMode] = useState<TGameModalMode>('start')
   const gameContainerRef = useRef<HTMLDivElement>(null)
   const isGamepadOn = useGamepadStatus()

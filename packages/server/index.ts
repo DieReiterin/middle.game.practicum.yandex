@@ -18,7 +18,6 @@ import type { EmotionCache } from '@emotion/cache'
 import createEmotionServer from '@emotion/server/create-instance'
 import themeRouter from './src/routes/themeRoutes'
 import forumRouter from './src/routes/forumRoutes'
-import themeRouter from './src/routes/themeRoutes'
 import emojisRouter from './src/routes/emojisRoutes'
 
 export const apiHost = 'https://ya-praktikum.tech'
@@ -33,7 +32,7 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
   let srcPath = ''
   const distPath = path.resolve(__dirname, 'client', 'dist')
   if (isDev) {
-    srcPath = path.resolve(__dirname, 'client')
+    srcPath = path.resolve(__dirname, '..', 'client')
   }
   const ssrClientPath = path.resolve(
     __dirname,
