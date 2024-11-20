@@ -13,12 +13,14 @@ import {
   usePage,
 } from '@/hooks'
 import {
-  colors,
-  textures,
   computerDodgeProbability,
   computerAttackSpeedMultiplier,
   maxWidth,
   maxHeight,
+  ground,
+  sky,
+  player1,
+  player2,
 } from './constants'
 import { PageInitArgs } from '@/ducks/store'
 import { getUser, userSelector } from '@/ducks/user'
@@ -35,8 +37,10 @@ export const GamePage: FC = () => {
       width: gameWidth,
       height: gameHeight,
       callback: (type: GameStates) => setModalMode(type),
-      colors,
-      textures,
+      ground,
+      sky,
+      player1,
+      player2,
       computerDodgeProbability,
       computerAttackSpeedMultiplier,
     }),

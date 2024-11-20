@@ -16,20 +16,20 @@ describe('Game', () => {
       width: 800,
       height: 600,
       sky: {
-        textures: 'path/to/sky.png',
-        colors: 'lightblue',
+        texture: 'path/to/sky.png',
+        color: 'lightblue',
       },
       ground: {
-        textures: 'path/to/ground.png',
-        colors: 'green',
+        texture: 'path/to/ground.png',
+        color: 'green',
       },
       player1: {
-        textures: 'path/to/player1.png',
-        colors: 'red',
+        texture: 'path/to/player1.png',
+        color: 'red',
       },
       player2: {
-        textures: 'path/to/player2.png',
-        colors: 'blue',
+        texture: 'path/to/player2.png',
+        color: 'blue',
       },
       callback: jest.fn(),
     }

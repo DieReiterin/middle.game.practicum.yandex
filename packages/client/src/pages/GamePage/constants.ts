@@ -1,20 +1,26 @@
 import sky1 from '@/game/textures/a-blue-sky.jpg'
 import ground1 from '@/game/textures/ground1.jpg'
-import player1 from '@/game/textures/player1.png'
-import player2 from '@/game/textures/player2.png'
+import player1img from '@/game/textures/player1.png'
+import player2img from '@/game/textures/player2.png'
 
-export const colors = {
-  ground: '#654321',
-  sky: '#87CEEB',
-  player1: '#0000FF',
-  player2: '#FF0000',
+export const ground = {
+  color: '#654321',
+  texture: ground1,
 }
 
-export const textures = {
-  ground: ground1,
-  sky: sky1,
-  player1: player1,
-  player2: player2,
+export const sky = {
+  color: '#87CEEB',
+  texture: sky1,
+}
+
+export const player1 = {
+  color: '#0000FF',
+  texture: player1img,
+}
+
+export const player2 = {
+  color: '#FF0000',
+  texture: player2img,
 }
 
 export const computerDodgeProbability = 0.05
