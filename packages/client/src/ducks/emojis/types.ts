@@ -5,7 +5,7 @@ export type Emoji = {
 }
 
 export type EmojiState = {
-  emoji: Emoji[]
+  emojis: Emoji[]
   loading: boolean
   error: string | null
 }

@@ -21,9 +21,10 @@ export const addUserToLeaderbordURL = baseURL + '/leaderboard'
 export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
 
 // forum api
-export const allTopicsURL = apiHost + apiForum + '/topics'
+export const allTopicsURL = apiForum + '/topics'
 export const getOneTopicURL = (topicId: number) =>
-  `${apiHost}${apiForum}/topic/${topicId}`
+  `${apiForum}/topic/${topicId}`
+export const allEmojiToMessageUrl = `${apiForum}/add-emoji-to-message`
 
 // theme api
 const themePrefix = '/api/themes'
@@ -33,7 +34,7 @@ export const getUserThemeUrl = (userId: number) =>
 export const setUserThemeUrl = `${themePrefix}/theme`
 
 // emojis
-export const getEmojisUrl = `${apiHost}/api/emojis/getEmojis`
+export const getEmojisUrl = `/api/emojis/getEmojis`
 
 //заменить после деплоя
 export const redirectURL = apiHost
