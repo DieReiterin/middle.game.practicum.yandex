@@ -1,8 +1,8 @@
 import { GameStates } from './constants'
 
 export interface Appearance {
-  textures?: string
-  colors?: string
+  texture?: string
+  color?: string
 }
 
 export interface GameConfig {

@@ -2,9 +2,9 @@
 
 ### Игра для 2 модуля Яндекс.Практикума
 
-![preview.png](packages/client/public/images/preview.png)
+![preview.png](packages/client/public/images/rawPreview.png)
 
-- [Видео для командного зачёта](https://disk.yandex.ru/i/bemFDp9nvTfZHA)
+- Видео для командного зачёта: [первое](https://disk.yandex.ru/i/bemFDp9nvTfZHA), [второе](https://disk.yandex.ru/i/iu2oCUOj1yAxTA)
 
 - [Прототип в фигме](https://www.figma.com/design/JxDvcmFWCqOx6ll6lmoTRD/MAGE-FIGHT)
 
@@ -16,7 +16,11 @@
 
 ## Инструкция по работе с исходными файлами репозитория
 
-### Как запускать
+### Как запускать в Docker-контейнерах
+
+- [Инструкция](packages/server/README.md)
+
+### Как запускать локально
 
 1. Убедитесь что у вас установлен `node` 20 версии и `docker`
 2. Выполните команду `yarn bootstrap` для установки зависимостей
