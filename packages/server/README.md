@@ -1,26 +1,12 @@
-### Подготовка и запуск проекта
-
-1. Установите зависимости командой `yarn bootstrap`
-
-2. Создайте файлы `.env` и настройте их для продакшна или локального запуска
-
-- должны быть 3 файла `.env` по образцам `.env.sample`: в корне проекта, packages/client и packages/server
-
-- для продакшна переменные POSTGRES_HOST и POSTGRES_PORT_INTERNAL должны быть как в `.env.sample`
-
-- локальный запуск ПОКА НЕ ОТДЕБАЖЕН (но вообще для локального запуска POSTGRES_HOST=localhost, POSTGRES_PORT_CONNECTION=5422, детали в корневом README)
-
-3. Соберите контейнеры командой `docker-compose build --no-cache` и запустите через `docker-compose up -d`
-
-4. Проект доступен на http://localhost:3001/
-
 ### Подготовка базы данных
 
-1. (Если вы в продакшне: переходим в контейнер через `docker exec -it prakticum-server sh`, далее все команды в нём, выход - `exit`)
+1. Переходим в терминале в папку сервера - `cd packages/server`
 
-2. Запуск миграций (сейчас это 4 миграции создания таблиц) - `yarn sequelize db:migrate`
+2. (Если вы в продакшне: переходим в контейнер через `docker exec -it prakticum-server sh`, далее все команды в нём, выход - `exit`)
 
-3. Наполнение таблиц данными - `yarn sequelize db:seed:all`
+3. Запуск миграций - `yarn sequelize db:migrate`
+
+4. Наполнение таблиц данными - `yarn sequelize db:seed:all`
 
 ### Откат изменений в базе данных, удаление таблиц
 
@@ -28,7 +14,11 @@
 
 2. Удаление таблиц - `yarn sequelize db:seed:undo:all`
 
-### Апи форума (пример адреса - `http://localhost:3001/api/forum/topic/1`)
+---
+
+### Апи форума
+
+#### Пример полного адреса - `http://localhost:3001/api/forum/topic/1`
 
 1. Получение списка топиков:
 
