@@ -5,7 +5,7 @@ import { Button, SvgIcon, TextField } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import ForumMessage from './components/ForumMessage/ForumMessage'
 import { usePage } from '@/hooks'
-import { PageInitArgs } from '@/ducks/store'
+import { PageInitArgs, useAppDispatch } from '@/ducks/store'
 import {
   addMessageToTopic,
   getTopic,
@@ -15,8 +15,12 @@ import {
   AddMessageParams,
 } from '@/ducks/user'
 import { useSelector } from 'react-redux'
+import { emojisSelector, fetchEmojis } from '@/ducks/emojis'
 
 const ForumBlockPage: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const emojis = useSelector(emojisSelector)
+
   usePage({ initPage: initForumBlockPage })
   const navigate = useNavigate()
   const handleHomeClick = () => {
@@ -24,7 +28,7 @@ const ForumBlockPage: React.FC = () => {
   }
   const { id } = useParams()
   const topicId = Number(id)
-  const user = useSelector(userSelector) || { display_name: 'Anonymous' }
+  const user = useSelector(userSelector)
   const [topicData, setTopicData] = useState<GetTopicResponse>({
     topic_id: -1,
     topic_name: '',
@@ -45,12 +49,13 @@ const ForumBlockPage: React.FC = () => {
 
   useEffect(() => {
     fetchTopic()
+    dispatch(fetchEmojis())
   }, [])
 
   const sendMessage = async () => {
     try {
       const params: AddMessageParams = {
-        user_name: user.display_name,
+        user_name: user?.display_name || 'Anonymous',
         message_text: message,
       }
 
@@ -100,9 +105,18 @@ const ForumBlockPage: React.FC = () => {
         </Button>
       </div>
       <div className={styles.pageForumMessage}>
-        {topicData.messages.map((msg, index) => (
-          <ForumMessage key={index} message={msg.message_text} />
-        ))}
+        {topicData.messages.map(
+          ({ message_id, message_text, user_name, emoji_id }) => (
+            <ForumMessage
+              key={message_id}
+              emojis={emojis}
+              message={message_text}
+              emoji={emoji_id}
+              userName={user_name}
+              messageId={message_id}
+            />
+          ),
+        )}
       </div>
     </div>
   )

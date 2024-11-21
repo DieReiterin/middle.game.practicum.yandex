@@ -1,14 +1,12 @@
 import { Box } from '@mui/material'
 import { Navigation, NavigationProps } from './components'
 import { PathsRoutes } from '../../router/types'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import styles from './Main.module.scss'
 import logo from '../../assets/images/logo.png'
 import { usePage } from '@/hooks'
-import { PageInitArgs, useAppDispatch } from '@/ducks/store'
+import { PageInitArgs } from '@/ducks/store'
 import { getUser, userSelector } from '@/ducks/user'
-import { emojisSelector, fetchEmojis } from '@/ducks/emojis'
-import { useSelector } from 'react-redux'
 
 const buttons: NavigationProps['buttons'] = [
   { title: 'Начать игру', to: PathsRoutes.GamePage },
@@ -18,14 +16,6 @@ const buttons: NavigationProps['buttons'] = [
 ]
 
 export const Main: FC = () => {
-  const dispatch = useAppDispatch()
-  const emojis = useSelector(emojisSelector)
-  console.log(emojis, 'emojis')
-
-  useEffect(() => {
-    dispatch(fetchEmojis())
-  }, [])
-
   usePage({ initPage: initMainPage })
 
   return (

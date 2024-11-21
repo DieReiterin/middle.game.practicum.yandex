@@ -58,15 +58,19 @@ const Forum = () => {
           </div>
         </div>
         <div className={styles.forumBlockContent}>
-          {topicsData.map(topic => (
-            <div key={topic.topic_id} className={styles.forumBlockContentBlock}>
-              <ForumBlock
-                name={topic.topic_name}
-                messages={topic.messages_count}
-                onClick={() => handleBlockClick(topic.topic_id)}
-              />
-            </div>
-          ))}
+          {Array.isArray(topicsData) &&
+            topicsData.length > 0 &&
+            topicsData.map(topic => (
+              <div
+                key={topic.topic_id}
+                className={styles.forumBlockContentBlock}>
+                <ForumBlock
+                  name={topic.topic_name}
+                  messages={topic.messages_count}
+                  onClick={() => handleBlockClick(topic.topic_id)}
+                />
+              </div>
+            ))}
         </div>
         <div className={styles.forumBlockFooter}>
           <ButtonLink

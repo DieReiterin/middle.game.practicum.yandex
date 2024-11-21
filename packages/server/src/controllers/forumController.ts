@@ -12,6 +12,7 @@ export const getAllTopics = async (
     const topics = await Topic.findAll({
       attributes: ['topic_id', 'topic_name', 'topic_descr', 'messages_count'],
     })
+
     if (topics.length === 0) {
       res.status(200).json({ message: 'No topics found' })
     } else {
@@ -19,6 +20,7 @@ export const getAllTopics = async (
     }
   } catch (error) {
     handleError(res, error)
+    res.status(504).json([])
   }
 }
 
@@ -63,6 +65,8 @@ export const getTopic = async (req: Request, res: Response): Promise<void> => {
       const topicMessages = topic.Messages?.map(message => ({
         user_name: message.user_name,
         message_text: message.message_text,
+        emoji_id: message.emoji_id,
+        message_id: message.message_id,
       }))
       const response = {
         topic_id: topic.topic_id,
@@ -117,5 +121,32 @@ export const addMessageToTopic = async (
     }
   } catch (error) {
     handleError(res, error)
+  }
+}
+
+export const addEmojiToMessage = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const { emoji_id, message_id } = req.body
+
+  try {
+    const message = await Message.findByPk(message_id)
+
+    if (!message) {
+      throw new Error(`Сообщение с id ${message_id} не найдено`)
+    }
+
+    await message.update({ emoji_id })
+    const response = {
+      message: 'Emoji added successfully',
+      data: {
+        message_id: message.message_id,
+      },
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    console.error(error)
+    throw error
   }
 }

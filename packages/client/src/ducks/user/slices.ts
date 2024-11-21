@@ -15,6 +15,7 @@ import {
   GetTopicResponse,
   AddMessageParams,
   AddMessageResponse,
+  AddEmojiToMessageParams,
 } from './types'
 
 import axios, { AxiosResponse, isAxiosError } from 'axios'
@@ -33,6 +34,7 @@ import {
   apiPrefix,
   allTopicsURL,
   getOneTopicURL,
+  allEmojiToMessageUrl,
 } from '@/api/constants'
 
 const initialState: UserState = {
@@ -311,6 +313,25 @@ export const addMessageToTopic = async (
   } catch (err) {
     if (axios.isAxiosError(err)) {
       throw new Error(err.response?.data || 'Ошибка при добавлении сообщения')
+    }
+    throw new Error('Неизвестная ошибка')
+  }
+}
+
+export const addEmojiToMessage = async (
+  params: AddEmojiToMessageParams,
+): Promise<AddMessageResponse> => {
+  try {
+    const response: AxiosResponse<AddMessageResponse> = await axios({
+      url: allEmojiToMessageUrl,
+      method: Methods.POST,
+      data: params,
+    })
+
+    return response.data
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      throw new Error(err.response?.data || 'Ошибка при добавлении Emoji')
     }
     throw new Error('Неизвестная ошибка')
   }
