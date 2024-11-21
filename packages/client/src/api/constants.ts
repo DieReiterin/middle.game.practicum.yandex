@@ -1,4 +1,4 @@
-export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL}`
+export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL || 'http://localhost:3000'}`
 export const apiPrefix = '/api/v2'
 export const apiForum = '/api/forum'
 export const baseURL = `${apiHost}${apiPrefix}`

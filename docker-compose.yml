@@ -12,6 +12,8 @@ services:
     ports:
       - '${SERVER_PORT}:${SERVER_PORT}'
     environment:
+      POSTGRES_PORT_CONNECTION: ${POSTGRES_PORT_INTERNAL}
+      POSTGRES_HOST: 'postgres'
       SERVER_PORT: ${SERVER_PORT}
     depends_on:
       - postgres

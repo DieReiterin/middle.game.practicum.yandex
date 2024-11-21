@@ -14,7 +14,7 @@ export const getAllTopics = async (
     })
 
     if (topics.length === 0) {
-      res.status(200).json({ message: 'No topics found' })
+      res.status(200).json([])
     } else {
       res.status(200).json(topics)
     }
