@@ -2,7 +2,7 @@
 
 ### Игра для 2 модуля Яндекс.Практикума
 
-![preview.png](packages/client/public/images/rawPreview.png)
+![preview](docs/game-start.png)
 
 - Видео для командного зачёта: [первое](https://disk.yandex.ru/i/bemFDp9nvTfZHA), [второе](https://disk.yandex.ru/i/iu2oCUOj1yAxTA)
 
@@ -46,7 +46,7 @@
 
 #### Схема работы проекта
 
-![Схема работы проекта](packages/client/public/images/schema.png)
+![Схема работы проекта](docs/schema.png)
 
 ---
 
