@@ -1,9 +1,11 @@
 export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL || 'http://localhost:3000'}`
 export const apiPrefix = '/api/v2'
-export const apiForum = '/api/forum'
-export const baseURL = `${apiHost}${apiPrefix}`
+export const baseURL = apiHost + apiPrefix
 
 export const oauth = '/oauth'
+export const serviceIdURL = oauth + '/yandex/service-id'
+export const oauthURL = oauth + '/yandex'
+
 export const authURL = '/auth'
 export const signinURL = authURL + '/signin'
 export const signupURL = authURL + '/signup'
@@ -14,13 +16,12 @@ export const userURL = '/user'
 export const passwordURL = userURL + '/password'
 export const profileURL = userURL + '/profile'
 export const avatarURL = profileURL + '/avatar'
-export const serviceIdURL = oauth + '/yandex/service-id'
-export const oauthURL = oauth + '/yandex'
 
 export const addUserToLeaderbordURL = baseURL + '/leaderboard'
 export const getAllLeaderboardURL = baseURL + '/leaderboard/all'
 
 // forum api
+export const apiForum = '/api/forum'
 export const allTopicsURL = apiForum + '/topics'
 export const getOneTopicURL = (topicId: number) =>
   `${apiForum}/topic/${topicId}`

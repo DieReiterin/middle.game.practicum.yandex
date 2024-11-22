@@ -42,7 +42,7 @@ export const GameModal: FC<IGameModalProps> = ({
         }),
       )
     }
-  }, [mode, level, points, user])
+  }, [mode])
 
   const renderTitle = (text: string) => (
     <Typography
