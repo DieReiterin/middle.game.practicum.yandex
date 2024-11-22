@@ -95,20 +95,20 @@ export class Game {
     const { sky, ground, player1, player2 } = this.config || {}
     const imagesToLoad: { [key: string]: string } = {}
 
-    if (sky && sky.textures) {
-      imagesToLoad['skyImage'] = sky.textures
+    if (sky && sky.texture) {
+      imagesToLoad['skyImage'] = sky.texture
       this.totalImagesToLoad++
     }
-    if (ground && ground.textures) {
-      imagesToLoad['groundImage'] = ground.textures
+    if (ground && ground.texture) {
+      imagesToLoad['groundImage'] = ground.texture
       this.totalImagesToLoad++
     }
-    if (player1 && player1.textures) {
-      imagesToLoad['player1Image'] = player1.textures
+    if (player1 && player1.texture) {
+      imagesToLoad['player1Image'] = player1.texture
       this.totalImagesToLoad++
     }
-    if (player2 && player2.textures) {
-      imagesToLoad['player2Image'] = player2.textures
+    if (player2 && player2.texture) {
+      imagesToLoad['player2Image'] = player2.texture
       this.totalImagesToLoad++
     }
 
@@ -148,7 +148,7 @@ export class Game {
     this.player = new Player({
       x: PLAYER_X_OFFSET,
       y: this.config.height! - GROUND_HEIGHT,
-      color: this.config.player1?.colors || DEFAULT_PLAYER_COLOR,
+      color: this.config.player1?.color || DEFAULT_PLAYER_COLOR,
       texture: this.player1Image,
       controls: {
         left: Controls.Left,
@@ -171,7 +171,7 @@ export class Game {
     this.computer = new Player({
       x: this.config.width! - COMPUTER_X_OFFSET,
       y: this.config.height! - GROUND_HEIGHT,
-      color: this.config.player2?.colors || DEFAULT_COMPUTER_COLOR,
+      color: this.config.player2?.color || DEFAULT_COMPUTER_COLOR,
       texture: this.player2Image,
       isComputer: true,
       config: this.config,
@@ -368,7 +368,7 @@ export class Game {
         this.canvas.height - GROUND_HEIGHT,
       )
     } else {
-      this.context.fillStyle = this.config.sky?.colors || DEFAULT_SKY_COLOR
+      this.context.fillStyle = this.config.sky?.color || DEFAULT_SKY_COLOR
       this.context.fillRect(
         0,
         0,
@@ -387,8 +387,7 @@ export class Game {
         GROUND_HEIGHT,
       )
     } else {
-      this.context.fillStyle =
-        this.config.ground?.colors || DEFAULT_GROUND_COLOR
+      this.context.fillStyle = this.config.ground?.color || DEFAULT_GROUND_COLOR
       this.context.fillRect(
         0,
         this.canvas.height - GROUND_HEIGHT,

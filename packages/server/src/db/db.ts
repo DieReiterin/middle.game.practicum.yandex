@@ -10,7 +10,7 @@ const db = new Sequelize(
   process.env.POSTGRES_PASSWORD as string,
   {
     host: process.env.POSTGRES_HOST || 'localhost',
-    port: Number(process.env.POSTGRES_PORT_INTERNAL) || 5433,
+    port: Number(process.env.POSTGRES_PORT_CONNECTION) || 5433,
     dialect: 'postgres',
     logging: false,
     define: {

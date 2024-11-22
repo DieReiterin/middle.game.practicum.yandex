@@ -70,6 +70,8 @@ export type CreateTopicResponse = {
 export type Message = {
   user_name: string
   message_text: string
+  emoji_id?: number
+  message_id: number
 }
 
 export type GetTopicResponse = {
@@ -93,4 +95,9 @@ export type AddMessageResponse = {
     user_name: string
     message_text: string
   }
+}
+
+export type AddEmojiToMessageParams = {
+  emoji_id?: number
+  message_id: number
 }

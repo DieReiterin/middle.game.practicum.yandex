@@ -42,7 +42,7 @@ export const GameModal: FC<IGameModalProps> = ({
         }),
       )
     }
-  }, [mode, level, points, user])
+  }, [mode])
 
   const renderTitle = (text: string) => (
     <Typography
@@ -71,7 +71,7 @@ export const GameModal: FC<IGameModalProps> = ({
       <Box className={styles.actionsWrapper}>
         <Grid2 container spacing={1} direction="column">
           <Grid2 container size={12}>
-            <Typography variant="subtitle1">
+            <Typography variant="subtitle1" color="textPrimary">
               Управление игрой для {controlType}
             </Typography>
           </Grid2>
@@ -83,10 +83,14 @@ export const GameModal: FC<IGameModalProps> = ({
             return (
               <Grid2 container size={12} key={action}>
                 <Grid2 size={4}>
-                  <Typography variant="subtitle1">{keyCode}</Typography>
+                  <Typography variant="subtitle1" color="textPrimary">
+                    {keyCode}
+                  </Typography>
                 </Grid2>
                 <Grid2 size={8}>
-                  <Typography variant="subtitle1">{action}</Typography>
+                  <Typography variant="subtitle1" color="textPrimary">
+                    {action}
+                  </Typography>
                 </Grid2>
               </Grid2>
             )
