@@ -31,12 +31,14 @@ async function startServer(isDev = process.env.NODE_ENV === 'development') {
   const port = Number(process.env.SERVER_PORT) || 3000
 
   let srcPath = ''
-  const distPath = path.resolve(__dirname, 'client', 'dist')
+  const distPath = path.resolve(__dirname, '..', '..', 'client', 'dist')
   if (isDev) {
     srcPath = path.resolve(__dirname, '..', 'client')
   }
   const ssrClientPath = path.resolve(
     __dirname,
+    '..',
+    '..',
     'client',
     'ssr-dist',
     'client.cjs',
