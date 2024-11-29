@@ -1,5 +1,4 @@
 'use strict'
-const { default: Emojis } = require('../../models/emojis')
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -58,7 +57,7 @@ module.exports = {
         },
       ]
 
-      await Emojis.bulkCreate(emojisData)
+      await queryInterface.bulkCreate('emojis', emojisData)
     } catch (error) {
       console.error('Ошибка при создании данных для таблицы emojis:', error)
     }
