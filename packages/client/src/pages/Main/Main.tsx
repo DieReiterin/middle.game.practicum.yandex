@@ -10,7 +10,7 @@ import { getUser, userSelector } from '@/ducks/user'
 
 const buttons: NavigationProps['buttons'] = [
   { title: 'Начать игру', to: PathsRoutes.GamePage },
-  { title: 'Профиль и Настройки', to: PathsRoutes.Profile },
+  { title: 'Профиль и настройки', to: PathsRoutes.Profile },
   { title: 'Лидерборд', to: PathsRoutes.Leaderboard },
   { title: 'Форум', to: PathsRoutes.Forum },
 ]
