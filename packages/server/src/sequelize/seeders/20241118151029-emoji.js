@@ -57,7 +57,7 @@ module.exports = {
         },
       ]
 
-      await queryInterface.bulkCreate('emojis', emojisData)
+      await queryInterface.bulkInsert('emojis', emojisData)
     } catch (error) {
       console.error('Ошибка при создании данных для таблицы emojis:', error)
     }
