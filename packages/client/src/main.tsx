@@ -7,6 +7,7 @@ import { ThemeProvider } from './context/ThemeProvider'
 import { CacheProvider } from '@emotion/react'
 import createCache from '@emotion/cache'
 import { store } from './ducks/store'
+import { Helmet } from 'react-helmet'
 
 import { CssBaseline } from '@mui/material'
 
@@ -27,6 +28,12 @@ const cache = createClientCache()
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <React.StrictMode>
+    <Helmet>
+      <meta
+        httpEquiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://mui.com/; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com;"
+      />
+    </Helmet>
     <CacheProvider value={cache}>
       <Provider store={store}>
         <ThemeProvider>
