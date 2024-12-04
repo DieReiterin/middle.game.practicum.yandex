@@ -1,4 +1,4 @@
-export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL || 'http://localhost:3000'}`
+export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL || 'https://magefight.04.pe'}`
 export const apiPrefix = '/api/v2'
 export const baseURL = apiHost + apiPrefix
 
