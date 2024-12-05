@@ -1,4 +1,4 @@
-export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL || 'http://localhost:3000'}`
+export const apiHost = `${import.meta.env.VITE_EXTERNAL_SERVER_URL || 'http://mooncoders-magefight-42.ya-praktikum.tech:3001'}`
 export const apiPrefix = '/api/v2'
 export const baseURL = apiHost + apiPrefix
 
