@@ -15,6 +15,8 @@ services:
       POSTGRES_PORT_CONNECTION: ${POSTGRES_PORT_INTERNAL}
       POSTGRES_HOST: 'postgres'
       SERVER_PORT: ${SERVER_PORT}
+      VITE_EXTERNAL_SERVER_URL: http://mooncoders-magefight-42.ya-praktikum.tech:3001
+      VITE_INTERNAL_SERVER_URL: http://server:3001
     depends_on:
       - postgres
     env_file:
